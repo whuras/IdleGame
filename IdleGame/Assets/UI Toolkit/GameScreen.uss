@@ -20,7 +20,7 @@
     -unity-text-outline-width: 0;
     text-shadow: 0 0 0 rgba(255, 255, 255, 255);
     -unity-font-style: normal;
-    justify-content: flex-start;
+    justify-content: flex-end;
     -unity-text-align: lower-center;
 }
 
