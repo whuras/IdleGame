@@ -9,19 +9,14 @@
     padding-top: 0;
     padding-bottom: 0;
     height: 36px;
-    background-color: rgba(166, 34, 34, 0);
+    background-color: rgb(166, 34, 34);
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 0;
-    -unity-font: url('/Assets/UI Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss');
-    color: rgba(0, 0, 0, 255);
-    -unity-text-outline-color: rgba(255, 255, 255, 255);
-    -unity-text-outline-width: 0;
-    text-shadow: 0 0 0 rgba(255, 255, 255, 255);
-    -unity-font-style: normal;
-    justify-content: flex-end;
+    justify-content: flex-start;
     -unity-text-align: lower-center;
+    font-size: 12px;
 }
 
 .worker-upgrade-button:hover {
