@@ -1,0 +1,40 @@
+.worker-upgrade-button {
+    right: auto;
+    position: relative;
+    align-items: stretch;
+    width: 35px;
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 35px;
+    background-color: rgba(166, 34, 34, 255);
+}
+
+.worker-upgrade-button:hover {
+    background-color: rgba(75, 75, 75, 0.59);
+}
+
+.worker-upgrade-button:active {
+    border-left-color: rgba(255, 255, 255, 255);
+    border-right-color: rgba(255, 255, 255, 255);
+    border-top-color: rgba(255, 255, 255, 255);
+    border-bottom-color: rgba(255, 255, 255, 255);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+}
+
+.pixel-128 {
+    flex-grow: 0;
+    width: 128px;
+    height: 128px;
+    flex-shrink: 0;
+    background-color: rgb(255, 255, 255);
+}
+
+.pixel-color {
+    background-color: rgba(255, 1, 1, 255);
+}

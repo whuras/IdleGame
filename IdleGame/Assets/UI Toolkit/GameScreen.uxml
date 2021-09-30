@@ -1,0 +1,123 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="GameScreen.uss" />
+    <ui:VisualElement name="ContainerVisualElement" style="justify-content: space-between; height: 100%; align-items: stretch; position: relative;">
+        <ui:VisualElement name="FoldoutContainerVisualElement" style="left: 25%; right: 25%; width: 50%; height: 100%; top: auto; bottom: auto; background-color: rgb(48, 0, 0); justify-content: flex-start; align-items: stretch;">
+            <ui:Foldout text="IDLE GRADIENT [ Z Pixels ]" name="FoldoutGame" value="true" style="background-color: rgb(255, 0, 0); -unity-text-align: middle-center; -unity-font-style: normal; white-space: normal; bottom: auto; justify-content: flex-start; align-items: stretch; height: auto;">
+                <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" show-vertical-scroller="true" style="justify-content: flex-start; margin-right: 0; background-color: rgb(255, 221, 88); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; margin-left: -15px;">
+                    <ui:Label text="xx / yy" display-tooltip-when-elided="true" name="LevelProgressLabel" />
+                    <ui:VisualElement name="GradientVisualElement" class="pixel-color" style="background-color: rgb(238, 46, 199); width: 256px; height: 256px; margin-left: auto; align-items: stretch; margin-right: auto; margin-top: auto; margin-bottom: auto; flex-direction: row; flex-wrap: wrap;" />
+                    <ui:VisualElement name="RGBWorkerVisualElement" style="flex-grow: 1;">
+                        <ui:VisualElement name="RWorkerVisualElement" style="min-height: auto; align-items: stretch; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="TopVisualElement" style="align-items: stretch; justify-content: space-between; position: relative; visibility: visible; display: flex; overflow: visible; flex-grow: 0; flex-basis: auto; flex-direction: row;">
+                                <ui:Button text="R-Worker" display-tooltip-when-elided="true" name="Button_R" style="font-size: 14px; color: rgb(0, 0, 0); margin-left: 2px; margin-top: 4px; padding-left: 1px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px;" />
+                                <ui:VisualElement name="ButtonsVisualElement" style="flex-direction: row; justify-content: flex-end; align-items: stretch; width: auto; height: auto;">
+                                    <ui:Button text="COST&#10;Automate" display-tooltip-when-elided="true" name="AutomateButton_R" class="worker-upgrade-button" />
+                                    <ui:Button text="COST&#10;+1" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;&gt;&gt;&gt;" display-tooltip-when-elided="true" name="IncreaseSpeedButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;Recycle" display-tooltip-when-elided="true" name="RecycleButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;+1" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="RWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
+                                <ui:VisualElement name="RWorkerProgressBarVisualElement" style="background-color: rgb(255, 0, 0); height: 100%; width: 53%;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="GWorkerVisualElement" style="min-height: auto; align-items: stretch; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="TopVisualElement" style="align-items: stretch; justify-content: space-between; position: relative; visibility: visible; display: flex; overflow: visible; flex-grow: 0; flex-basis: auto; flex-direction: row;">
+                                <ui:Button text="G-Worker" display-tooltip-when-elided="true" name="Button_G" style="font-size: 14px; color: rgb(0, 0, 0); margin-left: 2px; margin-top: 4px; padding-left: 1px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px;" />
+                                <ui:VisualElement name="ButtonsVisualElement" style="flex-direction: row; justify-content: flex-end; align-items: stretch; width: auto; height: auto;">
+                                    <ui:Button text="COST&#10;Automate" display-tooltip-when-elided="true" name="AutomateButton_G" class="worker-upgrade-button" />
+                                    <ui:Button text="COST&#10;+1" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;&gt;&gt;&gt;" display-tooltip-when-elided="true" name="IncreaseSpeedButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;Recycle" display-tooltip-when-elided="true" name="RecycleButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;+1" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="GWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
+                                <ui:VisualElement name="GWorkerProgressBarVisualElement" style="background-color: rgb(0, 255, 7); height: 100%; width: 61%;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="BWorkerVisualElement" style="min-height: auto; align-items: stretch; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="TopVisualElement" style="align-items: stretch; justify-content: space-between; position: relative; visibility: visible; display: flex; overflow: visible; flex-grow: 0; flex-basis: auto; flex-direction: row;">
+                                <ui:Button text="B-Worker" display-tooltip-when-elided="true" name="Button_B" style="font-size: 14px; color: rgb(0, 0, 0); margin-left: 2px; margin-top: 4px; padding-left: 1px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px;" />
+                                <ui:VisualElement name="ButtonsVisualElement" style="flex-direction: row; justify-content: flex-end; align-items: stretch; width: auto; height: auto;">
+                                    <ui:Button text="COST&#10;Automate" display-tooltip-when-elided="true" name="AutomateButton_B" class="worker-upgrade-button" />
+                                    <ui:Button text="COST&#10;+1" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;&gt;&gt;&gt;" display-tooltip-when-elided="true" name="IncreaseSpeedButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;Recycle" display-tooltip-when-elided="true" name="RecycleButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="COST&#10;+1" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
+                                <ui:VisualElement name="BWorkerProgressBarVisualElement" style="background-color: rgb(0, 169, 255); height: 100%; width: 61%;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:Button text="RESTART&#10;Restart the game, double the gradient size and recieve +X Prestige Points." display-tooltip-when-elided="true" name="RestartButton" style="flex-wrap: wrap; white-space: normal; width: auto; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+                </ui:ScrollView>
+            </ui:Foldout>
+            <ui:Foldout text="PRESTIGE STORE [ Y Prestige ]" name="FoldoutStore" value="false" style="align-items: stretch; height: auto; background-color: rgb(209, 0, 0);">
+                <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgb(255, 221, 88); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
+                    <ui:Label text="xx / yy" display-tooltip-when-elided="true" name="PrestigeStoreLabel" style="-unity-text-align: middle-center;" />
+                    <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto;">
+                        <ui:VisualElement name="Col1VisualElement" style="width: 33%;">
+                            <ui:Button text="Unlock Speed Boost Ability" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                            <ui:Button text="Increase Speed Boost Multiplier +0.25%" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                            <ui:Button text="Increase Speed Boost Duration +5s" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Col2VisualElement" style="width: 33%;">
+                            <ui:Button text="Increase Worker Speed by X% of total Prestige" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                            <ui:Button text="Increase Pixels Gained by X% of total Prestige" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                            <ui:Button text="For every X RGB components filled, randomly fill one" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Col3VisualElement" style="width: 33%;">
+                            <ui:Button text="Increase number of speed upgrades available per RGB" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                            <ui:Button text="Unlock custom Start and End Colors" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                            <ui:Button text="Unlock a random theme" display-tooltip-when-elided="true" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; height: 50px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:ScrollView>
+            </ui:Foldout>
+            <ui:Foldout text="PROGRESS [ Z% ]" name="FoldoutProgress" value="false" style="align-items: stretch; background-color: rgb(144, 0, 0);">
+                <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgb(255, 221, 88); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
+                    <ui:Label text="Overall Progression" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                    <ui:VisualElement name="RGBProgressVisualElement" style="flex-grow: 1;">
+                        <ui:VisualElement name="RProgressVisualElement" style="min-height: auto; align-items: stretch; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="TopVisualElement" style="align-items: stretch; justify-content: space-between; position: relative; visibility: visible; display: flex; overflow: visible; flex-grow: 0; flex-basis: auto; flex-direction: row;">
+                                <ui:Label text="Red Progress X% [ XYZ / 16,711,680 ]" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; left: auto; position: relative; align-items: stretch; justify-content: flex-start; width: auto; flex-direction: column;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="RWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
+                                <ui:VisualElement name="RWorkerProgressBarVisualElement" style="background-color: rgb(255, 0, 0); height: 100%; width: 61%;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="RProgressVisualElement" style="min-height: auto; align-items: stretch; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="TopVisualElement" style="align-items: stretch; justify-content: space-between; position: relative; visibility: visible; display: flex; overflow: visible; flex-grow: 0; flex-basis: auto; flex-direction: row;">
+                                <ui:Label text="Red Progress X% [ XYZ / 16,711,680 ]" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; left: auto; position: relative; align-items: stretch; justify-content: flex-start; width: auto; flex-direction: column;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="RWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
+                                <ui:VisualElement name="RWorkerProgressBarVisualElement" style="background-color: rgb(255, 0, 0); height: 100%; width: 61%;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="RProgressVisualElement" style="min-height: auto; align-items: stretch; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="TopVisualElement" style="align-items: stretch; justify-content: space-between; position: relative; visibility: visible; display: flex; overflow: visible; flex-grow: 0; flex-basis: auto; flex-direction: row;">
+                                <ui:Label text="Red Progress X% [ XYZ / 16,711,680 ]" display-tooltip-when-elided="true" style="-unity-text-align: middle-left; left: auto; position: relative; align-items: stretch; justify-content: flex-start; width: auto; flex-direction: column;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="RWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
+                                <ui:VisualElement name="RWorkerProgressBarVisualElement" style="background-color: rgb(255, 0, 0); height: 100%; width: 61%;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:ScrollView>
+            </ui:Foldout>
+            <ui:Foldout text="SETTINGS" name="FoldoutSettings" value="false" style="bottom: auto; align-items: stretch; background-color: rgb(96, 1, 1);">
+                <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgb(255, 221, 88); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
+                    <ui:VisualElement name="VerticalVisualElement">
+                        <ui:Label text="General Settings" display-tooltip-when-elided="true" />
+                        <ui:Toggle label="Music" style="-unity-text-align: upper-left; color: rgb(0, 0, 0);" />
+                        <ui:Toggle label="Sound Effects" style="-unity-text-align: upper-left; color: rgb(0, 0, 0);" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+            </ui:Foldout>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
