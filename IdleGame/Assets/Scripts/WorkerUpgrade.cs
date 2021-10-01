@@ -44,11 +44,11 @@ public class WorkerUpgrade : MonoBehaviour
         increaseManualProductionButton.clickable.clicked += ManualProductionIncreaseButton;
         recycleButton.clickable.clicked += RecycleButton;
 
-        automationButton.text = automationCost + "\nAutomation";
-        increaseAutomatedProductionButton.text = automatedProductionIncreaseCost + "\n+1";
-        speedIncreaseButton.text = speedIncreaseCost + "\n>>>";
-        increaseManualProductionButton.text = manualProductionIncreaseCost + "\n+1";
-        recycleButton.text = recycleCost + "\nRecycle";
+        automationButton.Q<Label>().text = automationCost.ToString();
+        increaseAutomatedProductionButton.Q<Label>().text = automatedProductionIncreaseCost.ToString();
+        speedIncreaseButton.Q<Label>().text = speedIncreaseCost.ToString();
+        increaseManualProductionButton.Q<Label>().text = manualProductionIncreaseCost.ToString();
+        recycleButton.Q<Label>().text = recycleCost.ToString();
     }
 
     private void AutomationButton()

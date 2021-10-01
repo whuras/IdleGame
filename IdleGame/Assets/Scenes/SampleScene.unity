@@ -771,24 +771,56 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleCost
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: currencyManager
       value: 
       objectReference: {fileID: 1965647943}
     - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: speedIncreaseCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: unlockedAutomation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: manualProductionIncreaseCost
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: automatedProductionIncreaseCost
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4737649680484793261, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: m_Name
       value: WorkerG
       objectReference: {fileID: 0}
     - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleCost
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: currencyManager
       value: 
       objectReference: {fileID: 1965647943}
     - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: speedIncreaseCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: unlockedAutomation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: manualProductionIncreaseCost
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: automatedProductionIncreaseCost
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5168848594532628232, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: uiManager
@@ -875,12 +907,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleCost
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: currencyManager
       value: 
       objectReference: {fileID: 1965647943}
     - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: speedIncreaseCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: unlockedAutomation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: manualProductionIncreaseCost
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: automatedProductionIncreaseCost
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8880792123644536655, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: m_Name

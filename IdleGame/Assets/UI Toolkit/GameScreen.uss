@@ -10,20 +10,24 @@
     padding-bottom: 0;
     height: 32px;
     background-color: rgba(166, 34, 34, 0);
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 0;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
     justify-content: flex-start;
     -unity-text-align: middle-center;
     font-size: 10px;
     white-space: nowrap;
-    -unity-background-image-tint-color: rgba(128, 128, 128, 0.5);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.5);
     background-image: url('/Assets/Images/pixel.png');
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
 }
 
 .worker-upgrade-button:hover {
@@ -53,70 +57,16 @@
     background-color: rgb(255, 1, 1);
 }
 
-.automate-button {
-    background-image: url('/Assets/Images/Automate_32.png');
-    background-color: rgba(166, 34, 34, 0);
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 0;
-    -unity-font-style: bold;
-    text-shadow: 0 0 0 rgba(0, 0, 0, 255);
-    -unity-text-outline-width: 1px;
-}
-
-.increase-automated-prod-button {
-    right: auto;
-    position: relative;
-    align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/AutoIncrease_32.png');
-}
-
-.increase-speed-button {
-    right: auto;
-    position: relative;
-    align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/Speed_32.png');
-}
-
-.recycle-button {
-    right: auto;
-    position: relative;
-    align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/Recycle_32.png');
-}
-
-.increase-manual-prod-button {
-    right: auto;
-    position: relative;
-    align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/ManualIncrease_32.png');
+.worker-upgrade-label {
+    background-image: url('/Assets/Images/pixel.png');
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.5);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: rgba(255, 255, 255, 255);
 }
