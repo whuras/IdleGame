@@ -2,21 +2,28 @@
     right: auto;
     position: relative;
     align-items: stretch;
-    width: 36px;
-    flex-direction: column;
+    width: 56px;
+    flex-direction: row;
     padding-left: 0;
     padding-right: 0;
     padding-top: 0;
     padding-bottom: 0;
-    height: 36px;
-    background-color: rgb(166, 34, 34);
+    height: 32px;
+    background-color: rgba(166, 34, 34, 0);
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 0;
     justify-content: flex-start;
-    -unity-text-align: lower-center;
-    font-size: 12px;
+    -unity-text-align: middle-center;
+    font-size: 10px;
+    white-space: nowrap;
+    -unity-background-image-tint-color: rgba(128, 128, 128, 0.5);
+    background-image: url('/Assets/Images/pixel.png');
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .worker-upgrade-button:hover {

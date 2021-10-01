@@ -11,11 +11,16 @@
                             <ui:VisualElement name="TopVisualElement" style="align-items: stretch; justify-content: space-between; position: relative; visibility: visible; display: flex; overflow: visible; flex-grow: 0; flex-basis: auto; flex-direction: row;">
                                 <ui:Button text="R-Worker" display-tooltip-when-elided="true" name="Button_R" style="font-size: 14px; color: rgb(0, 0, 0); margin-left: 2px; margin-top: 4px; padding-left: 1px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px;" />
                                 <ui:VisualElement name="ButtonsVisualElement" style="flex-direction: row; justify-content: flex-end; align-items: stretch; width: auto; height: auto;">
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="AutomateButton_R" class="worker-upgrade-button" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseSpeedButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="RecycleButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_R" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button display-tooltip-when-elided="true" name="AutomateButton_R" class="worker-upgrade-button" style="flex-direction: row; justify-content: space-between; align-items: stretch;">
+                                        <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
+                                            <ui:VisualElement style="background-image: url(&apos;/Assets/Images/Automate_64.png&apos;); width: 24px; height: 24px; flex-direction: column; align-items: stretch; flex-grow: 0; flex-shrink: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+                                        </ui:VisualElement>
+                                        <ui:Label text="256" display-tooltip-when-elided="true" style="background-image: url(&apos;/Assets/Images/pixel.png&apos;); -unity-background-image-tint-color: rgba(0, 0, 0, 0.5); margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;" />
+                                    </ui:Button>
+                                    <ui:Button text="Increase&#10;Production&#10;999M" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_R" class="worker-upgrade-button" />
+                                    <ui:Button text="Increase&#10;Speed&#10;999M" display-tooltip-when-elided="true" name="IncreaseSpeedButton_R" class="worker-upgrade-button" />
+                                    <ui:Button text="RECYCLE&#10;999M" display-tooltip-when-elided="true" name="RecycleButton_R" class="worker-upgrade-button" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_R" class="worker-upgrade-button" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="RWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
@@ -27,10 +32,10 @@
                                 <ui:Button text="G-Worker" display-tooltip-when-elided="true" name="Button_G" style="font-size: 14px; color: rgb(0, 0, 0); margin-left: 2px; margin-top: 4px; padding-left: 1px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px;" />
                                 <ui:VisualElement name="ButtonsVisualElement" style="flex-direction: row; justify-content: flex-end; align-items: stretch; width: auto; height: auto;">
                                     <ui:Button text="999M" display-tooltip-when-elided="true" name="AutomateButton_G" class="worker-upgrade-button" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseSpeedButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="RecycleButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_G" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_G" class="worker-upgrade-button" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseSpeedButton_G" class="worker-upgrade-button" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="RecycleButton_G" class="worker-upgrade-button" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_G" class="worker-upgrade-button" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="GWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
@@ -42,10 +47,10 @@
                                 <ui:Button text="B-Worker" display-tooltip-when-elided="true" name="Button_B" style="font-size: 14px; color: rgb(0, 0, 0); margin-left: 2px; margin-top: 4px; padding-left: 1px; padding-right: 2px; padding-top: 4px; padding-bottom: 4px;" />
                                 <ui:VisualElement name="ButtonsVisualElement" style="flex-direction: row; justify-content: flex-end; align-items: stretch; width: auto; height: auto;">
                                     <ui:Button text="999M" display-tooltip-when-elided="true" name="AutomateButton_B" class="worker-upgrade-button" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseSpeedButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="RecycleButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
-                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_B" class="worker-upgrade-button" style="right: auto; position: relative; align-items: stretch; width: 35px; flex-direction: column; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 35px;" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseAutomatedProductionButton_B" class="worker-upgrade-button" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseSpeedButton_B" class="worker-upgrade-button" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="RecycleButton_B" class="worker-upgrade-button" />
+                                    <ui:Button text="999M" display-tooltip-when-elided="true" name="IncreaseManualProductionButton_B" class="worker-upgrade-button" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="BWorkerProgressBGVisualElement" style="height: 5px; background-color: rgb(0, 0, 0);">
