@@ -10,22 +10,26 @@ public class Worker : MonoBehaviour
 
     public VisualElement progressBarVisualElement;
 
+    [Header("Progress Bar")]
     private float timer = 0f;
-    public float tickPerSecond = 1f;
-    public int automatedIncrementAmount = 1;
-    public int automatedByteAmount = 10;
-
-    public int manualIncrementAmount = 100;
-    public int manualByteAmount = 255;
-
     public bool keepWorking = true;
+
+    [Header("Manual")]
+    public int manuialTickPercent = 100; // not upgradable yet
+    public int manualProductionAmount = 255;
+
+    [Header("Automation")]
+    public float autoTickAmount = 1; // not upgradable yet - 1 is 1% per tick
+    public float autoTickSpeed = 1;
+    public int autoProductionAmount= 10;
+
 
     private void Update()
     {
-        if (workerUpgrade.unlockedAutomation)
+        if (workerUpgrade.autoEnabled)
         {
             timer += Time.deltaTime;
-            if (timer >= (1f / tickPerSecond))
+            if (timer >= (autoTickAmount / (autoTickSpeed * workerUpgrade.autoTickSpeedMultiplier)))
             {
                 AutomatedIncrement();
                 timer = 0f;
@@ -36,11 +40,11 @@ public class Worker : MonoBehaviour
     public void ManualIncrement()
     {
         var prevWidth = progressBarVisualElement.style.width.value;
-        var newWidth = prevWidth.value + new Length(manualIncrementAmount, LengthUnit.Percent).value;
+        var newWidth = prevWidth.value + new Length(manuialTickPercent, LengthUnit.Percent).value;
 
         if (newWidth > 100.0f && keepWorking)
         {
-            AddByte(manualByteAmount);
+            AddByte((int)(manualProductionAmount * workerUpgrade.manualProductionMultiplier));
             newWidth = newWidth - 100f;
         }
 
@@ -51,11 +55,11 @@ public class Worker : MonoBehaviour
     public void AutomatedIncrement()
     {
         var prevWidth = progressBarVisualElement.style.width.value;
-        var newWidth = prevWidth.value + new Length(automatedIncrementAmount, LengthUnit.Percent).value;
+        var newWidth = prevWidth.value + new Length(autoTickAmount, LengthUnit.Percent).value;
 
         if (newWidth > 100.0f && keepWorking)
         {
-            AddByte(automatedByteAmount);
+            AddByte((int)(autoProductionAmount * workerUpgrade.autoProductionMultiplier));
             newWidth = newWidth - 100f;
         }
 

@@ -70,30 +70,30 @@ public class UIManager : MonoBehaviour
         wur = gameManager.workerManager.workers[0].GetComponent<WorkerUpgrade>();
         wur.workerButton = rootVisualElement.Q<Button>("Button_R");
         wur.automationButton = rootVisualElement.Q<Button>("AutomateButton_R");
-        wur.increaseAutomatedProductionButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_R");
-        wur.speedIncreaseButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");
+        wur.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_R");
+        wur.autoTickMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");
         wur.recycleButton = rootVisualElement.Q<Button>("RecycleButton_R");
-        wur.increaseManualProductionButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_R");
+        wur.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_R");
         wur.ButtonSetup();
 
         // Bind Upgrade Buttons - Green
         wug = gameManager.workerManager.workers[1].GetComponent<WorkerUpgrade>();
         wug.workerButton = rootVisualElement.Q<Button>("Button_G");
         wug.automationButton = rootVisualElement.Q<Button>("AutomateButton_G");
-        wug.increaseAutomatedProductionButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_G");
-        wug.speedIncreaseButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_G");
+        wug.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_G");
+        wug.autoTickMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_G");
         wug.recycleButton = rootVisualElement.Q<Button>("RecycleButton_G");
-        wug.increaseManualProductionButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_G");
+        wug.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_G");
         wug.ButtonSetup();
 
         // Bind Upgrade Buttons - Blue
         wub = gameManager.workerManager.workers[2].GetComponent<WorkerUpgrade>();
         wub.workerButton = rootVisualElement.Q<Button>("Button_B");
         wub.automationButton = rootVisualElement.Q<Button>("AutomateButton_B");
-        wub.increaseAutomatedProductionButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_B");
-        wub.speedIncreaseButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_B");
+        wub.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_B");
+        wub.autoTickMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_B");
         wub.recycleButton = rootVisualElement.Q<Button>("RecycleButton_B");
-        wub.increaseManualProductionButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_B");
+        wub.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_B");
         wub.ButtonSetup();
     }
 
