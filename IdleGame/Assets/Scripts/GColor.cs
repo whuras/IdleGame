@@ -24,9 +24,8 @@ public class GColor
             isGoalReached = true;
             gameManager.currencyManager.IncrementPixelPoints();
             gameManager.gradientManager.numberCompleted += 1;
-            gameManager.uiManager.UpdateLabelText();
+            gameManager.uiManager.UpdateLevelCompletionText();
         }
-
     }
 
     public void IncrementRValue(int amount)

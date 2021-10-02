@@ -40,12 +40,15 @@ public class UIManager : MonoBehaviour
     {
         BindWorkerUpgradeButtons();
         BindRestartButton();
-        UpdateLabelText();
+        UpdateLevelCompletionText();
     }
 
-    public void UpdateLabelText()
+    public void UpdateLevelCompletionText()
     {
         levelProgressionLabel.text = gameManager.gradientManager.numberCompleted + " / " + (gameManager.size * gameManager.size);
+        
+        if(gameManager.gradientManager.numberCompleted >= gameManager.size * gameManager.size)
+            restartButton.SetEnabled(true);
     }
 
     public void CheckButtonStatus()
@@ -62,6 +65,7 @@ public class UIManager : MonoBehaviour
     public void BindRestartButton()
     {
         restartButton.clickable.clicked += gameManager.RestartGame;
+        restartButton.SetEnabled(false);
     }
 
     public void BindWorkerUpgradeButtons()
@@ -71,7 +75,7 @@ public class UIManager : MonoBehaviour
         wur.workerButton = rootVisualElement.Q<Button>("Button_R");
         wur.automationButton = rootVisualElement.Q<Button>("AutomateButton_R");
         wur.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_R");
-        wur.autoTickMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");
+        wur.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");
         wur.recycleButton = rootVisualElement.Q<Button>("RecycleButton_R");
         wur.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_R");
         wur.ButtonSetup();
@@ -81,7 +85,7 @@ public class UIManager : MonoBehaviour
         wug.workerButton = rootVisualElement.Q<Button>("Button_G");
         wug.automationButton = rootVisualElement.Q<Button>("AutomateButton_G");
         wug.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_G");
-        wug.autoTickMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_G");
+        wug.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_G");
         wug.recycleButton = rootVisualElement.Q<Button>("RecycleButton_G");
         wug.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_G");
         wug.ButtonSetup();
@@ -91,7 +95,7 @@ public class UIManager : MonoBehaviour
         wub.workerButton = rootVisualElement.Q<Button>("Button_B");
         wub.automationButton = rootVisualElement.Q<Button>("AutomateButton_B");
         wub.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_B");
-        wub.autoTickMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_B");
+        wub.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_B");
         wub.recycleButton = rootVisualElement.Q<Button>("RecycleButton_B");
         wub.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_B");
         wub.ButtonSetup();

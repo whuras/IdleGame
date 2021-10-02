@@ -512,8 +512,20 @@ PrefabInstance:
       value: CurrencyManager
       objectReference: {fileID: 0}
     - target: {fileID: 2930942877611031394, guid: 00708d34d40daf140915fc9c301c6d34, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1456697863}
+    - target: {fileID: 2930942877611031394, guid: 00708d34d40daf140915fc9c301c6d34, type: 3}
       propertyPath: pixelPoints
-      value: 30
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930942877611031394, guid: 00708d34d40daf140915fc9c301c6d34, type: 3}
+      propertyPath: pixelPointsMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930942877611031394, guid: 00708d34d40daf140915fc9c301c6d34, type: 3}
+      propertyPath: pixelPointMultipliedByLevelUnlocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7257467348957510755, guid: 00708d34d40daf140915fc9c301c6d34, type: 3}
       propertyPath: m_RootOrder
@@ -779,8 +791,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1965647943}
     - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleUnlocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: speedIncreaseCost
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: automationUnlocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: unlockedAutomation
@@ -807,8 +827,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1965647943}
     - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleUnlocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: speedIncreaseCost
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: automationUnlocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: unlockedAutomation
@@ -915,8 +943,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1965647943}
     - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleUnlocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: speedIncreaseCost
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: automationUnlocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: unlockedAutomation
@@ -1022,6 +1058,10 @@ PrefabInstance:
     - target: {fileID: 4543459130536245706, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
       propertyPath: startColor.rgba
       value: 65300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543459130536245706, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
+      propertyPath: startingPixelPoints
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4900612144826962275, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
       propertyPath: m_Name

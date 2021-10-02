@@ -15,7 +15,7 @@ public class Worker : MonoBehaviour
     public bool keepWorking = true;
 
     [Header("Manual")]
-    public int manuialTickPercent = 100; // not upgradable yet
+    public int manualTickPercent = 100; // not upgradable yet
     public int manualProductionAmount = 255;
 
     [Header("Automation")]
@@ -40,16 +40,16 @@ public class Worker : MonoBehaviour
     public void ManualIncrement()
     {
         var prevWidth = progressBarVisualElement.style.width.value;
-        var newWidth = prevWidth.value + new Length(manuialTickPercent, LengthUnit.Percent).value;
+        var newWidth = prevWidth.value + new Length(manualTickPercent, LengthUnit.Percent).value;
 
-        if (newWidth > 100.0f && keepWorking)
+        if (newWidth >= 100.0f && keepWorking)
         {
             AddByte((int)(manualProductionAmount * workerUpgrade.manualProductionMultiplier));
             newWidth = newWidth - 100f;
         }
 
         progressBarVisualElement.style.width = new Length(newWidth, LengthUnit.Percent);
-        gameManager.uiManager.UpdateLabelText();
+        gameManager.uiManager.UpdateLevelCompletionText();
     }
 
     public void AutomatedIncrement()
@@ -57,14 +57,14 @@ public class Worker : MonoBehaviour
         var prevWidth = progressBarVisualElement.style.width.value;
         var newWidth = prevWidth.value + new Length(autoTickAmount, LengthUnit.Percent).value;
 
-        if (newWidth > 100.0f && keepWorking)
+        if (newWidth >= 100.0f && keepWorking)
         {
             AddByte((int)(autoProductionAmount * workerUpgrade.autoProductionMultiplier));
             newWidth = newWidth - 100f;
         }
 
         progressBarVisualElement.style.width = new Length(newWidth, LengthUnit.Percent);
-        gameManager.uiManager.UpdateLabelText();
+        gameManager.uiManager.UpdateLevelCompletionText();
     }
 
     private void AddByte(int byteAmount)

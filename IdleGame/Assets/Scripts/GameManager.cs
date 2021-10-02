@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public WorkerManager workerManager;
 
     [Header("Testing Purposes")]
+    public bool usePlaceholderCurrency = false;
+    public int startingPixelPoints = 0;
+    public int startingPrestigePoints = 0;
     public bool randomGradient = false;
     public int size = 2;
     public Color32 startColor = Color.black;
@@ -33,6 +36,12 @@ public class GameManager : MonoBehaviour
 
     private void GameSetup()
     {
+        if (usePlaceholderCurrency)
+        {
+            currencyManager.pixelPoints = startingPixelPoints;
+            currencyManager.prestigePoints = startingPrestigePoints;
+        }
+
         if (randomGradient)
             RandomColours();
 
@@ -58,9 +67,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Debug.Log("Restart Game pressed");
 
-        currencyManager.ResetPixelPoints();
+        //currencyManager.ResetPixelPoints(); // if not allow pixel points carry over
         currencyManager.IncrementPrestigePoints(size);
         size *= 2;
 
@@ -68,6 +76,7 @@ public class GameManager : MonoBehaviour
             w.keepWorking = true;
 
         GameSetup();
+        uiManager.UpdateLevelCompletionText();
     }
 
     private void MaintainSingleInstance()

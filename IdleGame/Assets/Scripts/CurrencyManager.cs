@@ -7,10 +7,12 @@ public class CurrencyManager : MonoBehaviour
 {
     public static CurrencyManager Instance { get => instance; }
     private static CurrencyManager instance;
+    public GameManager gameManager;
 
     public Foldout pixelFoldout;
     public Foldout prestigeFoldout;
 
+    public bool pixelPointMultipliedByLevelUnlocked = false;
     public int pixelPoints;
     public float pixelPointsMultiplier = 1f;
     public int prestigePoints;
@@ -29,6 +31,11 @@ public class CurrencyManager : MonoBehaviour
 
     public void IncrementPixelPoints(int amount = 1)
     {
+        if (pixelPointMultipliedByLevelUnlocked)
+            pixelPointsMultiplier = gameManager.size;
+        else
+            pixelPointsMultiplier = 1;
+
         pixelPoints += (int)(amount * pixelPointsMultiplier);
         UpdatePixelPointText();
     }
