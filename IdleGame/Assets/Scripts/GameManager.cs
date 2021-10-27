@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,13 +12,16 @@ public class GameManager : MonoBehaviour
     public GradientManager gradientManager;
     public CurrencyManager currencyManager;
     public WorkerManager workerManager;
+    public PrestigeManager prestigeManager;
+    public ProgressManager progressManager;
 
     [Header("Testing Purposes")]
-    public bool usePlaceholderCurrency = false;
     public int startingPixelPoints = 0;
     public int startingPrestigePoints = 0;
     public bool randomGradient = false;
     public int size = 2;
+    public int maxSize = 64;
+    public int prestigePointIncrement = 1;
     public Color32 startColor = Color.black;
     public Color32 endColor = Color.white;
 
@@ -36,14 +40,13 @@ public class GameManager : MonoBehaviour
 
     private void GameSetup()
     {
-        if (usePlaceholderCurrency)
-        {
-            currencyManager.pixelPoints = startingPixelPoints;
-            currencyManager.prestigePoints = startingPrestigePoints;
-        }
-
         if (randomGradient)
             RandomColours();
+
+        if (size == 0)
+            size = 2;
+        else if (size > maxSize)
+            size = maxSize;
 
         gradientManager.InitializeGradientGColors(size,
             new Tuple<int, int, int>(
@@ -55,28 +58,34 @@ public class GameManager : MonoBehaviour
                 endColor.g,
                 endColor.b));
 
-        if (size == 0)
-            size = 2;
-        else if (size > 128)
-            size = 128;
-
         uiManager.NewGradient(size);
-
         uiManager.SetWorkerProgressBars();
     }
 
     public void RestartGame()
     {
-
-        //currencyManager.ResetPixelPoints(); // if not allow pixel points carry over
-        currencyManager.IncrementPrestigePoints(size);
+        //Debug.Log("Note: GameManager->RestartGame currently set to not reset pixel points on game reset.");
+        currencyManager.ResetPixelPoints(); // if not allow pixel points carry over
+        currencyManager.IncrementPrestigePoints(prestigePointIncrement);
+        //prestigePointIncrement = size;
         size *= 2;
-
+        
         foreach (Worker w in workerManager.workers)
+        {
             w.keepWorking = true;
+            w.workerUpgrade.ResetMultipliers();
+        }
 
         GameSetup();
+
+        // Currency Setup
+        //currencyManager.prestigePoints = startingPrestigePoints;
+        currencyManager.pixelPoints = startingPixelPoints;
+        currencyManager.UpdateText();
+        
+        uiManager.restartButton.style.display = DisplayStyle.None;
         uiManager.UpdateLevelCompletionText();
+        uiManager.UpdateWorkerUpgradeButtons();
     }
 
     private void MaintainSingleInstance()

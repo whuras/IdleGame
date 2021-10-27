@@ -14,14 +14,16 @@ public class Worker : MonoBehaviour
     private float timer = 0f;
     public bool keepWorking = true;
 
+    [Header("General")]
+    public int productionAmount = 255;
+
     [Header("Manual")]
-    public int manualTickPercent = 100; // not upgradable yet
-    public int manualProductionAmount = 255;
+    public int manualTickPercentStarting = 10;
+    public int ManualTickPercent() => Mathf.FloorToInt(manualTickPercentStarting * workerUpgrade.productionMultiplier);
 
     [Header("Automation")]
     public float autoTickAmount = 1; // not upgradable yet - 1 is 1% per tick
     public float autoTickSpeed = 1;
-    public int autoProductionAmount= 10;
 
 
     private void Update()
@@ -31,39 +33,30 @@ public class Worker : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= (autoTickAmount / (autoTickSpeed * workerUpgrade.autoTickSpeedMultiplier)))
             {
-                AutomatedIncrement();
+                IncrementProgressBar();
                 timer = 0f;
             }
         }
     }
 
-    public void ManualIncrement()
+    public void IncrementProgressBar()
     {
+        if (!keepWorking)
+        {
+            progressBarVisualElement.style.width = new Length(100f, LengthUnit.Percent);
+            return;
+        }
+
         var prevWidth = progressBarVisualElement.style.width.value;
-        var newWidth = prevWidth.value + new Length(manualTickPercent, LengthUnit.Percent).value;
+        var newWidth = prevWidth.value + new Length(ManualTickPercent(), LengthUnit.Percent).value;
 
         if (newWidth >= 100.0f && keepWorking)
         {
-            AddByte((int)(manualProductionAmount * workerUpgrade.manualProductionMultiplier));
+            AddByte((int)(productionAmount * workerUpgrade.productionMultiplier));
             newWidth = newWidth - 100f;
         }
 
-        progressBarVisualElement.style.width = new Length(newWidth, LengthUnit.Percent);
-        gameManager.uiManager.UpdateLevelCompletionText();
-    }
-
-    public void AutomatedIncrement()
-    {
-        var prevWidth = progressBarVisualElement.style.width.value;
-        var newWidth = prevWidth.value + new Length(autoTickAmount, LengthUnit.Percent).value;
-
-        if (newWidth >= 100.0f && keepWorking)
-        {
-            AddByte((int)(autoProductionAmount * workerUpgrade.autoProductionMultiplier));
-            newWidth = newWidth - 100f;
-        }
-
-        progressBarVisualElement.style.width = new Length(newWidth, LengthUnit.Percent);
+        progressBarVisualElement.style.width = keepWorking ? new Length(newWidth, LengthUnit.Percent) : new Length(100f, LengthUnit.Percent);
         gameManager.uiManager.UpdateLevelCompletionText();
     }
 
@@ -78,10 +71,9 @@ public class Worker : MonoBehaviour
                 gameManager.uiManager.UpdateVEColor(queue[0].i, queue[0].j);
                 gameManager.gradientManager.SortRQueue();
             }
-            else
-            {
+
+            if(queue.Count <= 0)
                 keepWorking = false;
-            }
         }
         else if (this == gameManager.workerManager.workers[1])
         {
@@ -92,10 +84,9 @@ public class Worker : MonoBehaviour
                 gameManager.uiManager.UpdateVEColor(queue[0].i, queue[0].j);
                 gameManager.gradientManager.SortGQueue();
             }
-            else
-            {
+
+            if (queue.Count <= 0)
                 keepWorking = false;
-            }
         }
         else if (this == gameManager.workerManager.workers[2])
         {
@@ -106,14 +97,15 @@ public class Worker : MonoBehaviour
                 gameManager.uiManager.UpdateVEColor(queue[0].i, queue[0].j);
                 gameManager.gradientManager.SortBQueue();
             }
-            else
-            {
+
+            if (queue.Count <= 0)
                 keepWorking = false;
-            }
         }
         else
         {
             Debug.LogError("Worker->AddByte: Invalid worker.");
         }
+
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 }

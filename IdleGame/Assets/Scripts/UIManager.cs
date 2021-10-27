@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,18 +9,32 @@ public class UIManager : MonoBehaviour
     private static UIManager instance;
     public GameManager gameManager;
 
-    [SerializeField] public UIDocument uiDocment { get; private set; }
-    private VisualElement rootVisualElement;
-    private Button restartButton;
-    public VisualElement gradientArea { get; private set; }
-    public VisualElement[,] activeGradientVisualElements { get; private set; }
-    private int[] ValidSizes = new int[] { 2, 4, 8, 16, 32, 64, 128 }; // 256 takes too long to load
-    private int prevSize = 0;
-    private Label levelProgressionLabel;
+    // Buttons
+    public Button restartButton;
 
+    // Workers
     public WorkerUpgrade wur;
     public WorkerUpgrade wug;
     public WorkerUpgrade wub;
+
+    // Prestige
+    private PrestigeManager pm;
+
+    // Other UI Elements
+    [SerializeField] public UnityEngine.UIElements.UIDocument uiDocment { get; private set; }
+    private VisualElement rootVisualElement;    
+    public VisualElement gradientArea { get; private set; }
+    public VisualElement[,] activeGradientVisualElements { get; private set; }
+    private int prevSize = 0;
+    private Label levelProgressionLabel;
+
+    // Foldouts
+    private List<Foldout> foldouts = new List<Foldout>();
+    private Foldout gameFoldout;
+    private Foldout prestigeStoreFoldout;
+    private Foldout progressFoldout;
+    private Foldout settingsFoldout;
+
 
     private void Awake()
     {
@@ -34,13 +49,65 @@ public class UIManager : MonoBehaviour
         gameManager.currencyManager.prestigeFoldout = rootVisualElement.Q<Foldout>("FoldoutStore");
         restartButton = rootVisualElement.Q<Button>("RestartButton");
         levelProgressionLabel = rootVisualElement.Q<Label>("LevelProgressLabel");
+
+        // Progress UI Assignment
+
     }
 
     private void Start()
     {
+        AssignProgressUIComponents();
         BindWorkerUpgradeButtons();
+        BindPrestigeButtons();
         BindRestartButton();
         UpdateLevelCompletionText();
+        InstantiateFoldouts();
+    }
+
+    private void AssignProgressUIComponents()
+    {
+        gameManager.progressManager.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
+        gameManager.progressManager.rProgressLabel = rootVisualElement.Q<Label>("RProgressLabel");
+        gameManager.progressManager.rProgressBarVisualElement = rootVisualElement.Q<VisualElement>("RWorkerOverallProgressBarVisualElement");
+
+        gameManager.progressManager.gProgressLabel = rootVisualElement.Q<Label>("GProgressLabel");
+        gameManager.progressManager.gProgressBarVisualElement = rootVisualElement.Q<VisualElement>("GWorkerOverallProgressBarVisualElement");
+
+        gameManager.progressManager.bProgressLabel = rootVisualElement.Q<Label>("BProgressLabel");
+        gameManager.progressManager.bProgressBarVisualElement = rootVisualElement.Q<VisualElement>("BWorkerOverallProgressBarVisualElement");
+
+        gameManager.progressManager.UpdateText();
+        gameManager.progressManager.UpdateProgressBars();
+    }
+
+    private void InstantiateFoldouts()
+    {
+        gameFoldout = rootVisualElement.Q<Foldout>("FoldoutGame");
+        prestigeStoreFoldout = rootVisualElement.Q<Foldout>("FoldoutStore");
+        progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
+        settingsFoldout = rootVisualElement.Q<Foldout>("FoldoutSettings");
+
+        foldouts.Add(gameFoldout);
+        foldouts.Add(prestigeStoreFoldout);
+        foldouts.Add(progressFoldout);
+        foldouts.Add(settingsFoldout);
+
+
+        gameFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(gameFoldout));
+        prestigeStoreFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(prestigeStoreFoldout));
+        progressFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(progressFoldout));
+        settingsFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(settingsFoldout));
+    }
+
+    public void CloseOtherFoldouts(Foldout exceptThisOne)
+    {
+        foreach(Foldout foldout in foldouts)
+        {
+            if (foldout == exceptThisOne)
+                continue;
+
+            foldout.SetValueWithoutNotify(false);
+        }
     }
 
     public void UpdateLevelCompletionText()
@@ -48,24 +115,23 @@ public class UIManager : MonoBehaviour
         levelProgressionLabel.text = gameManager.gradientManager.numberCompleted + " / " + (gameManager.size * gameManager.size);
         
         if(gameManager.gradientManager.numberCompleted >= gameManager.size * gameManager.size)
-            restartButton.SetEnabled(true);
-    }
-
-    public void CheckButtonStatus()
-    {
-        for (int i = 0; i < gameManager.size; i++)
         {
-            for (int j = 0; j < gameManager.size; j++)
-            {
-
-            }
+            restartButton.style.display = DisplayStyle.Flex;
+            UpdateRestartButtonText();
         }
     }
 
     public void BindRestartButton()
     {
         restartButton.clickable.clicked += gameManager.RestartGame;
-        restartButton.SetEnabled(false);
+        restartButton.style.display = DisplayStyle.None;
+    }
+
+    public void UpdateRestartButtonText()
+    {
+        restartButton.text = "RESTART\n" +
+            "Restart the game, double the gradient size (max size: " + gameManager.maxSize + "x" + gameManager.maxSize + "), " +
+            "and received +" + gameManager.prestigePointIncrement + " Prestige Points.";
     }
 
     public void BindWorkerUpgradeButtons()
@@ -74,99 +140,99 @@ public class UIManager : MonoBehaviour
         wur = gameManager.workerManager.workers[0].GetComponent<WorkerUpgrade>();
         wur.workerButton = rootVisualElement.Q<Button>("Button_R");
         wur.automationButton = rootVisualElement.Q<Button>("AutomateButton_R");
-        wur.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_R");
+        wur.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_R");
         wur.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");
         wur.recycleButton = rootVisualElement.Q<Button>("RecycleButton_R");
-        wur.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_R");
         wur.ButtonSetup();
 
         // Bind Upgrade Buttons - Green
         wug = gameManager.workerManager.workers[1].GetComponent<WorkerUpgrade>();
         wug.workerButton = rootVisualElement.Q<Button>("Button_G");
         wug.automationButton = rootVisualElement.Q<Button>("AutomateButton_G");
-        wug.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_G");
+        wug.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_G");
         wug.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_G");
         wug.recycleButton = rootVisualElement.Q<Button>("RecycleButton_G");
-        wug.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_G");
         wug.ButtonSetup();
 
         // Bind Upgrade Buttons - Blue
         wub = gameManager.workerManager.workers[2].GetComponent<WorkerUpgrade>();
         wub.workerButton = rootVisualElement.Q<Button>("Button_B");
         wub.automationButton = rootVisualElement.Q<Button>("AutomateButton_B");
-        wub.autoProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseAutomatedProductionButton_B");
+        wub.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_B");
         wub.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_B");
         wub.recycleButton = rootVisualElement.Q<Button>("RecycleButton_B");
-        wub.manualProductionMultiplierButton = rootVisualElement.Q<Button>("IncreaseManualProductionButton_B");
         wub.ButtonSetup();
+    }
+
+    public void BindPrestigeButtons()
+    {
+        pm = gameManager.prestigeManager;
+        pm.prestigeAutomationButton = rootVisualElement.Q<Button>("pButton_UnlockAutomation");
+        pm.prestigeRecycleButton = rootVisualElement.Q<Button>("pButton_UnlockRecycle");
+        pm.prestigeCustomStartAndEndButton = rootVisualElement.Q<Button>("pButton_UnlockCustomStartAndEndColors");
+        pm.prestigeIncreasePixelPointsButton = rootVisualElement.Q<Button>("pButton_IncreaseStartingPixelPoints");
+        pm.ButtonSetup();
     }
 
     public void NewGradient(int size)
     {
-        if (IsSizeValid(size))
+        if (activeGradientVisualElements != null && activeGradientVisualElements.Length != 0)
         {
-            if (activeGradientVisualElements != null && activeGradientVisualElements.Length != 0)
+            for (int i = 0; i < prevSize; i++)
             {
-                for (int i = 0; i < prevSize; i++)
+                for (int j = 0; j < prevSize; j++)
                 {
-                    for (int j = 0; j < prevSize; j++)
-                    {
-                        VisualElement ve = activeGradientVisualElements[i, j];
-                        gradientArea.contentContainer.Remove(ve);
-                        Destroy(ve.visualTreeAssetSource);
-                    }
-                }
-            }
-
-            prevSize = size;
-            activeGradientVisualElements = new VisualElement[size, size];
-
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    Color color = Color.black;
-                    //if (gameManager.testGradient)
-                    //    color = gameManager.gradientManager.gradientGColors[i, j].GoalColor();
-
-                    VisualElement gradientImage = new VisualElement();
-                    gradientImage.style.width = new Length(256 / size, LengthUnit.Pixel);
-                    gradientImage.style.height = new Length(256 / size, LengthUnit.Pixel);
-                    gradientImage.style.backgroundColor = color;
-
-                    /*
-                    gradientImage.style.borderBottomWidth = 0.5f;
-                    gradientImage.style.borderLeftWidth = 0.5f;
-                    gradientImage.style.borderRightWidth = 0.5f;
-                    gradientImage.style.borderTopWidth = 0.5f;
-
-                    gradientImage.style.borderBottomColor = Color.black;
-                    gradientImage.style.borderLeftColor = Color.black;
-                    gradientImage.style.borderRightColor = Color.black;
-                    gradientImage.style.borderTopColor = Color.black;
-                    */
-
-                    activeGradientVisualElements[i, j] = gradientImage;
-                    gradientArea.contentContainer.Add(gradientImage);
+                    VisualElement ve = activeGradientVisualElements[i, j];
+                    gradientArea.contentContainer.Remove(ve);
+                    Destroy(ve.visualTreeAssetSource);
                 }
             }
         }
+
+        prevSize = size;
+        activeGradientVisualElements = new VisualElement[size, size];
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                Color color = Color.black;
+                //if (gameManager.testGradient)
+                //    color = gameManager.gradientManager.gradientGColors[i, j].GoalColor();
+
+                VisualElement gradientImage = new VisualElement();
+                gradientImage.style.width = new Length(256 / size, LengthUnit.Pixel);
+                gradientImage.style.height = new Length(256 / size, LengthUnit.Pixel);
+                gradientImage.style.backgroundColor = color;
+
+                /*
+                gradientImage.style.borderBottomWidth = 0.5f;
+                gradientImage.style.borderLeftWidth = 0.5f;
+                gradientImage.style.borderRightWidth = 0.5f;
+                gradientImage.style.borderTopWidth = 0.5f;
+
+                gradientImage.style.borderBottomColor = Color.black;
+                gradientImage.style.borderLeftColor = Color.black;
+                gradientImage.style.borderRightColor = Color.black;
+                gradientImage.style.borderTopColor = Color.black;
+                */
+
+                activeGradientVisualElements[i, j] = gradientImage;
+                gradientArea.contentContainer.Add(gradientImage);
+            }
+        }
+    }
+
+    public void UnlockAutomation()
+    {
+        wur.UnlockAutomation();
+        wug.UnlockAutomation();
+        wub.UnlockAutomation();
     }
 
     public void UpdateVEColor(int i, int j)
     {
         activeGradientVisualElements[i, j].style.backgroundColor = (Color)gameManager.gradientManager.gradientGColors[i, j].CurrentColor();
-    }
-
-    public bool IsSizeValid(int size)
-    {
-        if (!Array.Exists(ValidSizes, x => x == size))
-        {
-            Debug.LogError("UIManager->PopulateGradient: Size is not valid (" + size + ").");
-            return false;
-        }
-
-        return true;
     }
 
     public void SetWorkerProgressBars()
@@ -184,6 +250,12 @@ public class UIManager : MonoBehaviour
 
             gameManager.workerManager.workers[i].progressBarVisualElement.style.width = new Length(0, LengthUnit.Percent);
         }
+    }
+
+    public void UpdateWorkerUpgradeButtons()
+    {
+        foreach (Worker worker in gameManager.workerManager.workers)
+            worker.workerUpgrade.UpdateButtons();
     }
 
     private void MaintainSingleInstance()

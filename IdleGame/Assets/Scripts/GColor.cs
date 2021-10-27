@@ -22,8 +22,9 @@ public class GColor
         if (isRGoalReached && isGGoalReached && isBGoalReached)
         {
             isGoalReached = true;
-            gameManager.currencyManager.IncrementPixelPoints();
             gameManager.gradientManager.numberCompleted += 1;
+            gameManager.progressManager.CompleteGColor(this);
+            gameManager.currencyManager.IncrementPixelPoints();
             gameManager.uiManager.UpdateLevelCompletionText();
         }
     }
@@ -60,6 +61,7 @@ public class GColor
 
     public GColor()
     {
+        Debug.Log("GColor created with default constructor.");
         i = 0;
         j = 0;
 
@@ -72,6 +74,7 @@ public class GColor
 
     public GColor(int i, int j, Tuple<int, int, int> goalValues)
     {
+        Debug.Log("GColor created with ijgoal default constructor.");
         this.i = i;
         this.j = j;
 
