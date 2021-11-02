@@ -46,7 +46,7 @@ public class PrestigeManager : MonoBehaviour
         prestigeAutomationButton.text = "Unlock Automation\nCost: " + prestigeAutomationCost.ToString();
         prestigeRecycleButton.text = "Unlock Recycle\nCost: " + prestigeRecycleCost.ToString();
         prestigeCustomStartAndEndButton.text = "Unlock Custom Start\nand End Colors\nCost: " + prestigeCustomStartAndEndCost.ToString();
-        prestigeIncreasePixelPointsButton.text = "Increase Starting Pixel\nPoints +1\n(Current: " + gameManager.startingPixelPoints + ")\nCost: " + prestigeCustomStartAndEndCost.ToString();
+        prestigeIncreasePixelPointsButton.text = "Increase Starting Pixel\nPoints +1\n(Current: " + gameManager.startingPixelPoints + ")\nCost: " + prestigeIncreasePixelPointsCost.ToString();
     }
 
     public void PrestigeAutomationButton()

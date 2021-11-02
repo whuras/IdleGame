@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
 
     // Buttons
     public Button restartButton;
+    public VisualElement restartButtonBG;
 
     // Workers
     public WorkerUpgrade wur;
@@ -48,6 +49,7 @@ public class UIManager : MonoBehaviour
         gameManager.currencyManager.pixelFoldout = rootVisualElement.Q<Foldout>("FoldoutGame");
         gameManager.currencyManager.prestigeFoldout = rootVisualElement.Q<Foldout>("FoldoutStore");
         restartButton = rootVisualElement.Q<Button>("RestartButton");
+        restartButtonBG = rootVisualElement.Q<VisualElement>("RestartVisualElement");
         levelProgressionLabel = rootVisualElement.Q<Label>("LevelProgressLabel");
 
         // Progress UI Assignment
@@ -116,6 +118,7 @@ public class UIManager : MonoBehaviour
         
         if(gameManager.gradientManager.numberCompleted >= gameManager.size * gameManager.size)
         {
+            gameManager.uiManager.EnableRestartBG(true);
             restartButton.style.display = DisplayStyle.Flex;
             UpdateRestartButtonText();
         }
@@ -125,7 +128,10 @@ public class UIManager : MonoBehaviour
     {
         restartButton.clickable.clicked += gameManager.RestartGame;
         restartButton.style.display = DisplayStyle.None;
+        EnableRestartBG(false);
     }
+
+    public void EnableRestartBG(bool vis) => restartButtonBG.style.display = vis ? DisplayStyle.Flex : DisplayStyle.None;
 
     public void UpdateRestartButtonText()
     {
@@ -139,6 +145,8 @@ public class UIManager : MonoBehaviour
         // Bind Upgrade Buttons - Red
         wur = gameManager.workerManager.workers[0].GetComponent<WorkerUpgrade>();
         wur.workerButton = rootVisualElement.Q<Button>("Button_R");
+        wur.workerButton.Q<VisualElement>("Icon").tooltip = "I am a tooltip";
+        wur.workerButton.Q<VisualElement>("Icon").AddManipulator(new ToolTipManipulator(rootVisualElement));
         wur.automationButton = rootVisualElement.Q<Button>("AutomateButton_R");
         wur.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_R");
         wur.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");

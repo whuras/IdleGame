@@ -2,7 +2,9 @@
     "name": "MyAssembly",
     "rootNamespace": "",
     "references": [
-        "UnityEngine.UIElementsModule"
+        "UnityEngine.UIElementsModule",
+        "UnityEngine.TextCoreTextEngineModule",
+        "UnityEditor.UIBuilderModule"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

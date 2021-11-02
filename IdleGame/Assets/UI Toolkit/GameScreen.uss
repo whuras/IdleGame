@@ -19,7 +19,7 @@
     font-size: 10px;
     white-space: nowrap;
     -unity-background-image-tint-color: rgba(255, 255, 255, 0.5);
-    background-image: url('/Assets/Images/pixel.png');
+    background-image: url('project://database/Assets/Images/pixel.png?fileID=21300000&guid=a3a75f1722d11b9428bf3d82cb9c1829&type=3#pixel');
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -45,7 +45,7 @@
 }
 
 .worker-upgrade-label {
-    background-image: url('/Assets/Images/pixel.png');
+    background-image: url('project://database/Assets/Images/pixel.png?fileID=21300000&guid=a3a75f1722d11b9428bf3d82cb9c1829&type=3#pixel');
     -unity-background-image-tint-color: rgba(0, 0, 0, 0.5);
     margin-left: 0;
     margin-right: 0;
@@ -75,4 +75,25 @@
     padding-bottom: 5px;
     height: auto;
     min-height: 50px;
+}
+
+.worker-button {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    margin-left: 2px;
+    margin-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: auto;
+    overflow: hidden;
+    visibility: visible;
+    display: flex;
+    flex-grow: 0;
+    width: 128px;
+    margin-right: 2px;
+    margin-bottom: 2px;
 }

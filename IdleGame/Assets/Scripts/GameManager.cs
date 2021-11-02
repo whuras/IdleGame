@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        uiManager.EnableRestartBG(false);
+
         //Debug.Log("Note: GameManager->RestartGame currently set to not reset pixel points on game reset.");
         currencyManager.ResetPixelPoints(); // if not allow pixel points carry over
         currencyManager.IncrementPrestigePoints(prestigePointIncrement);
