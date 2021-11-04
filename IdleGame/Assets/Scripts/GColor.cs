@@ -61,7 +61,6 @@ public class GColor
 
     public GColor()
     {
-        Debug.Log("GColor created with default constructor.");
         i = 0;
         j = 0;
 
@@ -74,7 +73,6 @@ public class GColor
 
     public GColor(int i, int j, Tuple<int, int, int> goalValues)
     {
-        Debug.Log("GColor created with ijgoal default constructor.");
         this.i = i;
         this.j = j;
 

@@ -88,12 +88,21 @@
     padding-bottom: 2px;
     justify-content: flex-start;
     flex-direction: row;
-    align-items: auto;
-    overflow: hidden;
+    align-items: stretch;
+    overflow: visible;
     visibility: visible;
     display: flex;
     flex-grow: 0;
-    width: 128px;
+    width: 32px;
     margin-right: 2px;
     margin-bottom: 2px;
+    height: 32px;
+    bottom: 0;
+}
+
+.worker-button:hover {
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
 }

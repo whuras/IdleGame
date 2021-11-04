@@ -9,17 +9,25 @@ public class UIManager : MonoBehaviour
     private static UIManager instance;
     public GameManager gameManager;
 
-    // Buttons
-    public Button restartButton;
-    public VisualElement restartButtonBG;
+    [Header("Tooltips")]
+    public Color toolTipBGColor = Color.black;
+    public Color toolTipTextColor = Color.white;
 
-    // Workers
+    [Header("Button Colors")]
+    public Color lockedColor = Color.black;
+    public Color unlockedCanAffordColor = Color.black;
+    public Color unlockedCanNotAffordColor = Color.black;
+    public Color purchasedCanAffordColor = Color.black;
+    public Color purchasedCanNotAffordColor = Color.black;
+
+    // Workers - scripts include button references
     public WorkerUpgrade wur;
     public WorkerUpgrade wug;
     public WorkerUpgrade wub;
 
-    // Prestige
-    private PrestigeManager pm;
+    // Other Buttons
+    public Button restartButton;
+    public VisualElement restartButtonBG;
 
     // Other UI Elements
     [SerializeField] public UnityEngine.UIElements.UIDocument uiDocment { get; private set; }
@@ -35,6 +43,43 @@ public class UIManager : MonoBehaviour
     private Foldout prestigeStoreFoldout;
     private Foldout progressFoldout;
     private Foldout settingsFoldout;
+
+    // Worker Upgarde Button Tooltip Texts
+    private string[,] workerUpgradeButtonTooltipTexts = new string[4, 6]
+    {
+        {   // 0 Production Texts
+            "productionMultiplierTooltip", // 0 Tooltip Name
+            "LOCKED IS INVALID STATUS FOR PROD MULTI", // 1 Locked
+            "UNLOCKED IS INVALID STATUS FOR PROD MULTI", // 2 Unlocked CAN afford
+            "UNLOCKED IS INVALID STATUS FOR PROD MULTI", // 3 Unlocked CAN NOT afford
+            "Increase Production", // 4 Purchased CAN afford
+            "Increase Production\nYou need more Pixel Points to buy this upgrade", // 5 Purchased CAN NOT afford
+        },
+        {   // 1 Automation Texts
+            "automationTooltip", // 0 Tooltip Name
+            "Unlock Automation\nin the Prestige Store", // 1 Locked
+            "Enable Automation", // 2 Unlocked CAN afford
+            "Automation\nYou need more Pixel Points to buy this upgarde", // 3 Unlocked CAN NOT afford
+            "Automation Enabled", // 4 Purchased CAN afford
+            "PURCHASED AND CAN NOT AFFORD NOT VALID FOR AUTOMATION", // 5 Purchased CAN NOT afford
+        },
+        {   // 2 TickSpeed Texts
+            "autoTickSpeedTootip", // 0 Tooltip Name
+            "test", // 1 Locked
+            "test", // 2 Unlocked CAN afford
+            "test", // 3 Unlocked CAN NOT afford
+            "test", // 4 Purchased CAN afford
+            "test", // 5 Purchased CAN NOT afford
+        },
+        {   // 3 Recycle Texts
+            "recycleTooltip", // 0 Tooltip Name
+            "test", // 1 Locked
+            "test", // 2 Unlocked CAN afford
+            "test", // 3 Unlocked CAN NOT afford
+            "test", // 4 Purchased CAN afford
+            "test", // 5 Purchased CAN NOT afford
+        }
+    };
 
 
     private void Awake()
@@ -62,54 +107,27 @@ public class UIManager : MonoBehaviour
         BindWorkerUpgradeButtons();
         BindPrestigeButtons();
         BindRestartButton();
+        SetupToolTips(); // must be after bind but before setup
+        SetupWorkerUpgradeButtons();
         UpdateLevelCompletionText();
         InstantiateFoldouts();
     }
 
     private void AssignProgressUIComponents()
     {
-        gameManager.progressManager.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
-        gameManager.progressManager.rProgressLabel = rootVisualElement.Q<Label>("RProgressLabel");
-        gameManager.progressManager.rProgressBarVisualElement = rootVisualElement.Q<VisualElement>("RWorkerOverallProgressBarVisualElement");
+        ProgressManager pm = gameManager.progressManager;
+        pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
+        pm.rProgressLabel = rootVisualElement.Q<Label>("RProgressLabel");
+        pm.rProgressBarVisualElement = rootVisualElement.Q<VisualElement>("RWorkerOverallProgressBarVisualElement");
 
-        gameManager.progressManager.gProgressLabel = rootVisualElement.Q<Label>("GProgressLabel");
-        gameManager.progressManager.gProgressBarVisualElement = rootVisualElement.Q<VisualElement>("GWorkerOverallProgressBarVisualElement");
+        pm.gProgressLabel = rootVisualElement.Q<Label>("GProgressLabel");
+        pm.gProgressBarVisualElement = rootVisualElement.Q<VisualElement>("GWorkerOverallProgressBarVisualElement");
 
-        gameManager.progressManager.bProgressLabel = rootVisualElement.Q<Label>("BProgressLabel");
-        gameManager.progressManager.bProgressBarVisualElement = rootVisualElement.Q<VisualElement>("BWorkerOverallProgressBarVisualElement");
+        pm.bProgressLabel = rootVisualElement.Q<Label>("BProgressLabel");
+        pm.bProgressBarVisualElement = rootVisualElement.Q<VisualElement>("BWorkerOverallProgressBarVisualElement");
 
-        gameManager.progressManager.UpdateText();
-        gameManager.progressManager.UpdateProgressBars();
-    }
-
-    private void InstantiateFoldouts()
-    {
-        gameFoldout = rootVisualElement.Q<Foldout>("FoldoutGame");
-        prestigeStoreFoldout = rootVisualElement.Q<Foldout>("FoldoutStore");
-        progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
-        settingsFoldout = rootVisualElement.Q<Foldout>("FoldoutSettings");
-
-        foldouts.Add(gameFoldout);
-        foldouts.Add(prestigeStoreFoldout);
-        foldouts.Add(progressFoldout);
-        foldouts.Add(settingsFoldout);
-
-
-        gameFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(gameFoldout));
-        prestigeStoreFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(prestigeStoreFoldout));
-        progressFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(progressFoldout));
-        settingsFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(settingsFoldout));
-    }
-
-    public void CloseOtherFoldouts(Foldout exceptThisOne)
-    {
-        foreach(Foldout foldout in foldouts)
-        {
-            if (foldout == exceptThisOne)
-                continue;
-
-            foldout.SetValueWithoutNotify(false);
-        }
+        pm.UpdateText();
+        pm.UpdateProgressBars();
     }
 
     public void UpdateLevelCompletionText()
@@ -131,7 +149,10 @@ public class UIManager : MonoBehaviour
         EnableRestartBG(false);
     }
 
-    public void EnableRestartBG(bool vis) => restartButtonBG.style.display = vis ? DisplayStyle.Flex : DisplayStyle.None;
+    public void EnableRestartBG(bool vis)
+    {
+        restartButtonBG.style.display = vis ? DisplayStyle.Flex : DisplayStyle.None;
+    }
 
     public void UpdateRestartButtonText()
     {
@@ -140,18 +161,78 @@ public class UIManager : MonoBehaviour
             "and received +" + gameManager.prestigePointIncrement + " Prestige Points.";
     }
 
+    public void SetupToolTips()
+    {
+        rootVisualElement.Q<VisualElement>("unity-content-viewport").style.overflow = Overflow.Visible;
+        CreateTooltip("workerTooltip", wur.workerButton, "Click to add RED components to the gradient");
+        CreateTooltip("workerTooltip", wug.workerButton, "Click to add GREEN components to the gradient");
+        CreateTooltip("workerTooltip", wub.workerButton, "Click to add BLUE components to the gradient");
+
+        foreach(Worker worker in gameManager.workerManager.workers)
+        {
+            CreateTooltip(workerUpgradeButtonTooltipTexts[0, 0], worker.workerUpgrade.productionMultiplierButton, "Increase the number of components produced");
+            CreateTooltip(workerUpgradeButtonTooltipTexts[1, 0], worker.workerUpgrade.automationButton, "Enable Automation");
+            CreateTooltip(workerUpgradeButtonTooltipTexts[2, 0], worker.workerUpgrade.autoTickSpeedMuiltiplierButton, "Increase the tick speed");
+            CreateTooltip(workerUpgradeButtonTooltipTexts[3, 0], worker.workerUpgrade.recycleButton, "Increase Recycle\n(For every component created, another random one is created)");
+        }
+    }
+
+    public void UpdateTooltipText(string name, VisualElement parentVE, string tooltipText)
+    {
+        parentVE.Q<VisualElement>(name).Q<Label>().text = tooltipText;
+    } 
+
+    public VisualElement CreateTooltip(string name, VisualElement parentVE, string tooltipText)
+    {
+        // Create and style tooltip VE
+        VisualElement toolTip = new VisualElement();
+        toolTip.name = name;
+        toolTip.style.backgroundColor = toolTipBGColor;
+        toolTip.style.position = Position.Absolute;
+        toolTip.style.top = -25;
+        SetAllMarginAndPadding(toolTip, 0);
+
+        // Create and style tooltip label/text
+        Label toolTipLabel = new Label();
+        toolTipLabel.style.fontSize = 10;
+        toolTipLabel.style.color = toolTipTextColor;
+        toolTip.Add(toolTipLabel);
+        SetAllMarginAndPadding(toolTipLabel, 1);
+
+        // Add to parent
+        toolTip.style.visibility = Visibility.Hidden;
+        parentVE.Add(toolTip);
+
+        // Create hover behaviour
+        parentVE.RegisterCallback<MouseEnterEvent>(e => toolTip.style.visibility = Visibility.Visible);
+        parentVE.RegisterCallback<MouseLeaveEvent>(e => toolTip.style.visibility = Visibility.Hidden);
+
+        UpdateTooltipText(name, parentVE, tooltipText);;
+
+        return toolTip;
+    }
+
+    private void SetAllMarginAndPadding(VisualElement el, float value)
+    {
+        el.style.marginBottom = value;
+        el.style.marginTop = value;
+        el.style.marginLeft = value;
+        el.style.marginRight = value;
+        el.style.paddingBottom = value;
+        el.style.paddingTop = value;
+        el.style.paddingLeft = value;
+        el.style.paddingRight = value;
+    }
+
     public void BindWorkerUpgradeButtons()
     {
         // Bind Upgrade Buttons - Red
         wur = gameManager.workerManager.workers[0].GetComponent<WorkerUpgrade>();
         wur.workerButton = rootVisualElement.Q<Button>("Button_R");
-        wur.workerButton.Q<VisualElement>("Icon").tooltip = "I am a tooltip";
-        wur.workerButton.Q<VisualElement>("Icon").AddManipulator(new ToolTipManipulator(rootVisualElement));
         wur.automationButton = rootVisualElement.Q<Button>("AutomateButton_R");
         wur.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_R");
         wur.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");
         wur.recycleButton = rootVisualElement.Q<Button>("RecycleButton_R");
-        wur.ButtonSetup();
 
         // Bind Upgrade Buttons - Green
         wug = gameManager.workerManager.workers[1].GetComponent<WorkerUpgrade>();
@@ -160,7 +241,6 @@ public class UIManager : MonoBehaviour
         wug.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_G");
         wug.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_G");
         wug.recycleButton = rootVisualElement.Q<Button>("RecycleButton_G");
-        wug.ButtonSetup();
 
         // Bind Upgrade Buttons - Blue
         wub = gameManager.workerManager.workers[2].GetComponent<WorkerUpgrade>();
@@ -169,17 +249,139 @@ public class UIManager : MonoBehaviour
         wub.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_B");
         wub.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_B");
         wub.recycleButton = rootVisualElement.Q<Button>("RecycleButton_B");
-        wub.ButtonSetup();
+    }
+
+    public void SetupWorkerUpgradeButtons()
+    {
+        foreach(Worker worker in gameManager.workerManager.workers)
+        {
+            WorkerUpgrade wupg = worker.workerUpgrade;
+
+            // Setup initial button statuses
+            wupg.buttonStatuses.Add(wupg.workerButton, WorkerUpgrade.UpgradeStatus.Purchased);
+            wupg.buttonStatuses.Add(wupg.automationButton, WorkerUpgrade.UpgradeStatus.Locked);
+            wupg.buttonStatuses.Add(wupg.productionMultiplierButton, WorkerUpgrade.UpgradeStatus.Purchased);
+            wupg.buttonStatuses.Add(wupg.autoTickSpeedMuiltiplierButton, WorkerUpgrade.UpgradeStatus.Locked);
+            wupg.buttonStatuses.Add(wupg.recycleButton, WorkerUpgrade.UpgradeStatus.Locked);
+
+            // Add button functions
+            wupg.workerButton.clickable.clicked += wupg.myWorker.IncrementProgressBar;
+            wupg.automationButton.clickable.clicked += wupg.AutomationButton;
+            wupg.productionMultiplierButton.clickable.clicked += wupg.ProductionMultiplierButton;
+            wupg.autoTickSpeedMuiltiplierButton.clickable.clicked += wupg.AutoTickSpeedMultiplierButton;
+            wupg.recycleButton.clickable.clicked += wupg.RecycleButton;
+
+            // Update text when any button is pressed
+            wupg.automationButton.clickable.clicked += UpdateWorkerUpgradeButtons;
+            wupg.productionMultiplierButton.clickable.clicked += UpdateWorkerUpgradeButtons;
+            wupg.autoTickSpeedMuiltiplierButton.clickable.clicked += UpdateWorkerUpgradeButtons;
+            wupg.recycleButton.clickable.clicked += UpdateWorkerUpgradeButtons;
+        }
+
+        UpdateWorkerUpgradeButtons();
+    }
+
+    public void UpdateWorkerUpgradeButtons()
+    {
+        UpdateWorkerUpgradeButtonDisplay();
+        UpdateWorkerUpgradeButtonText();
+    }
+
+    public void UpdateWorkerUpgradeButtonDisplay()
+    {
+        foreach (Worker worker in gameManager.workerManager.workers)
+            UpdateWorkerUpgradeButtonTooltipText(worker);
+    }
+
+    public void UpdateWorkerUpgradeButtonText()
+    {
+        foreach (Worker worker in gameManager.workerManager.workers)
+        {
+            WorkerUpgrade wupg = worker.workerUpgrade;
+            wupg.automationButton.Q<Label>().text = wupg.buttonStatuses[wupg.automationButton] == WorkerUpgrade.UpgradeStatus.Purchased ? "" : "Cost: " + wupg.automationCost.ToString();
+            wupg.productionMultiplierButton.Q<Label>().text = "Production\nCurrent Multiplier: " + wupg.productionMultiplier.ToString() + "\n" + "Cost: " + wupg.ProductionMultiplierCost().ToString();
+            wupg.autoTickSpeedMuiltiplierButton.Q<Label>().text = "Speed\nCurrent Multiplier: " + wupg.autoTickSpeedMultiplier.ToString() + "\n" + "Cost: " + wupg.AutoTickSpeedMultiplierCost().ToString();
+            wupg.recycleButton.Q<Label>().text = "Recycle\nCost: " + wupg.recycleMultiplierCost.ToString();
+        }
+    }
+
+    private void UpdateWorkerUpgradeButtonTooltipText(Worker worker)
+    {
+        WorkerUpgrade wupg = worker.workerUpgrade;
+        Button workerButton;
+        WorkerUpgrade.UpgradeStatus buttonStatus;
+        int upgradeCost;
+        string tooltipName;
+
+        Button[] buttons = new Button[4]
+        {
+            wupg.productionMultiplierButton,
+            wupg.automationButton,
+            wupg.autoTickSpeedMuiltiplierButton,
+            wupg.recycleButton
+        };
+
+        Dictionary<string, int> costs = new Dictionary<string, int>();
+        costs.Add(workerUpgradeButtonTooltipTexts[0, 0], wupg.ProductionMultiplierCost());
+        costs.Add(workerUpgradeButtonTooltipTexts[1, 0], wupg.automationCost);
+        costs.Add(workerUpgradeButtonTooltipTexts[2, 0], wupg.AutoTickSpeedMultiplierCost());
+        costs.Add(workerUpgradeButtonTooltipTexts[3, 0], wupg.recycleMultiplierCost);
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            tooltipName = workerUpgradeButtonTooltipTexts[i, 0];
+            workerButton = buttons[i];
+            buttonStatus = wupg.buttonStatuses[workerButton];
+            upgradeCost = costs[tooltipName];
+
+            if (buttonStatus == WorkerUpgrade.UpgradeStatus.Locked)
+            {
+                workerButton.SetEnabled(false);
+                workerButton.style.backgroundColor = lockedColor;
+                gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 1]);
+            }
+            else if (buttonStatus == WorkerUpgrade.UpgradeStatus.Unlocked)
+            {
+                workerButton.SetEnabled(true);
+
+                bool canAfford = gameManager.currencyManager.pixelPoints >= upgradeCost;
+                if (canAfford)
+                {
+                    workerButton.style.backgroundColor = unlockedCanAffordColor;
+                    gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 2]);
+                }
+                else
+                {
+                    workerButton.style.backgroundColor = unlockedCanNotAffordColor;
+                    gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 3]);
+                }
+            }
+            else if (buttonStatus == WorkerUpgrade.UpgradeStatus.Purchased)
+            {
+                workerButton.SetEnabled(true);
+
+                bool canAfford = gameManager.currencyManager.pixelPoints >= upgradeCost;
+                if (canAfford)
+                {
+                    workerButton.style.backgroundColor = purchasedCanAffordColor;
+                    gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 4]);
+                }
+                else
+                {
+                    workerButton.style.backgroundColor = purchasedCanNotAffordColor;
+                    gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 5]);
+                }
+            }
+        }
     }
 
     public void BindPrestigeButtons()
     {
-        pm = gameManager.prestigeManager;
-        pm.prestigeAutomationButton = rootVisualElement.Q<Button>("pButton_UnlockAutomation");
-        pm.prestigeRecycleButton = rootVisualElement.Q<Button>("pButton_UnlockRecycle");
-        pm.prestigeCustomStartAndEndButton = rootVisualElement.Q<Button>("pButton_UnlockCustomStartAndEndColors");
-        pm.prestigeIncreasePixelPointsButton = rootVisualElement.Q<Button>("pButton_IncreaseStartingPixelPoints");
-        pm.ButtonSetup();
+        gameManager.prestigeManager.prestigeAutomationButton = rootVisualElement.Q<Button>("pButton_UnlockAutomation");
+        gameManager.prestigeManager.prestigeRecycleButton = rootVisualElement.Q<Button>("pButton_UnlockRecycle");
+        gameManager.prestigeManager.prestigeCustomStartAndEndButton = rootVisualElement.Q<Button>("pButton_UnlockCustomStartAndEndColors");
+        gameManager.prestigeManager.prestigeIncreasePixelPointsButton = rootVisualElement.Q<Button>("pButton_IncreaseStartingPixelPoints");
+        gameManager.prestigeManager.ButtonSetup();
     }
 
     public void NewGradient(int size)
@@ -260,10 +462,34 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateWorkerUpgradeButtons()
+    private void InstantiateFoldouts()
     {
-        foreach (Worker worker in gameManager.workerManager.workers)
-            worker.workerUpgrade.UpdateButtons();
+        gameFoldout = rootVisualElement.Q<Foldout>("FoldoutGame");
+        prestigeStoreFoldout = rootVisualElement.Q<Foldout>("FoldoutStore");
+        progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
+        //settingsFoldout = rootVisualElement.Q<Foldout>("FoldoutSettings");
+
+        foldouts.Add(gameFoldout);
+        foldouts.Add(prestigeStoreFoldout);
+        foldouts.Add(progressFoldout);
+        //foldouts.Add(settingsFoldout);
+
+
+        gameFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(gameFoldout));
+        prestigeStoreFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(prestigeStoreFoldout));
+        progressFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(progressFoldout));
+        //settingsFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(settingsFoldout));
+    }
+
+    public void CloseOtherFoldouts(Foldout exceptThisOne)
+    {
+        foreach (Foldout foldout in foldouts)
+        {
+            if (foldout == exceptThisOne)
+                continue;
+
+            foldout.SetValueWithoutNotify(false);
+        }
     }
 
     private void MaintainSingleInstance()

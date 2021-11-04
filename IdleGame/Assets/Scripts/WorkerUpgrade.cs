@@ -37,11 +37,10 @@ public class WorkerUpgrade : MonoBehaviour
     public Dictionary<Button, UpgradeStatus> buttonStatuses = new Dictionary<Button, UpgradeStatus>();
     public enum UpgradeStatus
     {
-        Locked,
+        Locked, // needs to be unlocked via Prestige Store
         Unlocked, // unlocked but not yet purchased
         Purchased // implies unlocked
     }
-
 
     private void Awake()
     {
@@ -49,71 +48,14 @@ public class WorkerUpgrade : MonoBehaviour
             myWorker = GetComponent<Worker>();
     }
 
-    public void ButtonSetup()
-    {
-        buttonStatuses.Add(workerButton, UpgradeStatus.Purchased);
-        buttonStatuses.Add(automationButton, UpgradeStatus.Locked);
-        buttonStatuses.Add(productionMultiplierButton, UpgradeStatus.Purchased);
-        buttonStatuses.Add(autoTickSpeedMuiltiplierButton, UpgradeStatus.Locked);
-        buttonStatuses.Add(recycleButton, UpgradeStatus.Locked);
-
-        workerButton.clickable.clicked += myWorker.IncrementProgressBar;
-        automationButton.clickable.clicked += AutomationButton;
-        productionMultiplierButton.clickable.clicked += ProductionMultiplierButton;
-        autoTickSpeedMuiltiplierButton.clickable.clicked += AutoTickSpeedMultiplierButton;
-        recycleButton.clickable.clicked += RecycleButton;
-
-        automationButton.clickable.clicked += ButtonTextUpdate;
-        productionMultiplierButton.clickable.clicked += ButtonTextUpdate;
-        autoTickSpeedMuiltiplierButton.clickable.clicked += ButtonTextUpdate;
-        recycleButton.clickable.clicked += ButtonTextUpdate;
-
-        UpdateButtons();
-    }
-
-    public void UpdateButtons()
-    {
-        ButtonStatusUpdate();
-        ButtonTextUpdate();
-    }
-
-    private void ButtonTextUpdate()
-    {
-        automationButton.Q<Label>().text = buttonStatuses[automationButton] == UpgradeStatus.Purchased ? "Automation\nENABLED" : "Automation\nCost: " + automationCost.ToString();
-        productionMultiplierButton.Q<Label>().text = "Production\nCurrent Multiplier: " + productionMultiplier.ToString() + "\n" + "Cost: " + ProductionMultiplierCost().ToString();
-        autoTickSpeedMuiltiplierButton.Q<Label>().text = "Speed\nCurrent Multiplier: " + autoTickSpeedMultiplier.ToString() + "\n" + "Cost: " + AutoTickSpeedMultiplierCost().ToString();
-        recycleButton.Q<Label>().text = "Recycle\nCost: " + recycleMultiplierCost.ToString();
-    }
-
-    public void ButtonStatusUpdate()
-    {
-        automationButton.style.display = buttonStatuses[automationButton] == UpgradeStatus.Locked ? DisplayStyle.None : DisplayStyle.Flex;
-        if(buttonStatuses[automationButton] == UpgradeStatus.Purchased)
-            automationButton.SetEnabled(true);
-        else if (buttonStatuses[automationButton] == UpgradeStatus.Unlocked)
-            automationButton.SetEnabled(gameManager.currencyManager.pixelPoints >= automationCost);
-
-        productionMultiplierButton.style.display = buttonStatuses[productionMultiplierButton] == UpgradeStatus.Locked ? DisplayStyle.None : DisplayStyle.Flex;
-        if (buttonStatuses[productionMultiplierButton] != UpgradeStatus.Locked)
-            productionMultiplierButton.SetEnabled(gameManager.currencyManager.pixelPoints >= ProductionMultiplierCost());
-
-        autoTickSpeedMuiltiplierButton.style.display = buttonStatuses[autoTickSpeedMuiltiplierButton] == UpgradeStatus.Locked ? DisplayStyle.None : DisplayStyle.Flex;
-        if (buttonStatuses[autoTickSpeedMuiltiplierButton] != UpgradeStatus.Locked)
-            autoTickSpeedMuiltiplierButton.SetEnabled(gameManager.currencyManager.pixelPoints >= AutoTickSpeedMultiplierCost());
-
-        recycleButton.style.display = buttonStatuses[recycleButton] == UpgradeStatus.Locked ? DisplayStyle.None : DisplayStyle.Flex;
-        if (buttonStatuses[recycleButton] != UpgradeStatus.Locked)
-            recycleButton.SetEnabled(gameManager.currencyManager.pixelPoints >= recycleMultiplierCost);
-    }
-
     public void UnlockAutomation()
     {
         buttonStatuses[automationButton] = UpgradeStatus.Unlocked;
         buttonStatuses[autoTickSpeedMuiltiplierButton] = UpgradeStatus.Unlocked;
-        UpdateButtons();
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void AutomationButton()
+    public void AutomationButton()
     {
         if (buttonStatuses[automationButton] == UpgradeStatus.Purchased)
             return;
@@ -133,13 +75,13 @@ public class WorkerUpgrade : MonoBehaviour
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void RecycleButton()
+    public void RecycleButton()
     {
         Debug.Log("Recycle for " + transform.name + " clicked.");
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void ProductionMultiplierButton()
+    public void ProductionMultiplierButton()
     {
         if (gameManager.currencyManager.pixelPoints >= ProductionMultiplierCost())
         {
@@ -154,7 +96,7 @@ public class WorkerUpgrade : MonoBehaviour
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void AutoTickSpeedMultiplierButton()
+    public void AutoTickSpeedMultiplierButton()
     {
         if(gameManager.currencyManager.pixelPoints >= AutoTickSpeedMultiplierCost())
         {

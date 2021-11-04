@@ -60,7 +60,7 @@ public class Worker : MonoBehaviour
         gameManager.uiManager.UpdateLevelCompletionText();
     }
 
-    private void AddByte(int byteAmount)
+    public void AddByte(int byteAmount)
     {
         if (this == gameManager.workerManager.workers[0])
         {
