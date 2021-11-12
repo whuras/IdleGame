@@ -109,9 +109,32 @@
                                 <ui:VisualElement name="BWorkerProgressBarVisualElement" style="background-color: rgb(90, 196, 196); height: 100%; width: 61%;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement name="RestartVisualElement" style="position: absolute; flex-grow: 1; flex-shrink: 0; min-width: auto; min-height: auto; width: 100%; height: 100%; display: none;">
-                            <ui:VisualElement name="Background" style="width: 100%; height: 100%; background-image: none; -unity-background-image-tint-color: rgb(0, 0, 0); background-color: rgb(106, 127, 219);" />
-                            <ui:Button text="RESTART&#10;Restart the game, double the gradient size and recieve +X Prestige Points." display-tooltip-when-elided="true" name="RestartButton" class="worker-upgrade-button" style="flex-wrap: wrap; white-space: normal; width: auto; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; position: absolute; top: 25%; right: 0; left: 0;" />
+                        <ui:VisualElement name="RestartVisualElement" focusable="false" style="position: absolute; flex-grow: 1; flex-shrink: 0; min-width: auto; min-height: auto; width: 100%; height: 100%; display: flex; align-items: center; background-color: rgb(106, 127, 219); justify-content: center;">
+                            <ui:Button text="RESTART&#10;Restart the game, double the gradient size and recieve +X Prestige Points." display-tooltip-when-elided="true" name="RestartButton" class="worker-upgrade-button" style="flex-wrap: wrap; white-space: normal; width: auto; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; position: relative; top: auto; right: auto; left: auto;" />
+                            <ui:VisualElement name="ColorPickerVisualElement" style="position: relative; bottom: auto; flex-grow: 1; flex-shrink: 0; flex-direction: row; display: flex; width: 100%; justify-content: space-between;">
+                                <ui:VisualElement name="StartColorPicker" class="color-picker-container" style="align-items: stretch; width: 49%; justify-content: flex-end; flex-direction: row;">
+                                    <ui:VisualElement name="Sliders" style="flex-grow: 1; flex-shrink: 0; height: 100%; align-items: stretch; justify-content: center;">
+                                        <ui:SliderInt picking-mode="Ignore" label="Red" value="42" high-value="255" show-input-field="true" name="StartRedSlider" style="justify-content: flex-start; align-items: stretch; font-size: 10px;" />
+                                        <ui:SliderInt picking-mode="Ignore" label="Green" value="42" high-value="255" show-input-field="true" name="StartGreenSlider" style="justify-content: flex-start; align-items: stretch; font-size: 10px;" />
+                                        <ui:SliderInt picking-mode="Ignore" label="Blue" value="42" high-value="255" show-input-field="true" name="StartBlueSlider" style="justify-content: flex-start; align-items: stretch; font-size: 10px;" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement style="min-width: auto; min-height: auto; align-items: center; justify-content: flex-start; flex-shrink: 0;">
+                                        <ui:Label text="Start Color" display-tooltip-when-elided="true" style="font-size: 10px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; -unity-text-align: upper-center;" />
+                                        <ui:VisualElement name="StartImage" style="background-color: rgb(255, 0, 0); width: 50px; height: 50px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                                <ui:VisualElement name="EndColorPicker" class="color-picker-container" style="align-items: stretch; width: 49%; justify-content: flex-end; flex-direction: row;">
+                                    <ui:VisualElement name="Sliders" style="flex-grow: 1; flex-shrink: 0; height: 100%; align-items: stretch; justify-content: center;">
+                                        <ui:SliderInt picking-mode="Ignore" label="Red" value="42" high-value="255" show-input-field="true" name="EndRedSlider" style="justify-content: flex-start; align-items: stretch; font-size: 10px;" />
+                                        <ui:SliderInt picking-mode="Ignore" label="Green" value="42" high-value="255" show-input-field="true" name="EndGreenSlider" style="justify-content: flex-start; align-items: stretch; font-size: 10px;" />
+                                        <ui:SliderInt picking-mode="Ignore" label="Blue" value="42" high-value="255" show-input-field="true" name="EndBlueSlider" style="justify-content: flex-start; align-items: stretch; font-size: 10px;" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement style="min-width: auto; min-height: auto; align-items: center; justify-content: flex-start; flex-shrink: 0;">
+                                        <ui:Label text="End Color" display-tooltip-when-elided="true" style="font-size: 10px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; -unity-text-align: upper-center;" />
+                                        <ui:VisualElement name="EndImage" style="background-color: rgb(197, 255, 0); width: 50px; height: 50px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:ScrollView>
