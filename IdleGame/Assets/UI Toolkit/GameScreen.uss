@@ -1,3 +1,22 @@
+.worker-upgrade-label {
+    background-image: none;
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .worker-upgrade-button {
     right: auto;
     position: relative;
@@ -9,27 +28,51 @@
     padding-top: 0;
     padding-bottom: 0;
     height: auto;
-    background-color: rgba(166, 34, 34, 0);
+    background-color: rgb(168, 218, 220);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    justify-content: flex-start;
+    justify-content: center;
     -unity-text-align: middle-center;
     font-size: 10px;
     white-space: nowrap;
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0.5);
-    background-image: url('project://database/Assets/Images/pixel.png?fileID=21300000&guid=a3a75f1722d11b9428bf3d82cb9c1829&type=3#pixel');
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
+    border-left-color: rgb(241, 250, 238);
+    border-right-color: rgb(241, 250, 238);
+    border-top-color: rgb(241, 250, 238);
+    border-bottom-color: rgb(241, 250, 238);
     min-width: 56px;
     min-height: 32px;
+    overflow: visible;
+}
+
+.worker-upgrade-button:active {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: rgb(168, 218, 220);
+    border-left-color: rgb(168, 218, 220);
+    border-right-color: rgb(168, 218, 220);
+    border-top-color: rgb(168, 218, 220);
+    border-bottom-color: rgb(168, 218, 220);
+}
+
+.worker-upgrade-button:hover {
+    background-color: rgb(241, 250, 238);
+}
+
+.worker-upgrade-button:disabled {
+    opacity: 1;
+    background-color: rgba(237, 110, 120, 255);
+    border-left-color: rgba(116, 24, 31, 255);
+    border-right-color: rgba(116, 24, 31, 255);
+    border-top-color: rgba(116, 24, 31, 255);
+    border-bottom-color: rgba(116, 24, 31, 255);
 }
 
 .pixel-128 {
@@ -44,40 +87,7 @@
     background-color: rgb(255, 1, 1);
 }
 
-.worker-upgrade-label {
-    background-image: url('project://database/Assets/Images/pixel.png?fileID=21300000&guid=a3a75f1722d11b9428bf3d82cb9c1829&type=3#pixel');
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0.5);
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    color: rgb(255, 255, 255);
-}
-
-.worker-upgrade-button:enabled {
-    background-color: rgb(255, 255, 255);
-}
-
-.worker-upgrade-button:disabled {
-    background-color: rgba(255, 0, 0, 0.5);
-    -unity-background-image-tint-color: rgba(255, 0, 0, 0.5);
-}
-
-.prestige-upgrade-button {
-    white-space: normal;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    height: auto;
-    min-height: 50px;
-}
-
-.worker-button {
+.worker-button-r {
     font-size: 14px;
     color: rgb(0, 0, 0);
     margin-left: 2px;
@@ -98,11 +108,132 @@
     margin-bottom: 2px;
     height: 32px;
     bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(205, 56, 19);
+    border-right-color: rgb(205, 56, 19);
+    border-top-color: rgb(205, 56, 19);
+    border-bottom-color: rgb(205, 56, 19);
+    background-color: rgb(168, 46, 16);
 }
 
-.worker-button:hover {
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
+.worker-button-r:active {
+    border-left-color: rgb(168, 46, 16);
+    border-right-color: rgb(168, 46, 16);
+    border-top-color: rgb(168, 46, 16);
+    border-bottom-color: rgb(168, 46, 16);
+}
+
+.worker-button-r:hover {
+    background-color: rgb(205, 56, 19);
+}
+
+.worker-button-g {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    margin-left: 2px;
+    margin-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: visible;
+    visibility: visible;
+    display: flex;
+    flex-grow: 0;
+    width: 32px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    height: 32px;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(137, 211, 34);
+    border-right-color: rgb(137, 211, 34);
+    border-top-color: rgb(137, 211, 34);
+    border-bottom-color: rgb(137, 211, 34);
+    background-color: rgb(114, 176, 29);
+}
+
+.worker-button-g:active {
+    border-left-color: rgb(114, 176, 29);
+    border-right-color: rgb(114, 176, 29);
+    border-top-color: rgb(114, 176, 29);
+    border-bottom-color: rgb(114, 176, 29);
+}
+
+.worker-button-g:hover {
+    background-color: rgb(137, 211, 34);
+}
+
+.worker-button-b {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    margin-left: 2px;
+    margin-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: visible;
+    visibility: visible;
+    display: flex;
+    flex-grow: 0;
+    width: 32px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    height: 32px;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(90, 196, 196);
+    border-right-color: rgb(90, 196, 196);
+    border-top-color: rgb(90, 196, 196);
+    border-bottom-color: rgb(90, 196, 196);
+    background-color: rgb(65, 180, 180);
+}
+
+.worker-button-b:active {
+    border-left-color: rgb(65, 180, 180);
+    border-right-color: rgb(65, 180, 180);
+    border-top-color: rgb(65, 180, 180);
+    border-bottom-color: rgb(65, 180, 180);
+}
+
+.worker-button-b:hover {
+    background-color: rgb(90, 196, 196);
+}
+
+.top-visual-element {
+    margin-bottom: 4px;
+}
+
+.prestige-store-button {
+    flex-shrink: 1;
+    min-width: 30%;
+    max-width: 30%;
 }

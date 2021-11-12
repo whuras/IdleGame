@@ -11,7 +11,6 @@ public class Worker : MonoBehaviour
     public VisualElement progressBarVisualElement;
 
     [Header("Progress Bar")]
-    private float timer = 0f;
     public bool keepWorking = true;
 
     [Header("General")]
@@ -19,44 +18,76 @@ public class Worker : MonoBehaviour
 
     [Header("Manual")]
     public int manualTickPercentStarting = 10;
-    public int ManualTickPercent() => Mathf.FloorToInt(manualTickPercentStarting * workerUpgrade.productionMultiplier);
+    public int ManualTickPercent() => Mathf.FloorToInt(manualTickPercentStarting * workerUpgrade.ProductionMultiplier());
 
     [Header("Automation")]
-    public float autoTickAmount = 1; // not upgradable yet - 1 is 1% per tick
-    public float autoTickSpeed = 1;
+    public float elapsedTime = 0;
+    public float autoTickSpeed = 1; // how many seconds to fill the bar
+    public bool ticking = false;
 
 
     private void Update()
     {
-        if (workerUpgrade.autoEnabled)
+        if (gameManager.automationEnabled)
         {
-            timer += Time.deltaTime;
-            if (timer >= (autoTickAmount / (autoTickSpeed * workerUpgrade.autoTickSpeedMultiplier)))
+            if (!ticking && keepWorking)
             {
-                IncrementProgressBar();
-                timer = 0f;
+                StartCoroutine(AutomatedProgressBar());
+            }
+            else if(!keepWorking)
+            {
+                progressBarVisualElement.style.width = new Length(100f, LengthUnit.Percent);
             }
         }
     }
 
+    private IEnumerator AutomatedProgressBar()
+    {
+        ticking = true;
+        float pWidth;
+
+        while(elapsedTime < (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier()))
+        {
+            pWidth = Mathf.Lerp(0, 100, elapsedTime / (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier()));
+            progressBarVisualElement.style.width = new Length(pWidth, LengthUnit.Percent);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        AddByte(productionAmount);
+        gameManager.uiManager.UpdateLevelCompletionText();
+        elapsedTime = 0;
+        ticking = false;
+    }
+
+    
     public void IncrementProgressBar()
     {
-        if (!keepWorking)
+        if (keepWorking)
+        {
+            if (gameManager.automationEnabled)
+            {
+                elapsedTime += (ManualTickPercent() / 100f) * (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier());
+            }
+            else
+            {
+                var prevWidth = progressBarVisualElement.style.width.value;
+                var newWidth = prevWidth.value + new Length(ManualTickPercent(), LengthUnit.Percent).value;
+
+                if (newWidth >= 100.0f && keepWorking)
+                {
+                    AddByte(productionAmount);
+                    newWidth = newWidth - 100f;
+                }
+
+                progressBarVisualElement.style.width = keepWorking ? new Length(newWidth, LengthUnit.Percent) : new Length(100f, LengthUnit.Percent);
+            }
+        }
+        else if (!gameManager.automationEnabled)
         {
             progressBarVisualElement.style.width = new Length(100f, LengthUnit.Percent);
-            return;
         }
 
-        var prevWidth = progressBarVisualElement.style.width.value;
-        var newWidth = prevWidth.value + new Length(ManualTickPercent(), LengthUnit.Percent).value;
-
-        if (newWidth >= 100.0f && keepWorking)
-        {
-            AddByte((int)(productionAmount * workerUpgrade.productionMultiplier));
-            newWidth = newWidth - 100f;
-        }
-
-        progressBarVisualElement.style.width = keepWorking ? new Length(newWidth, LengthUnit.Percent) : new Length(100f, LengthUnit.Percent);
         gameManager.uiManager.UpdateLevelCompletionText();
     }
 

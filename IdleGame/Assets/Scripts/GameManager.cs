@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public PrestigeManager prestigeManager;
     public ProgressManager progressManager;
 
+    public bool automationEnabled = false;
+    public bool recycleEnabled = false;
+
     [Header("Testing Purposes")]
     public int startingPixelPoints = 0;
     public int startingPrestigePoints = 0;

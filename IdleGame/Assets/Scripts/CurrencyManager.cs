@@ -30,6 +30,8 @@ public class CurrencyManager : MonoBehaviour
     {
         UpdatePixelPointText();
         UpdatePrestigePointText();
+        gameManager.uiManager.UpdatePrestigeButtons();
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
     private void UpdatePixelPointText() => pixelFoldout.text = "IDLE GRADIENT [ " + pixelPoints + " Pixel Points ]";

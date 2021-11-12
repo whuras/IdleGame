@@ -13,23 +13,15 @@ public class UIManager : MonoBehaviour
     public Color toolTipBGColor = Color.black;
     public Color toolTipTextColor = Color.white;
 
-    [Header("Button Colors")]
-    public Color lockedColor = Color.black;
-    public Color unlockedCanAffordColor = Color.black;
-    public Color unlockedCanNotAffordColor = Color.black;
-    public Color purchasedCanAffordColor = Color.black;
-    public Color purchasedCanNotAffordColor = Color.black;
-
-    // Workers - scripts include button references
+    [Header("Worker Upgrade References")]
     public WorkerUpgrade wur;
     public WorkerUpgrade wug;
     public WorkerUpgrade wub;
 
-    // Other Buttons
+    [Header("Restart Button")]
     public Button restartButton;
     public VisualElement restartButtonBG;
 
-    // Other UI Elements
     [SerializeField] public UnityEngine.UIElements.UIDocument uiDocment { get; private set; }
     private VisualElement rootVisualElement;    
     public VisualElement gradientArea { get; private set; }
@@ -44,6 +36,35 @@ public class UIManager : MonoBehaviour
     private Foldout progressFoldout;
     private Foldout settingsFoldout;
 
+    // Prestige Button Tooltip Texts
+    private string[,] prestigeButtonTooltipTexts = new string[4, 4]
+    {
+        { // 0 Automation Texts
+            "prestigeAutomationTooltip",  // 0 Tooltip Name
+            "Buy to enable Automation", // 1 Can Afford
+            "Buy to enable Automation\nYou need more Prestige Points to buy this", // 2 Can NOT Afford
+            "Automation Purchased", // 3 Purchased
+        },
+        { // 1 Recycle Texts
+            "prestigeRecycleTooltip",  // 0 Tooltip Name
+            "Buy to enable Recycle", // 1 Can Afford
+            "Buy to enable Recycle\nYou need more Prestige Points to buy this", // 2 Can NOT Afford
+            "Recycle Purchased", // 3 Purchased
+        },
+        { // 2 Custom Start and End Texts
+            "prestigeCustomStartAndEndTooltip",  // 0 Tooltip Name
+            "Buy to enable custom start and end colours on game restart", // 1 Can Afford
+            "Buy to enable custom start and end colours on game restart\nYou need more Prestige Points to buy this", // 2 Can NOT Afford
+            "Custom Colors Purchased", // 3 Purchased
+        },
+        { // 3 Increase Pixel Points Texts
+            "prestigeIncreasePixelPointsTooltip",  // 0 Tooltip Name
+            "Buy to increase the amount of Pixel Points you restart with", // 1 Can Afford
+            "Buy to increase the amount of Pixel Points you restart with\nYou need more Prestige Points to buy this", // 2 Can NOT Afford
+            "PURCAHSED IS AN INVALID STATE FOR INCREASE PIXEL POINTS", // 3 Purchased
+        }
+    };
+
     // Worker Upgarde Button Tooltip Texts
     private string[,] workerUpgradeButtonTooltipTexts = new string[4, 6]
     {
@@ -52,32 +73,32 @@ public class UIManager : MonoBehaviour
             "LOCKED IS INVALID STATUS FOR PROD MULTI", // 1 Locked
             "UNLOCKED IS INVALID STATUS FOR PROD MULTI", // 2 Unlocked CAN afford
             "UNLOCKED IS INVALID STATUS FOR PROD MULTI", // 3 Unlocked CAN NOT afford
-            "Increase Production", // 4 Purchased CAN afford
-            "Increase Production\nYou need more Pixel Points to buy this upgrade", // 5 Purchased CAN NOT afford
+            "Increase Production\n(The tick amount for manual clicking)", // 4 Purchased CAN afford
+            "Increase Production\nYou need more Pixel Points to buy this", // 5 Purchased CAN NOT afford
         },
         {   // 1 Automation Texts
             "automationTooltip", // 0 Tooltip Name
             "Unlock Automation\nin the Prestige Store", // 1 Locked
             "Enable Automation", // 2 Unlocked CAN afford
-            "Automation\nYou need more Pixel Points to buy this upgarde", // 3 Unlocked CAN NOT afford
+            "Automation\nYou need more Pixel Points to buy this", // 3 Unlocked CAN NOT afford
             "Automation Enabled", // 4 Purchased CAN afford
-            "PURCHASED AND CAN NOT AFFORD NOT VALID FOR AUTOMATION", // 5 Purchased CAN NOT afford
+            "Automation Enabled", // 5 Purchased CAN NOT afford
         },
         {   // 2 TickSpeed Texts
             "autoTickSpeedTootip", // 0 Tooltip Name
-            "test", // 1 Locked
-            "test", // 2 Unlocked CAN afford
-            "test", // 3 Unlocked CAN NOT afford
-            "test", // 4 Purchased CAN afford
-            "test", // 5 Purchased CAN NOT afford
+            "Unlock Automation\nin the Prestige Store", // 1 Locked
+            "Increase Speed", // 2 Unlocked CAN afford
+            "Increase Speed\nYou need more Pixel Points to buy this", // 3 Unlocked CAN NOT afford
+            "Increase Speed\n(The speed of automated filling)", // 4 Purchased CAN afford
+            "Increase Speed\nYou need more Pixel Points to buy this", // 5 Purchased CAN NOT afford
         },
         {   // 3 Recycle Texts
             "recycleTooltip", // 0 Tooltip Name
-            "test", // 1 Locked
-            "test", // 2 Unlocked CAN afford
-            "test", // 3 Unlocked CAN NOT afford
-            "test", // 4 Purchased CAN afford
-            "test", // 5 Purchased CAN NOT afford
+            "Unlock Recycle\nin the Prestige Store", // 1 Locked
+            "Enable Recycle", // 2 Unlocked CAN afford
+            "Enable Recycle\nYou need more Pixel Points to buy this", // 3 Unlocked CAN NOT afford
+            "Increase Recycle Amount", // 4 Purchased CAN afford
+            "Increase Recycle Amount\nYou need more Pixel Points to buy this", // 5 Purchased CAN NOT afford
         }
     };
 
@@ -104,11 +125,16 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         AssignProgressUIComponents();
+
         BindWorkerUpgradeButtons();
         BindPrestigeButtons();
         BindRestartButton();
+
         SetupToolTips(); // must be after bind but before setup
+
         SetupWorkerUpgradeButtons();
+        SetupPrestigeButtons();
+
         UpdateLevelCompletionText();
         InstantiateFoldouts();
     }
@@ -163,18 +189,25 @@ public class UIManager : MonoBehaviour
 
     public void SetupToolTips()
     {
-        rootVisualElement.Q<VisualElement>("unity-content-viewport").style.overflow = Overflow.Visible;
+        // Correct Foldout overflow which cannot be changed in ui builder which blocks tooltip visuals
+        rootVisualElement.Query("unity-content-viewport").ForEach( e => e.style.overflow = Overflow.Visible);
+
         CreateTooltip("workerTooltip", wur.workerButton, "Click to add RED components to the gradient");
         CreateTooltip("workerTooltip", wug.workerButton, "Click to add GREEN components to the gradient");
         CreateTooltip("workerTooltip", wub.workerButton, "Click to add BLUE components to the gradient");
 
         foreach(Worker worker in gameManager.workerManager.workers)
         {
-            CreateTooltip(workerUpgradeButtonTooltipTexts[0, 0], worker.workerUpgrade.productionMultiplierButton, "Increase the number of components produced");
-            CreateTooltip(workerUpgradeButtonTooltipTexts[1, 0], worker.workerUpgrade.automationButton, "Enable Automation");
-            CreateTooltip(workerUpgradeButtonTooltipTexts[2, 0], worker.workerUpgrade.autoTickSpeedMuiltiplierButton, "Increase the tick speed");
-            CreateTooltip(workerUpgradeButtonTooltipTexts[3, 0], worker.workerUpgrade.recycleButton, "Increase Recycle\n(For every component created, another random one is created)");
+            CreateTooltip(workerUpgradeButtonTooltipTexts[0, 0], worker.workerUpgrade.productionMultiplierButton, "");
+            CreateTooltip(workerUpgradeButtonTooltipTexts[1, 0], worker.workerUpgrade.automationButton, "");
+            CreateTooltip(workerUpgradeButtonTooltipTexts[2, 0], worker.workerUpgrade.autoTickSpeedMuiltiplierButton, "");
+            CreateTooltip(workerUpgradeButtonTooltipTexts[3, 0], worker.workerUpgrade.recycleButton, "");
         }
+
+        CreateTooltip(prestigeButtonTooltipTexts[0, 0], gameManager.prestigeManager.prestigeAutomationButton, "");
+        CreateTooltip(prestigeButtonTooltipTexts[1, 0], gameManager.prestigeManager.prestigeRecycleButton, "");
+        CreateTooltip(prestigeButtonTooltipTexts[2, 0], gameManager.prestigeManager.prestigeCustomStartAndEndButton, "");
+        CreateTooltip(prestigeButtonTooltipTexts[3, 0], gameManager.prestigeManager.prestigeIncreasePixelPointsButton, "");
     }
 
     public void UpdateTooltipText(string name, VisualElement parentVE, string tooltipText)
@@ -189,7 +222,11 @@ public class UIManager : MonoBehaviour
         toolTip.name = name;
         toolTip.style.backgroundColor = toolTipBGColor;
         toolTip.style.position = Position.Absolute;
-        toolTip.style.top = -25;
+        toolTip.style.top = -30;
+        toolTip.style.borderBottomLeftRadius = 5;
+        toolTip.style.borderBottomRightRadius = 5;
+        toolTip.style.borderTopLeftRadius = 5;
+        toolTip.style.borderTopRightRadius = 5;
         SetAllMarginAndPadding(toolTip, 0);
 
         // Create and style tooltip label/text
@@ -281,16 +318,112 @@ public class UIManager : MonoBehaviour
         UpdateWorkerUpgradeButtons();
     }
 
+    public void SetupPrestigeButtons()
+    {
+        PrestigeManager pm = gameManager.prestigeManager;
+
+        // Add button functions
+        pm.prestigeAutomationButton.clickable.clicked += pm.PrestigeAutomationButton;
+        pm.prestigeRecycleButton.clickable.clicked += pm.PrestigeRecycleButton;
+        pm.prestigeCustomStartAndEndButton.clickable.clicked += pm.PrestigeCustomeStartAndEndButton;
+        pm.prestigeIncreasePixelPointsButton.clickable.clicked += pm.PrestigeIncreasePixelPointsButton;
+
+        // Update text when any button is pressed
+        pm.prestigeAutomationButton.clickable.clicked += UpdatePrestigeButtons;
+        pm.prestigeRecycleButton.clickable.clicked += UpdatePrestigeButtons;
+        pm.prestigeCustomStartAndEndButton.clickable.clicked += UpdatePrestigeButtons;
+        pm.prestigeIncreasePixelPointsButton.clickable.clicked += UpdatePrestigeButtons;
+
+        UpdatePrestigeButtons();
+
+    }
+
     public void UpdateWorkerUpgradeButtons()
     {
         UpdateWorkerUpgradeButtonDisplay();
         UpdateWorkerUpgradeButtonText();
     }
 
+    public void UpdatePrestigeButtons()
+    {
+        UpdatePrestigeButtonDisplay();
+        UpdatePrestigeButtonText();
+    }
+
     public void UpdateWorkerUpgradeButtonDisplay()
     {
         foreach (Worker worker in gameManager.workerManager.workers)
+        {
             UpdateWorkerUpgradeButtonTooltipText(worker);
+        }   
+    }
+
+    public void UpdatePrestigeButtonDisplay()
+    {
+        PrestigeManager pm = gameManager.prestigeManager;
+
+        // Automation Button
+        if (gameManager.automationEnabled)
+        {
+            pm.prestigeAutomationButton.SetEnabled(false);
+            UpdateTooltipText(prestigeButtonTooltipTexts[0, 0], pm.prestigeAutomationButton, prestigeButtonTooltipTexts[0, 3]);
+        }
+        else if(gameManager.currencyManager.prestigePoints >= pm.prestigeAutomationCost)
+        {
+            pm.prestigeAutomationButton.SetEnabled(true);
+            UpdateTooltipText(prestigeButtonTooltipTexts[0, 0], pm.prestigeAutomationButton, prestigeButtonTooltipTexts[0, 1]);
+        }
+        else
+        {
+            pm.prestigeAutomationButton.SetEnabled(false);
+            UpdateTooltipText(prestigeButtonTooltipTexts[0, 0], pm.prestigeAutomationButton, prestigeButtonTooltipTexts[0, 2]);
+        }
+
+        // Recycle Button - NOT IMPLEMENTED
+        if (gameManager.recycleEnabled)
+        {
+            pm.prestigeRecycleButton.SetEnabled(false);
+            UpdateTooltipText(prestigeButtonTooltipTexts[1, 0], pm.prestigeRecycleButton, prestigeButtonTooltipTexts[1, 3]);
+        }
+        else if (false)
+        {
+            pm.prestigeRecycleButton.SetEnabled(true);
+            UpdateTooltipText(prestigeButtonTooltipTexts[1, 0], pm.prestigeRecycleButton, prestigeButtonTooltipTexts[1, 1]);
+        }
+        else if(false)
+        {
+            pm.prestigeRecycleButton.SetEnabled(false);
+            UpdateTooltipText(prestigeButtonTooltipTexts[1, 0], pm.prestigeRecycleButton, prestigeButtonTooltipTexts[1, 2]);
+        }
+
+        // CustomStartAndEnd Button - NOT IMPLEMENTED
+        if (false)
+        {
+            pm.prestigeCustomStartAndEndButton.SetEnabled(false);
+            UpdateTooltipText(prestigeButtonTooltipTexts[2, 0], pm.prestigeCustomStartAndEndButton, prestigeButtonTooltipTexts[2, 3]);
+        }
+        else if (false)
+        {
+            pm.prestigeCustomStartAndEndButton.SetEnabled(true);
+            UpdateTooltipText(prestigeButtonTooltipTexts[2, 0], pm.prestigeCustomStartAndEndButton, prestigeButtonTooltipTexts[2, 1]);
+        }
+        else if (false)
+        {
+            pm.prestigeCustomStartAndEndButton.SetEnabled(false);
+            UpdateTooltipText(prestigeButtonTooltipTexts[2, 0], pm.prestigeCustomStartAndEndButton, prestigeButtonTooltipTexts[2, 2]);
+        }
+
+        // IncreasePixelPoints Button - NOT IMPLEMENTED
+        if (gameManager.currencyManager.prestigePoints >= pm.prestigeIncreasePixelPointsCost)
+        {
+            pm.prestigeIncreasePixelPointsButton.SetEnabled(true);
+            UpdateTooltipText(prestigeButtonTooltipTexts[3, 0], pm.prestigeIncreasePixelPointsButton, prestigeButtonTooltipTexts[3, 1]);
+        }
+        else
+        {
+            pm.prestigeIncreasePixelPointsButton.SetEnabled(false);
+            UpdateTooltipText(prestigeButtonTooltipTexts[3, 0], pm.prestigeIncreasePixelPointsButton, prestigeButtonTooltipTexts[3, 2]);
+        }
     }
 
     public void UpdateWorkerUpgradeButtonText()
@@ -298,11 +431,21 @@ public class UIManager : MonoBehaviour
         foreach (Worker worker in gameManager.workerManager.workers)
         {
             WorkerUpgrade wupg = worker.workerUpgrade;
-            wupg.automationButton.Q<Label>().text = wupg.buttonStatuses[wupg.automationButton] == WorkerUpgrade.UpgradeStatus.Purchased ? "" : "Cost: " + wupg.automationCost.ToString();
-            wupg.productionMultiplierButton.Q<Label>().text = "Production\nCurrent Multiplier: " + wupg.productionMultiplier.ToString() + "\n" + "Cost: " + wupg.ProductionMultiplierCost().ToString();
-            wupg.autoTickSpeedMuiltiplierButton.Q<Label>().text = "Speed\nCurrent Multiplier: " + wupg.autoTickSpeedMultiplier.ToString() + "\n" + "Cost: " + wupg.AutoTickSpeedMultiplierCost().ToString();
-            wupg.recycleButton.Q<Label>().text = "Recycle\nCost: " + wupg.recycleMultiplierCost.ToString();
+            wupg.automationButton.Q<Label>().text = ""; //wupg.buttonStatuses[wupg.automationButton] == WorkerUpgrade.UpgradeStatus.Purchased ? "" : "Cost: " + wupg.automationCost.ToString();
+            wupg.productionMultiplierButton.Q<Label>().text = "Level: " + wupg.productionLevel.ToString() + "\n" + "Cost: " + wupg.ProductionMultiplierCost().ToString();
+            wupg.autoTickSpeedMuiltiplierButton.Q<Label>().text = "Level: " + wupg.autoTickSpeedLevel.ToString() + "\n" + "Cost: " + wupg.AutoTickSpeedMultiplierCost().ToString();
+            wupg.recycleButton.Q<Label>().text = "Level: 0\nCost: " + wupg.recycleMultiplierCost.ToString();
         }
+    }
+
+    public void UpdatePrestigeButtonText()
+    {
+        PrestigeManager pm = gameManager.prestigeManager;
+
+        pm.prestigeAutomationButton.Q<Label>().text = "Unlock Automation\nCost: " + pm.prestigeAutomationCost.ToString();
+        pm.prestigeRecycleButton.Q<Label>().text = "Unlock Recycle\nCost: " + pm.prestigeRecycleCost.ToString();
+        pm.prestigeCustomStartAndEndButton.Q<Label>().text = "Unlock Custom Start\nand End Colors\nCost: " + pm.prestigeCustomStartAndEndCost.ToString();
+        pm.prestigeIncreasePixelPointsButton.Q<Label>().text = "Increase Starting Pixel\nPoints +1\n(Current: " + gameManager.startingPixelPoints + ")\nCost: " + pm.prestigeIncreasePixelPointsCost.ToString();
     }
 
     private void UpdateWorkerUpgradeButtonTooltipText(Worker worker)
@@ -337,38 +480,33 @@ public class UIManager : MonoBehaviour
             if (buttonStatus == WorkerUpgrade.UpgradeStatus.Locked)
             {
                 workerButton.SetEnabled(false);
-                workerButton.style.backgroundColor = lockedColor;
                 gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 1]);
             }
             else if (buttonStatus == WorkerUpgrade.UpgradeStatus.Unlocked)
             {
-                workerButton.SetEnabled(true);
-
                 bool canAfford = gameManager.currencyManager.pixelPoints >= upgradeCost;
                 if (canAfford)
                 {
-                    workerButton.style.backgroundColor = unlockedCanAffordColor;
+                    workerButton.SetEnabled(true);
                     gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 2]);
                 }
                 else
                 {
-                    workerButton.style.backgroundColor = unlockedCanNotAffordColor;
+                    workerButton.SetEnabled(false);
                     gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 3]);
                 }
             }
             else if (buttonStatus == WorkerUpgrade.UpgradeStatus.Purchased)
             {
-                workerButton.SetEnabled(true);
-
                 bool canAfford = gameManager.currencyManager.pixelPoints >= upgradeCost;
                 if (canAfford)
                 {
-                    workerButton.style.backgroundColor = purchasedCanAffordColor;
+                    workerButton.SetEnabled(true);
                     gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 4]);
                 }
                 else
                 {
-                    workerButton.style.backgroundColor = purchasedCanNotAffordColor;
+                    workerButton.SetEnabled(false);
                     gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 5]);
                 }
             }
@@ -381,7 +519,6 @@ public class UIManager : MonoBehaviour
         gameManager.prestigeManager.prestigeRecycleButton = rootVisualElement.Q<Button>("pButton_UnlockRecycle");
         gameManager.prestigeManager.prestigeCustomStartAndEndButton = rootVisualElement.Q<Button>("pButton_UnlockCustomStartAndEndColors");
         gameManager.prestigeManager.prestigeIncreasePixelPointsButton = rootVisualElement.Q<Button>("pButton_IncreaseStartingPixelPoints");
-        gameManager.prestigeManager.ButtonSetup();
     }
 
     public void NewGradient(int size)
@@ -431,13 +568,6 @@ public class UIManager : MonoBehaviour
                 gradientArea.contentContainer.Add(gradientImage);
             }
         }
-    }
-
-    public void UnlockAutomation()
-    {
-        wur.UnlockAutomation();
-        wug.UnlockAutomation();
-        wub.UnlockAutomation();
     }
 
     public void UpdateVEColor(int i, int j)
