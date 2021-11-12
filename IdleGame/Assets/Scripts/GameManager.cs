@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public bool automationEnabled = false;
     public bool recycleEnabled = false;
+    public bool customColorEnabled = false;
 
     [Header("Testing Purposes")]
     public int startingPixelPoints = 0;
@@ -51,7 +52,21 @@ public class GameManager : MonoBehaviour
         else if (size > maxSize)
             size = maxSize;
 
-        gradientManager.InitializeGradientGColors(size,
+        if (customColorEnabled)
+        {
+            gradientManager.InitializeGradientGColors(size,
+            new Tuple<int, int, int>(
+                uiManager.startColor.r,
+                uiManager.startColor.g,
+                uiManager.startColor.b),
+            new Tuple<int, int, int>(
+                uiManager.endColor.r,
+                uiManager.endColor.g,
+                uiManager.endColor.b));
+        }
+        else
+        {
+            gradientManager.InitializeGradientGColors(size,
             new Tuple<int, int, int>(
                 startColor.r,
                 startColor.g,
@@ -60,6 +75,7 @@ public class GameManager : MonoBehaviour
                 endColor.r,
                 endColor.g,
                 endColor.b));
+        }
 
         uiManager.NewGradient(size);
         uiManager.SetWorkerProgressBars();
@@ -67,10 +83,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        //Debug.Log("Note: GameManager->RestartGame currently set to not reset pixel points on game reset.");
         currencyManager.ResetPixelPoints(); // if not allow pixel points carry over
         currencyManager.IncrementPrestigePoints(prestigePointIncrement);
-        //prestigePointIncrement = size;
         size *= 2;
         
         foreach (Worker w in workerManager.workers)
@@ -82,12 +96,10 @@ public class GameManager : MonoBehaviour
         GameSetup();
 
         // Currency Setup
-        //currencyManager.prestigePoints = startingPrestigePoints;
         currencyManager.pixelPoints = startingPixelPoints;
         currencyManager.UpdateText();
 
-        uiManager.EnableRestartBG(false);
-        uiManager.restartButton.style.display = DisplayStyle.None;
+        uiManager.EnableRestartVisualElement(false);
         uiManager.UpdateLevelCompletionText();
         uiManager.UpdateWorkerUpgradeButtons();
     }
