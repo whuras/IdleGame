@@ -1575,6 +1575,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7536831083377320772, guid: 061239a690d11e94da9e723f4da704df, type: 3}
+      propertyPath: prestigeCustomStartAndEndCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7536831083377320772, guid: 061239a690d11e94da9e723f4da704df, type: 3}
       propertyPath: prestigeIncreasePixelPointsCost
       value: 1
       objectReference: {fileID: 0}

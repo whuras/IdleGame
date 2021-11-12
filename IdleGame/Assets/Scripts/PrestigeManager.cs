@@ -51,7 +51,12 @@ public class PrestigeManager : MonoBehaviour
 
     public void PrestigeCustomeStartAndEndButton()
     {
-
+        if(gameManager.currencyManager.prestigePoints >= prestigeCustomStartAndEndCost)
+        {
+            gameManager.currencyManager.PurchaseWithPrestigePoints(prestigeCustomStartAndEndCost);
+            prestigeCustomStartAndEndButton.SetEnabled(false);
+            gameManager.customColorEnabled = true;
+        }
     }
 
     public void PrestigeIncreasePixelPointsButton()

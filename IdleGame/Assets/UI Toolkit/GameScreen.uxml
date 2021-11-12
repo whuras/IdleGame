@@ -121,6 +121,7 @@
                                     <ui:VisualElement style="min-width: auto; min-height: auto; align-items: center; justify-content: flex-start; flex-shrink: 0;">
                                         <ui:Label text="Start Color" display-tooltip-when-elided="true" style="font-size: 10px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; -unity-text-align: upper-center;" />
                                         <ui:VisualElement name="StartImage" style="background-color: rgb(255, 0, 0); width: 50px; height: 50px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+                                        <ui:Button text="Random" display-tooltip-when-elided="true" name="RandomStartColorButton" class="worker-upgrade-button" style="margin-left: 0; margin-right: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; min-height: 24px; min-width: 50px;" />
                                     </ui:VisualElement>
                                 </ui:VisualElement>
                                 <ui:VisualElement name="EndColorPicker" class="color-picker-container" style="align-items: stretch; width: 49%; justify-content: flex-end; flex-direction: row;">
@@ -132,6 +133,7 @@
                                     <ui:VisualElement style="min-width: auto; min-height: auto; align-items: center; justify-content: flex-start; flex-shrink: 0;">
                                         <ui:Label text="End Color" display-tooltip-when-elided="true" style="font-size: 10px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; -unity-text-align: upper-center;" />
                                         <ui:VisualElement name="EndImage" style="background-color: rgb(197, 255, 0); width: 50px; height: 50px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+                                        <ui:Button text="Random" display-tooltip-when-elided="true" name="RandomEndColorButton" class="worker-upgrade-button" style="margin-left: 0; margin-right: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; min-height: 24px; min-width: 50px;" />
                                     </ui:VisualElement>
                                 </ui:VisualElement>
                             </ui:VisualElement>

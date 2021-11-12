@@ -9,6 +9,13 @@ public class UIManager : MonoBehaviour
     private static UIManager instance;
     public GameManager gameManager;
 
+    [SerializeField] public UnityEngine.UIElements.UIDocument uiDocment { get; private set; }
+    private VisualElement rootVisualElement;
+    public VisualElement gradientArea { get; private set; }
+    public VisualElement[,] activeGradientVisualElements { get; private set; }
+    private int prevSize = 0;
+    private Label levelProgressionLabel;
+
     [Header("Tooltips")]
     public Color toolTipBGColor = Color.black;
     public Color toolTipTextColor = Color.white;
@@ -20,14 +27,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Restart Button")]
     public Button restartButton;
-    public VisualElement restartButtonBG;
-
-    [SerializeField] public UnityEngine.UIElements.UIDocument uiDocment { get; private set; }
-    private VisualElement rootVisualElement;    
-    public VisualElement gradientArea { get; private set; }
-    public VisualElement[,] activeGradientVisualElements { get; private set; }
-    private int prevSize = 0;
-    private Label levelProgressionLabel;
+    public VisualElement restartVisualElement;
 
     // Foldouts
     private List<Foldout> foldouts = new List<Foldout>();
@@ -102,6 +102,22 @@ public class UIManager : MonoBehaviour
         }
     };
 
+    // Custom Start and End Colors
+    private bool isRestarting = false;
+    private VisualElement cseContainer; // Toggle based on if unlocked
+    private VisualElement startColorImage;
+    private VisualElement endColorImage;
+    private Button randomStartColorButton;
+    private Button randomEndColorButton;
+    private SliderInt startSliderRed;
+    private SliderInt startSliderGreen;
+    private SliderInt startSliderBlue;
+    private SliderInt endSliderRed;
+    private SliderInt endSliderGreen;
+    private SliderInt endSliderBlue;
+    public Color32 startColor = Color.black;
+    public Color32 endColor = Color.black;
+
 
     private void Awake()
     {
@@ -115,11 +131,19 @@ public class UIManager : MonoBehaviour
         gameManager.currencyManager.pixelFoldout = rootVisualElement.Q<Foldout>("FoldoutGame");
         gameManager.currencyManager.prestigeFoldout = rootVisualElement.Q<Foldout>("FoldoutStore");
         restartButton = rootVisualElement.Q<Button>("RestartButton");
-        restartButtonBG = rootVisualElement.Q<VisualElement>("RestartVisualElement");
+        restartVisualElement = rootVisualElement.Q<VisualElement>("RestartVisualElement");
         levelProgressionLabel = rootVisualElement.Q<Label>("LevelProgressLabel");
+    }
 
-        // Progress UI Assignment
-
+    private void Update()
+    {
+        if (isRestarting)
+        {
+            startColor = new Color32((byte)startSliderRed.value, (byte)startSliderGreen.value, (byte)startSliderBlue.value, 255);
+            endColor = new Color32((byte)endSliderRed.value, (byte)endSliderGreen.value, (byte)endSliderBlue.value, 255);
+            startColorImage.style.backgroundColor = (Color)startColor;
+            endColorImage.style.backgroundColor = (Color)endColor;
+        }
     }
 
     private void Start()
@@ -128,12 +152,14 @@ public class UIManager : MonoBehaviour
 
         BindWorkerUpgradeButtons();
         BindPrestigeButtons();
+        BindCustomStartEndColorElements();
         BindRestartButton();
 
         SetupToolTips(); // must be after bind but before setup
 
         SetupWorkerUpgradeButtons();
         SetupPrestigeButtons();
+        SetupRandomColorButtons();
 
         UpdateLevelCompletionText();
         InstantiateFoldouts();
@@ -162,8 +188,7 @@ public class UIManager : MonoBehaviour
         
         if(gameManager.gradientManager.numberCompleted >= gameManager.size * gameManager.size)
         {
-            gameManager.uiManager.EnableRestartBG(true);
-            restartButton.style.display = DisplayStyle.Flex;
+            EnableRestartVisualElement(true);
             UpdateRestartButtonText();
         }
     }
@@ -171,13 +196,14 @@ public class UIManager : MonoBehaviour
     public void BindRestartButton()
     {
         restartButton.clickable.clicked += gameManager.RestartGame;
-        restartButton.style.display = DisplayStyle.None;
-        EnableRestartBG(false);
+        EnableRestartVisualElement(false);
     }
 
-    public void EnableRestartBG(bool vis)
+    public void EnableRestartVisualElement(bool vis)
     {
-        restartButtonBG.style.display = vis ? DisplayStyle.Flex : DisplayStyle.None;
+        isRestarting = vis;
+        restartVisualElement.style.display = vis ? DisplayStyle.Flex : DisplayStyle.None;
+        cseContainer.style.display = vis && gameManager.customColorEnabled ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     public void UpdateRestartButtonText()
@@ -192,11 +218,13 @@ public class UIManager : MonoBehaviour
         // Correct Foldout overflow which cannot be changed in ui builder which blocks tooltip visuals
         rootVisualElement.Query("unity-content-viewport").ForEach( e => e.style.overflow = Overflow.Visible);
 
+        // Worker Tooltips
         CreateTooltip("workerTooltip", wur.workerButton, "Click to add RED components to the gradient");
         CreateTooltip("workerTooltip", wug.workerButton, "Click to add GREEN components to the gradient");
         CreateTooltip("workerTooltip", wub.workerButton, "Click to add BLUE components to the gradient");
 
-        foreach(Worker worker in gameManager.workerManager.workers)
+        // Worker Upgrade Tooltips
+        foreach (Worker worker in gameManager.workerManager.workers)
         {
             CreateTooltip(workerUpgradeButtonTooltipTexts[0, 0], worker.workerUpgrade.productionMultiplierButton, "");
             CreateTooltip(workerUpgradeButtonTooltipTexts[1, 0], worker.workerUpgrade.automationButton, "");
@@ -204,10 +232,15 @@ public class UIManager : MonoBehaviour
             CreateTooltip(workerUpgradeButtonTooltipTexts[3, 0], worker.workerUpgrade.recycleButton, "");
         }
 
+        // Prestige Tooltips
         CreateTooltip(prestigeButtonTooltipTexts[0, 0], gameManager.prestigeManager.prestigeAutomationButton, "");
         CreateTooltip(prestigeButtonTooltipTexts[1, 0], gameManager.prestigeManager.prestigeRecycleButton, "");
         CreateTooltip(prestigeButtonTooltipTexts[2, 0], gameManager.prestigeManager.prestigeCustomStartAndEndButton, "");
         CreateTooltip(prestigeButtonTooltipTexts[3, 0], gameManager.prestigeManager.prestigeIncreasePixelPointsButton, "");
+
+        // Start and End Color Tooltips
+        //CreateTooltip("startColorTooltip", startColorImage, "Restart with this color in the bottom left");
+        //CreateTooltip("endColorTooltip", endColorImage, "Restart with this color in the top right");
     }
 
     public void UpdateTooltipText(string name, VisualElement parentVE, string tooltipText)
@@ -335,7 +368,6 @@ public class UIManager : MonoBehaviour
         pm.prestigeIncreasePixelPointsButton.clickable.clicked += UpdatePrestigeButtons;
 
         UpdatePrestigeButtons();
-
     }
 
     public void UpdateWorkerUpgradeButtons()
@@ -396,18 +428,18 @@ public class UIManager : MonoBehaviour
             UpdateTooltipText(prestigeButtonTooltipTexts[1, 0], pm.prestigeRecycleButton, prestigeButtonTooltipTexts[1, 2]);
         }
 
-        // CustomStartAndEnd Button - NOT IMPLEMENTED
-        if (false)
+        // CustomStartAndEnd Button
+        if (gameManager.customColorEnabled)
         {
             pm.prestigeCustomStartAndEndButton.SetEnabled(false);
             UpdateTooltipText(prestigeButtonTooltipTexts[2, 0], pm.prestigeCustomStartAndEndButton, prestigeButtonTooltipTexts[2, 3]);
         }
-        else if (false)
+        else if (gameManager.currencyManager.prestigePoints >= pm.prestigeCustomStartAndEndCost)
         {
             pm.prestigeCustomStartAndEndButton.SetEnabled(true);
             UpdateTooltipText(prestigeButtonTooltipTexts[2, 0], pm.prestigeCustomStartAndEndButton, prestigeButtonTooltipTexts[2, 1]);
         }
-        else if (false)
+        else
         {
             pm.prestigeCustomStartAndEndButton.SetEnabled(false);
             UpdateTooltipText(prestigeButtonTooltipTexts[2, 0], pm.prestigeCustomStartAndEndButton, prestigeButtonTooltipTexts[2, 2]);
@@ -519,6 +551,41 @@ public class UIManager : MonoBehaviour
         gameManager.prestigeManager.prestigeRecycleButton = rootVisualElement.Q<Button>("pButton_UnlockRecycle");
         gameManager.prestigeManager.prestigeCustomStartAndEndButton = rootVisualElement.Q<Button>("pButton_UnlockCustomStartAndEndColors");
         gameManager.prestigeManager.prestigeIncreasePixelPointsButton = rootVisualElement.Q<Button>("pButton_IncreaseStartingPixelPoints");
+    }
+
+    private void BindCustomStartEndColorElements()
+    {
+        cseContainer = rootVisualElement.Q<VisualElement>("ColorPickerVisualElement");
+        startColorImage = rootVisualElement.Q<VisualElement>("StartImage");
+        endColorImage = rootVisualElement.Q<VisualElement>("EndImage");
+        randomStartColorButton = rootVisualElement.Q<Button>("RandomStartColorButton");
+        randomEndColorButton = rootVisualElement.Q<Button>("RandomEndColorButton");
+        startSliderRed = rootVisualElement.Q<SliderInt>("StartRedSlider");
+        startSliderGreen = rootVisualElement.Q<SliderInt>("StartGreenSlider");
+        startSliderBlue = rootVisualElement.Q<SliderInt>("StartBlueSlider");
+        endSliderRed = rootVisualElement.Q<SliderInt>("EndRedSlider");
+        endSliderGreen = rootVisualElement.Q<SliderInt>("EndGreenSlider");
+        endSliderBlue = rootVisualElement.Q<SliderInt>("EndBlueSlider");
+    }
+
+    private void SetupRandomColorButtons()
+    {
+        randomStartColorButton.clickable.clicked += RandomCustomStartColor;
+        randomEndColorButton.clickable.clicked += RandomCustomEndColor;
+    }
+
+    private void RandomCustomStartColor()
+    {
+        startSliderRed.value = UnityEngine.Random.Range(0, 255);
+        startSliderGreen.value = UnityEngine.Random.Range(0, 255);
+        startSliderBlue.value = UnityEngine.Random.Range(0, 255);
+    }
+
+    private void RandomCustomEndColor()
+    {
+        endSliderRed.value = UnityEngine.Random.Range(0, 255);
+        endSliderGreen.value = UnityEngine.Random.Range(0, 255);
+        endSliderBlue.value = UnityEngine.Random.Range(0, 255);
     }
 
     public void NewGradient(int size)
