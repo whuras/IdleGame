@@ -5,29 +5,41 @@ using UnityEngine.UIElements;
 
 public class WorkerUpgrade : MonoBehaviour
 {
-    public CurrencyManager currencyManager;
+    [Header("Managers")]
+    public GameManager gameManager;
     public Worker myWorker;
     public Button workerButton;
 
-    public Button automationButton;
+    [Header("General Upgrades")]
+    public Button productionMultiplierButton;
+    public int productionLevel = 1;
+    public float ProductionMultiplier() => Mathf.Min(10, productionLevel); // % of the bar to fill when manually clicking (multiplied in Worker by starting amount (10))
+    public int ProductionMultiplierCost() => (int)Mathf.Pow(2, productionLevel - 1);
+
+    [Header("Automation Unlock")]
+    public Button automationButton; // enabled automation
     public int automationCost = 10;
-    public bool unlockedAutomation = false;
+    
+    [Header("Automation Upgrades")]
+    public Button autoTickSpeedMuiltiplierButton; // speed of tick 
+    public int autoTickSpeedLevel = 1;
+    public float AutoTickSpeedMultiplier() => Mathf.Max(0.1f, 1 - autoTickSpeedLevel * 0.1f);
+    public int AutoTickSpeedMultiplierCost() => (int) Mathf.Pow(2, autoTickSpeedLevel - 1);
 
-    public Button increaseAutomatedProductionButton;
-    public int automatedProductionIncreaseCost = 10;
-    public int automatedProductionIncreaseAmount = 0;
-
-    public Button speedIncreaseButton;
-    public int speedIncreaseCost = 10;
-    public float speedIncreaseAmount = 0;
-
-    public Button increaseManualProductionButton;
-    public int manualProductionIncreaseCost = 10;
-    public int manualProductionIncreaseAmount = 0;
-
+    [Header("Recycle Upgrades")]
+    public bool recycleUnlocked = false;
     public Button recycleButton;
-    public int recycleCost = 10;
-    public bool unlockedRecycle = false;
+    public float recycleMultiplier = 1;
+    public int recycleMultiplierCost = 10;
+
+    // Other
+    public Dictionary<Button, UpgradeStatus> buttonStatuses = new Dictionary<Button, UpgradeStatus>();
+    public enum UpgradeStatus
+    {
+        Locked, // needs to be unlocked via Prestige Store
+        Unlocked, // unlocked but not yet purchased
+        Purchased // implies unlocked
+    }
 
     private void Awake()
     {
@@ -35,72 +47,77 @@ public class WorkerUpgrade : MonoBehaviour
             myWorker = GetComponent<Worker>();
     }
 
-    public void ButtonSetup()
+    public void UnlockAutomation()
     {
-        workerButton.clickable.clicked += myWorker.ManualIncrement;
-        automationButton.clickable.clicked += AutomationButton;
-        increaseAutomatedProductionButton.clickable.clicked += AutomatedProductionIncreaseButton;
-        speedIncreaseButton.clickable.clicked += SpeedIncreaseButton;
-        increaseManualProductionButton.clickable.clicked += ManualProductionIncreaseButton;
-        recycleButton.clickable.clicked += RecycleButton;
-
-        automationButton.text = automationCost + "\nAutomation";
-        increaseAutomatedProductionButton.text = automatedProductionIncreaseCost + "\n+1";
-        speedIncreaseButton.text = speedIncreaseCost + "\n>>>";
-        increaseManualProductionButton.text = manualProductionIncreaseCost + "\n+1";
-        recycleButton.text = recycleCost + "\nRecycle";
+        buttonStatuses[automationButton] = UpgradeStatus.Purchased;
+        AutomationButton();
+        buttonStatuses[autoTickSpeedMuiltiplierButton] = UpgradeStatus.Unlocked;
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void AutomationButton()
+    public void AutomationButton()
     {
-        if (currencyManager.pixelPoints >= automationCost)
+        if (buttonStatuses[automationButton] == UpgradeStatus.Purchased)
+            return;
+
+        if (gameManager.currencyManager.pixelPoints >= automationCost)
         {
-            currencyManager.PurchaseWithPixelPoints(automationCost);
-            unlockedAutomation = true;
-            automationButton.text = "Automation\nEnabled";
+            buttonStatuses[automationButton] = UpgradeStatus.Purchased;
+            gameManager.automationEnabled = true;
+            gameManager.currencyManager.PurchaseWithPixelPoints(automationCost);
             automationButton.SetEnabled(false);
-            Debug.Log("Automation for " + transform.name + " has been unlocked!");
         }
         else
         {
             Debug.Log("Not enough Pixel Points to buy Automation.");
         }
+
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void RecycleButton()
+    public void RecycleButton()
     {
         Debug.Log("Recycle for " + transform.name + " clicked.");
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void AutomatedProductionIncreaseButton()
+    public void ProductionMultiplierButton()
     {
-        if (currencyManager.pixelPoints >= automatedProductionIncreaseCost)
+        if (gameManager.currencyManager.pixelPoints >= ProductionMultiplierCost())
         {
-            currencyManager.PurchaseWithPixelPoints(automatedProductionIncreaseCost);
-            Debug.Log("Automated Prod. Increase for " + transform.name + " has been purchased!");
+            gameManager.currencyManager.PurchaseWithPixelPoints(ProductionMultiplierCost());
+            productionLevel += 1;
         }
         else
         {
             Debug.Log("Not enough Pixel Points to buy Automated Prod. Increase.");
         }
+
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void ManualProductionIncreaseButton()
+    public void AutoTickSpeedMultiplierButton()
     {
-        if (currencyManager.pixelPoints >= manualProductionIncreaseCost)
+        if(gameManager.currencyManager.pixelPoints >= AutoTickSpeedMultiplierCost())
         {
-            currencyManager.PurchaseWithPixelPoints(manualProductionIncreaseCost);
-
-            Debug.Log("Manual Prod. Increase for " + transform.name + " has been purchased!");
+            gameManager.currencyManager.PurchaseWithPixelPoints(AutoTickSpeedMultiplierCost());
+            autoTickSpeedLevel += 1;
         }
         else
         {
-            Debug.Log("Not enough Pixel Points to buy Manual Prod. Increase.");
+            Debug.Log("Not enough Pixel Points to buy Auto Tick Speed Multiplier.");
         }
+
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
-    private void SpeedIncreaseButton()
+    public void ResetMultipliers()
     {
-        Debug.Log("Speed Increase for " + transform.name + " clicked.");
+        productionLevel = 1;
+        autoTickSpeedLevel = 1;
+
+        recycleMultiplier = 1;
+
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 }

@@ -57,53 +57,50 @@ public class GradientManager : MonoBehaviour
 
     public void InitializeGradientGColors(int size, Tuple<int, int, int> startColor, Tuple<int, int, int> endColor)
     {
-        if (gameManager.uiManager.IsSizeValid(size))
+        gradientGColors = new GColor[size, size];
+
+        // range linked to offset
+        int[] range = new int[size * 2 - 1];
+        int val = -size + 1;
+        for (int i = 0; i < range.Length; i++)
         {
-            gradientGColors = new GColor[size, size];
+            range[i] = val;
+            val += 1;
+        }
 
-            // range linked to offset
-            int[] range = new int[size * 2 - 1];
-            int val = -size + 1;
-            for (int i = 0; i < range.Length; i++)
-            {
-                range[i] = val;
-                val += 1;
-            }
+        // goalValues
+        Tuple<int, int, int>[] goalValues = new Tuple<int, int, int>[size * 2 - 1];
+        goalValues[0] = startColor;
+        goalValues[goalValues.Length - 1] = endColor;
+        Tuple<int, int, int> step = new Tuple<int, int, int>(
+            Mathf.FloorToInt((endColor.Item1 - startColor.Item1) / (goalValues.Length - 1)),
+            Mathf.FloorToInt((endColor.Item2 - startColor.Item2) / (goalValues.Length - 1)),
+            Mathf.FloorToInt((endColor.Item3 - startColor.Item3) / (goalValues.Length - 1))
+            );
 
-            // goalValues
-            Tuple<int, int, int>[] goalValues = new Tuple<int, int, int>[size * 2 - 1];
-            goalValues[0] = startColor;
-            goalValues[goalValues.Length - 1] = endColor;
-            Tuple<int, int, int> step = new Tuple<int, int, int>(
-                Mathf.FloorToInt((endColor.Item1 - startColor.Item1) / (goalValues.Length - 1)),
-                Mathf.FloorToInt((endColor.Item2 - startColor.Item2) / (goalValues.Length - 1)),
-                Mathf.FloorToInt((endColor.Item3 - startColor.Item3) / (goalValues.Length - 1))
+        for (int i = 1; i < goalValues.Length - 1; i++)
+            goalValues[i] = new Tuple<int, int, int>(
+                startColor.Item1 + step.Item1 * i,
+                startColor.Item2 + step.Item2 * i,
+                startColor.Item3 + step.Item3 * i
                 );
 
-            for (int i = 1; i < goalValues.Length - 1; i++)
-                goalValues[i] = new Tuple<int, int, int>(
-                    startColor.Item1 + step.Item1 * i,
-                    startColor.Item2 + step.Item2 * i,
-                    startColor.Item3 + step.Item3 * i
-                    );
-
-            int offset;
-            for (int i = 0; i < goalValues.Length; i++)
+        int offset;
+        for (int i = 0; i < goalValues.Length; i++)
+        {
+            offset = range[i];
+            for (int j = 0; j < size; j++)
             {
-                offset = range[i];
-                for (int j = 0; j < size; j++)
-                {
-                    if (j + offset >= size || j + offset < 0)
-                        continue;
+                if (j + offset >= size || j + offset < 0)
+                    continue;
 
-                    GColor gc = new GColor(j, j + offset, goalValues[i]);
-                    gc.gameManager = gameManager;
-                    gradientGColors[j, j + offset] = gc;
-                }
+                GColor gc = new GColor(j, j + offset, goalValues[i]);
+                gc.gameManager = gameManager;
+                gradientGColors[j, j + offset] = gc;
             }
-
-            CreateQueues(size);
         }
+
+        CreateQueues(size);
     }
 
     private void MaintainSingleInstance()

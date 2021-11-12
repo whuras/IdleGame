@@ -12,12 +12,7 @@ public class WorkerManager : MonoBehaviour
     private void Awake()
     {
         MaintainSingleInstance();
-
-
     }
-
-
-
 
     private void MaintainSingleInstance()
     {

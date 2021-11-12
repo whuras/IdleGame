@@ -1,42 +1,78 @@
+.worker-upgrade-label {
+    background-image: none;
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .worker-upgrade-button {
     right: auto;
     position: relative;
     align-items: stretch;
-    width: 36px;
-    flex-direction: column;
+    width: auto;
+    flex-direction: row;
     padding-left: 0;
     padding-right: 0;
     padding-top: 0;
     padding-bottom: 0;
-    height: 36px;
-    background-color: rgba(166, 34, 34, 0);
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 0;
-    -unity-font: url('/Assets/UI Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss');
-    color: rgba(0, 0, 0, 255);
-    -unity-text-outline-color: rgba(255, 255, 255, 255);
-    -unity-text-outline-width: 0;
-    text-shadow: 0 0 0 rgba(255, 255, 255, 255);
-    -unity-font-style: normal;
-    justify-content: flex-end;
-    -unity-text-align: lower-center;
-}
-
-.worker-upgrade-button:hover {
-    background-color: rgba(75, 75, 75, 0.59);
+    height: auto;
+    background-color: rgb(168, 218, 220);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    justify-content: center;
+    -unity-text-align: middle-center;
+    font-size: 10px;
+    white-space: nowrap;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-color: rgb(241, 250, 238);
+    border-right-color: rgb(241, 250, 238);
+    border-top-color: rgb(241, 250, 238);
+    border-bottom-color: rgb(241, 250, 238);
+    min-width: 56px;
+    min-height: 32px;
+    overflow: visible;
 }
 
 .worker-upgrade-button:active {
-    border-left-color: rgb(255, 255, 255);
-    border-right-color: rgb(255, 255, 255);
-    border-top-color: rgb(255, 255, 255);
-    border-bottom-color: rgb(255, 255, 255);
-    border-left-width: 2px;
-    border-right-width: 2px;
-    border-top-width: 2px;
-    border-bottom-width: 2px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: rgb(168, 218, 220);
+    border-left-color: rgb(168, 218, 220);
+    border-right-color: rgb(168, 218, 220);
+    border-top-color: rgb(168, 218, 220);
+    border-bottom-color: rgb(168, 218, 220);
+}
+
+.worker-upgrade-button:hover {
+    background-color: rgb(241, 250, 238);
+}
+
+.worker-upgrade-button:disabled {
+    opacity: 1;
+    background-color: rgba(237, 110, 120, 255);
+    border-left-color: rgba(116, 24, 31, 255);
+    border-right-color: rgba(116, 24, 31, 255);
+    border-top-color: rgba(116, 24, 31, 255);
+    border-bottom-color: rgba(116, 24, 31, 255);
 }
 
 .pixel-128 {
@@ -51,70 +87,153 @@
     background-color: rgb(255, 1, 1);
 }
 
-.automate-button {
-    background-image: url('/Assets/Images/Automate_32.png');
-    background-color: rgba(166, 34, 34, 0);
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 0;
-    -unity-font-style: bold;
-    text-shadow: 0 0 0 rgba(0, 0, 0, 255);
-    -unity-text-outline-width: 1px;
+.worker-button-r {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    margin-left: 2px;
+    margin-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: visible;
+    visibility: visible;
+    display: flex;
+    flex-grow: 0;
+    width: 32px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    height: 32px;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(205, 56, 19);
+    border-right-color: rgb(205, 56, 19);
+    border-top-color: rgb(205, 56, 19);
+    border-bottom-color: rgb(205, 56, 19);
+    background-color: rgb(168, 46, 16);
 }
 
-.increase-automated-prod-button {
-    right: auto;
-    position: relative;
-    align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/AutoIncrease_32.png');
+.worker-button-r:active {
+    border-left-color: rgb(168, 46, 16);
+    border-right-color: rgb(168, 46, 16);
+    border-top-color: rgb(168, 46, 16);
+    border-bottom-color: rgb(168, 46, 16);
 }
 
-.increase-speed-button {
-    right: auto;
-    position: relative;
-    align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/Speed_32.png');
+.worker-button-r:hover {
+    background-color: rgb(205, 56, 19);
 }
 
-.recycle-button {
-    right: auto;
-    position: relative;
+.worker-button-g {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    margin-left: 2px;
+    margin-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    justify-content: flex-start;
+    flex-direction: row;
     align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/Recycle_32.png');
+    overflow: visible;
+    visibility: visible;
+    display: flex;
+    flex-grow: 0;
+    width: 32px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    height: 32px;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(137, 211, 34);
+    border-right-color: rgb(137, 211, 34);
+    border-top-color: rgb(137, 211, 34);
+    border-bottom-color: rgb(137, 211, 34);
+    background-color: rgb(114, 176, 29);
 }
 
-.increase-manual-prod-button {
-    right: auto;
-    position: relative;
+.worker-button-g:active {
+    border-left-color: rgb(114, 176, 29);
+    border-right-color: rgb(114, 176, 29);
+    border-top-color: rgb(114, 176, 29);
+    border-bottom-color: rgb(114, 176, 29);
+}
+
+.worker-button-g:hover {
+    background-color: rgb(137, 211, 34);
+}
+
+.worker-button-b {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    margin-left: 2px;
+    margin-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    justify-content: flex-start;
+    flex-direction: row;
     align-items: stretch;
-    width: 35px;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 35px;
-    background-image: url('/Assets/Images/ManualIncrease_32.png');
+    overflow: visible;
+    visibility: visible;
+    display: flex;
+    flex-grow: 0;
+    width: 32px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    height: 32px;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(90, 196, 196);
+    border-right-color: rgb(90, 196, 196);
+    border-top-color: rgb(90, 196, 196);
+    border-bottom-color: rgb(90, 196, 196);
+    background-color: rgb(65, 180, 180);
+}
+
+.worker-button-b:active {
+    border-left-color: rgb(65, 180, 180);
+    border-right-color: rgb(65, 180, 180);
+    border-top-color: rgb(65, 180, 180);
+    border-bottom-color: rgb(65, 180, 180);
+}
+
+.worker-button-b:hover {
+    background-color: rgb(90, 196, 196);
+}
+
+.top-visual-element {
+    margin-bottom: 4px;
+}
+
+.prestige-store-button {
+    flex-shrink: 1;
+    min-width: 30%;
+    max-width: 30%;
 }
