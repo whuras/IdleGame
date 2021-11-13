@@ -28,7 +28,7 @@ public class Worker : MonoBehaviour
 
     private void Update()
     {
-        if (gameManager.automationEnabled)
+        if (gameManager.automationEnabled && workerUpgrade.buttonStatuses[workerUpgrade.automationButton] == WorkerUpgrade.UpgradeStatus.Enabled)
         {
             if (!ticking && keepWorking)
             {
@@ -48,15 +48,21 @@ public class Worker : MonoBehaviour
 
         while(elapsedTime < (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier()))
         {
+            if (workerUpgrade.buttonStatuses[workerUpgrade.automationButton] == WorkerUpgrade.UpgradeStatus.Disabled)
+                break;
+
             pWidth = Mathf.Lerp(0, 100, elapsedTime / (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier()));
             progressBarVisualElement.style.width = new Length(pWidth, LengthUnit.Percent);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        AddByte(productionAmount);
         gameManager.uiManager.UpdateLevelCompletionText();
-        elapsedTime = 0;
+        if(elapsedTime > (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier()))
+        {
+            AddByte(productionAmount);
+            elapsedTime = 0;
+        }
         ticking = false;
     }
 
@@ -65,7 +71,7 @@ public class Worker : MonoBehaviour
     {
         if (keepWorking)
         {
-            if (gameManager.automationEnabled)
+            if (gameManager.automationEnabled && workerUpgrade.buttonStatuses[workerUpgrade.automationButton] == WorkerUpgrade.UpgradeStatus.Enabled)
             {
                 elapsedTime += (ManualTickPercent() / 100f) * (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier());
             }
@@ -74,9 +80,12 @@ public class Worker : MonoBehaviour
                 var prevWidth = progressBarVisualElement.style.width.value;
                 var newWidth = prevWidth.value + new Length(ManualTickPercent(), LengthUnit.Percent).value;
 
+                elapsedTime += (ManualTickPercent() / 100f) * (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier());
+
                 if (newWidth >= 100.0f && keepWorking)
                 {
                     AddByte(productionAmount);
+                    elapsedTime = 0;
                     newWidth = newWidth - 100f;
                 }
 

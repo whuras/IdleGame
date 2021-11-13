@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour
     };
 
     // Worker Upgarde Button Tooltip Texts
-    private string[,] workerUpgradeButtonTooltipTexts = new string[4, 6]
+    private string[,] workerUpgradeButtonTooltipTexts = new string[4, 8]
     {
         {   // 0 Production Texts
             "productionMultiplierTooltip", // 0 Tooltip Name
@@ -75,6 +75,8 @@ public class UIManager : MonoBehaviour
             "UNLOCKED IS INVALID STATUS FOR PROD MULTI", // 3 Unlocked CAN NOT afford
             "Increase Production\n(The tick amount for manual clicking)", // 4 Purchased CAN afford
             "Increase Production\nYou need more Pixel Points to buy this", // 5 Purchased CAN NOT afford
+            "INVALID", // Enabled
+            "INVALID" // Diabled
         },
         {   // 1 Automation Texts
             "automationTooltip", // 0 Tooltip Name
@@ -83,6 +85,8 @@ public class UIManager : MonoBehaviour
             "Automation\nYou need more Pixel Points to buy this", // 3 Unlocked CAN NOT afford
             "Automation Enabled", // 4 Purchased CAN afford
             "Automation Enabled", // 5 Purchased CAN NOT afford
+            "Click to DISABLE Automation", // Enabled
+            "Click to ENABLE Automation" // Diabled
         },
         {   // 2 TickSpeed Texts
             "autoTickSpeedTootip", // 0 Tooltip Name
@@ -91,6 +95,8 @@ public class UIManager : MonoBehaviour
             "Increase Speed\nYou need more Pixel Points to buy this", // 3 Unlocked CAN NOT afford
             "Increase Speed\n(The speed of automated filling)", // 4 Purchased CAN afford
             "Increase Speed\nYou need more Pixel Points to buy this", // 5 Purchased CAN NOT afford
+            "INVALID", // Enabled
+            "INVALID" // Diabled
         },
         {   // 3 Recycle Texts
             "recycleTooltip", // 0 Tooltip Name
@@ -99,6 +105,8 @@ public class UIManager : MonoBehaviour
             "Enable Recycle\nYou need more Pixel Points to buy this", // 3 Unlocked CAN NOT afford
             "Increase Recycle Amount", // 4 Purchased CAN afford
             "Increase Recycle Amount\nYou need more Pixel Points to buy this", // 5 Purchased CAN NOT afford
+            "Click to DISABLE Recycle", // Enabled
+            "Click to ENABLE Recycle" // Diabled
         }
     };
 
@@ -300,6 +308,8 @@ public class UIManager : MonoBehaviour
         wur = gameManager.workerManager.workers[0].GetComponent<WorkerUpgrade>();
         wur.workerButton = rootVisualElement.Q<Button>("Button_R");
         wur.automationButton = rootVisualElement.Q<Button>("AutomateButton_R");
+        wur.automationEnabledIcon = wur.automationButton.Q<VisualElement>("IconAutomationEnabled");
+        wur.automationDisabledIcon = wur.automationButton.Q<VisualElement>("IconAutomationDisabled");
         wur.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_R");
         wur.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_R");
         wur.recycleButton = rootVisualElement.Q<Button>("RecycleButton_R");
@@ -308,6 +318,8 @@ public class UIManager : MonoBehaviour
         wug = gameManager.workerManager.workers[1].GetComponent<WorkerUpgrade>();
         wug.workerButton = rootVisualElement.Q<Button>("Button_G");
         wug.automationButton = rootVisualElement.Q<Button>("AutomateButton_G");
+        wug.automationEnabledIcon = wug.automationButton.Q<VisualElement>("IconAutomationEnabled");
+        wug.automationDisabledIcon = wug.automationButton.Q<VisualElement>("IconAutomationDisabled");
         wug.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_G");
         wug.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_G");
         wug.recycleButton = rootVisualElement.Q<Button>("RecycleButton_G");
@@ -316,6 +328,8 @@ public class UIManager : MonoBehaviour
         wub = gameManager.workerManager.workers[2].GetComponent<WorkerUpgrade>();
         wub.workerButton = rootVisualElement.Q<Button>("Button_B");
         wub.automationButton = rootVisualElement.Q<Button>("AutomateButton_B");
+        wub.automationEnabledIcon = wub.automationButton.Q<VisualElement>("IconAutomationEnabled");
+        wub.automationDisabledIcon = wub.automationButton.Q<VisualElement>("IconAutomationDisabled");
         wub.productionMultiplierButton = rootVisualElement.Q<Button>("IncreaseProductionButton_B");
         wub.autoTickSpeedMuiltiplierButton = rootVisualElement.Q<Button>("IncreaseSpeedButton_B");
         wub.recycleButton = rootVisualElement.Q<Button>("RecycleButton_B");
@@ -541,6 +555,16 @@ public class UIManager : MonoBehaviour
                     workerButton.SetEnabled(false);
                     gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 5]);
                 }
+            }
+            else if (buttonStatus == WorkerUpgrade.UpgradeStatus.Enabled)
+            {
+                workerButton.SetEnabled(true);
+                gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 6]);
+            }
+            else if ( buttonStatus == WorkerUpgrade.UpgradeStatus.Disabled)
+            {
+                workerButton.SetEnabled(true);
+                gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 7]);
             }
         }
     }

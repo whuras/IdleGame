@@ -18,6 +18,8 @@ public class WorkerUpgrade : MonoBehaviour
 
     [Header("Automation Unlock")]
     public Button automationButton; // enabled automation
+    public VisualElement automationEnabledIcon;
+    public VisualElement automationDisabledIcon;
     public int automationCost = 10;
     
     [Header("Automation Upgrades")]
@@ -38,7 +40,9 @@ public class WorkerUpgrade : MonoBehaviour
     {
         Locked, // needs to be unlocked via Prestige Store
         Unlocked, // unlocked but not yet purchased
-        Purchased // implies unlocked
+        Purchased, // implies unlocked
+        Enabled,
+        Disabled
     }
 
     private void Awake()
@@ -50,26 +54,31 @@ public class WorkerUpgrade : MonoBehaviour
     public void UnlockAutomation()
     {
         buttonStatuses[automationButton] = UpgradeStatus.Purchased;
-        AutomationButton();
         buttonStatuses[autoTickSpeedMuiltiplierButton] = UpgradeStatus.Unlocked;
+        automationEnabledIcon.style.display = DisplayStyle.None;
+        automationDisabledIcon.style.display = DisplayStyle.Flex;
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
     public void AutomationButton()
     {
-        if (buttonStatuses[automationButton] == UpgradeStatus.Purchased)
-            return;
-
-        if (gameManager.currencyManager.pixelPoints >= automationCost)
+        if(buttonStatuses[automationButton] == UpgradeStatus.Enabled)
         {
-            buttonStatuses[automationButton] = UpgradeStatus.Purchased;
-            gameManager.automationEnabled = true;
-            gameManager.currencyManager.PurchaseWithPixelPoints(automationCost);
-            automationButton.SetEnabled(false);
+            buttonStatuses[automationButton] = UpgradeStatus.Disabled;
+            automationEnabledIcon.style.display = DisplayStyle.None;
+            automationDisabledIcon.style.display = DisplayStyle.Flex;
         }
-        else
+        else if (buttonStatuses[automationButton] == UpgradeStatus.Disabled)
         {
-            Debug.Log("Not enough Pixel Points to buy Automation.");
+            buttonStatuses[automationButton] = UpgradeStatus.Enabled;
+            automationEnabledIcon.style.display = DisplayStyle.Flex;
+            automationDisabledIcon.style.display = DisplayStyle.None;
+        }
+        else if (buttonStatuses[automationButton] == UpgradeStatus.Purchased)
+        {
+            buttonStatuses[automationButton] = UpgradeStatus.Enabled;
+            automationEnabledIcon.style.display = DisplayStyle.Flex;
+            automationDisabledIcon.style.display = DisplayStyle.None;
         }
 
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
