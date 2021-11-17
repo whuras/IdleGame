@@ -46,7 +46,15 @@ public class PrestigeManager : MonoBehaviour
 
     public void PrestigeRecycleButton()
     {
+        if (gameManager.currencyManager.prestigePoints >= prestigeRecycleCost)
+        {
+            gameManager.currencyManager.PurchaseWithPrestigePoints(prestigeRecycleCost);
+            prestigeRecycleButton.SetEnabled(false);
+            gameManager.recycleEnabled = true;
 
+            foreach (Worker worker in gameManager.workerManager.workers)
+                worker.workerUpgrade.UnlockRecycle();
+        }
     }
 
     public void PrestigeCustomeStartAndEndButton()

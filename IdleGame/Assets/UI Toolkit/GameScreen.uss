@@ -236,6 +236,8 @@
     flex-shrink: 1;
     min-width: 30%;
     max-width: 30%;
+    align-items: stretch;
+    white-space: nowrap;
 }
 
 .unity-slider-int > .unity-label {
@@ -247,18 +249,18 @@
 }
 
 .unity-slider-int > .unity-base-slider__input > .unity-text-field > .unity-text-field__input {
-    -unity-background-image-tint-color: rgba(255, 255, 255, 255);
-    background-color: rgba(168, 218, 220, 255);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgb(168, 218, 220);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-left-color: rgba(241, 250, 238, 255);
-    border-right-color: rgba(241, 250, 238, 255);
-    border-top-color: rgba(241, 250, 238, 255);
-    border-bottom-color: rgba(241, 250, 238, 255);
+    border-left-color: rgb(241, 250, 238);
+    border-right-color: rgb(241, 250, 238);
+    border-top-color: rgb(241, 250, 238);
+    border-bottom-color: rgb(241, 250, 238);
     font-size: 10px;
-    color: rgba(0, 0, 0, 255);
+    color: rgb(0, 0, 0);
     display: flex;
     overflow: visible;
     visibility: visible;
@@ -276,11 +278,11 @@
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    background-color: rgba(168, 218, 220, 255);
-    border-left-color: rgba(241, 250, 238, 255);
-    border-right-color: rgba(241, 250, 238, 255);
-    border-top-color: rgba(241, 250, 238, 255);
-    border-bottom-color: rgba(241, 250, 238, 255);
+    background-color: rgb(168, 218, 220);
+    border-left-color: rgb(241, 250, 238);
+    border-right-color: rgb(241, 250, 238);
+    border-top-color: rgb(241, 250, 238);
+    border-bottom-color: rgb(241, 250, 238);
 }
 
 .unity-slider-int > .unity-base-slider__input > .unity-base-slider__drag-container > .unity-base-slider__tracker {
@@ -288,11 +290,11 @@
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    background-color: rgba(96, 126, 128, 255);
-    border-left-color: rgba(241, 250, 238, 255);
-    border-right-color: rgba(241, 250, 238, 255);
-    border-top-color: rgba(241, 250, 238, 255);
-    border-bottom-color: rgba(241, 250, 238, 255);
+    background-color: rgb(96, 126, 128);
+    border-left-color: rgb(241, 250, 238);
+    border-right-color: rgb(241, 250, 238);
+    border-top-color: rgb(241, 250, 238);
+    border-bottom-color: rgb(241, 250, 238);
 }
 
 .color-picker-container {
@@ -301,10 +303,10 @@
     margin-top: 0;
     margin-bottom: 0;
     background-color: rgb(168, 218, 220);
-    border-left-color: rgba(241, 250, 238, 255);
-    border-right-color: rgba(241, 250, 238, 255);
-    border-top-color: rgba(241, 250, 238, 255);
-    border-bottom-color: rgba(241, 250, 238, 255);
+    border-left-color: rgb(241, 250, 238);
+    border-right-color: rgb(241, 250, 238);
+    border-top-color: rgb(241, 250, 238);
+    border-bottom-color: rgb(241, 250, 238);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;

@@ -29,10 +29,10 @@ public class WorkerUpgrade : MonoBehaviour
     public int AutoTickSpeedMultiplierCost() => (int) Mathf.Pow(2, autoTickSpeedLevel - 1);
 
     [Header("Recycle Upgrades")]
-    public bool recycleUnlocked = false;
     public Button recycleButton;
-    public float recycleMultiplier = 1;
-    public int recycleMultiplierCost = 10;
+    public int recycleLevel = 1;
+    public int RecycleMultiplier() => recycleLevel; 
+    public int RecycleMultiplierCost() => (int)Mathf.Pow(2, recycleLevel - 1);
 
     // Other
     public Dictionary<Button, UpgradeStatus> buttonStatuses = new Dictionary<Button, UpgradeStatus>();
@@ -84,9 +84,20 @@ public class WorkerUpgrade : MonoBehaviour
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
+    public void UnlockRecycle()
+    {
+        buttonStatuses[recycleButton] = UpgradeStatus.Purchased;
+        gameManager.uiManager.UpdateWorkerUpgradeButtons();
+    }
+
     public void RecycleButton()
     {
-        Debug.Log("Recycle for " + transform.name + " clicked.");
+        if(buttonStatuses[recycleButton] == UpgradeStatus.Purchased && gameManager.currencyManager.pixelPoints >= RecycleMultiplierCost())
+        {
+            gameManager.currencyManager.PurchaseWithPixelPoints(RecycleMultiplierCost());
+            recycleLevel += 1;
+        }
+
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }
 
@@ -96,10 +107,6 @@ public class WorkerUpgrade : MonoBehaviour
         {
             gameManager.currencyManager.PurchaseWithPixelPoints(ProductionMultiplierCost());
             productionLevel += 1;
-        }
-        else
-        {
-            Debug.Log("Not enough Pixel Points to buy Automated Prod. Increase.");
         }
 
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
@@ -124,8 +131,7 @@ public class WorkerUpgrade : MonoBehaviour
     {
         productionLevel = 1;
         autoTickSpeedLevel = 1;
-
-        recycleMultiplier = 1;
+        recycleLevel = 1;
 
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }

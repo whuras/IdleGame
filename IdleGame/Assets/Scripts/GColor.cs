@@ -29,34 +29,26 @@ public class GColor
         }
     }
 
-    public void IncrementRValue(int amount)
+    public void IncrementValue(Worker.Type type, int amount)
     {
-        if (isRGoalReached)
-            return;
-
-        rValue += amount;
-        if (rValue > goalValues.Item1)
-            rValue = goalValues.Item1;
-    }
-
-    public void IncrementGValue(int amount)
-    {
-        if (isGGoalReached)
-            return;
-
-        gValue += amount;
-        if (gValue > goalValues.Item2)
-            gValue = goalValues.Item2;
-    }
-
-    public void IncrementBValue(int amount)
-    {
-        if (isBGoalReached)
-            return;
-
-        bValue += amount;
-        if (bValue > goalValues.Item3)
-            bValue = goalValues.Item3;
+        if(!isRGoalReached && type == Worker.Type.Red)
+        {
+            rValue += amount;
+            if (rValue > goalValues.Item1)
+                rValue = goalValues.Item1;
+        }
+        else if (!isGGoalReached && type == Worker.Type.Green)
+        {
+            gValue += amount;
+            if (gValue > goalValues.Item2)
+                gValue = goalValues.Item2;
+        }
+        else if (!isBGoalReached && type == Worker.Type.Blue)
+        {
+            bValue += amount;
+            if (bValue > goalValues.Item3)
+                bValue = goalValues.Item3;
+        }
     }
 
     public GColor()
