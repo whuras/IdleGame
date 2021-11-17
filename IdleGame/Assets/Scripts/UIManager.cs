@@ -43,19 +43,19 @@ public class UIManager : MonoBehaviour
             "prestigeAutomationTooltip",  // 0 Tooltip Name
             "Buy to enable Automation", // 1 Can Afford
             "Buy to enable Automation\nYou need more Prestige Points to buy this", // 2 Can NOT Afford
-            "Automation Purchased", // 3 Purchased
+            "Automation already purchased", // 3 Purchased
         },
         { // 1 Recycle Texts
             "prestigeRecycleTooltip",  // 0 Tooltip Name
             "Buy to enable Recycle", // 1 Can Afford
             "Buy to enable Recycle\nYou need more Prestige Points to buy this", // 2 Can NOT Afford
-            "Recycle Purchased", // 3 Purchased
+            "Recycle already purchased", // 3 Purchased
         },
         { // 2 Custom Start and End Texts
             "prestigeCustomStartAndEndTooltip",  // 0 Tooltip Name
             "Buy to enable custom start and end colours on game restart", // 1 Can Afford
             "Buy to enable custom start and end colours on game restart\nYou need more Prestige Points to buy this", // 2 Can NOT Afford
-            "Custom Colors Purchased", // 3 Purchased
+            "Custom Colors already purchased", // 3 Purchased
         },
         { // 3 Increase Pixel Points Texts
             "prestigeIncreasePixelPointsTooltip",  // 0 Tooltip Name
@@ -459,7 +459,7 @@ public class UIManager : MonoBehaviour
             UpdateTooltipText(prestigeButtonTooltipTexts[2, 0], pm.prestigeCustomStartAndEndButton, prestigeButtonTooltipTexts[2, 2]);
         }
 
-        // IncreasePixelPoints Button - NOT IMPLEMENTED
+        // IncreasePixelPoints Button
         if (gameManager.currencyManager.prestigePoints >= pm.prestigeIncreasePixelPointsCost)
         {
             pm.prestigeIncreasePixelPointsButton.SetEnabled(true);
@@ -478,9 +478,13 @@ public class UIManager : MonoBehaviour
         {
             WorkerUpgrade wupg = worker.workerUpgrade;
             wupg.automationButton.Q<Label>().text = ""; //wupg.buttonStatuses[wupg.automationButton] == WorkerUpgrade.UpgradeStatus.Purchased ? "" : "Cost: " + wupg.automationCost.ToString();
-            wupg.productionMultiplierButton.Q<Label>().text = "Level: " + wupg.productionLevel.ToString() + "\nCost: " + wupg.ProductionMultiplierCost().ToString();
             wupg.autoTickSpeedMuiltiplierButton.Q<Label>().text = "Level: " + wupg.autoTickSpeedLevel.ToString() + "\nCost: " + wupg.AutoTickSpeedMultiplierCost().ToString();
             wupg.recycleButton.Q<Label>().text = "Level: " + wupg.recycleLevel.ToString() + "\nCost: " + wupg.RecycleMultiplierCost().ToString();
+
+            if (wupg.productionLevel < 10)
+                wupg.productionMultiplierButton.Q<Label>().text = "Level: " + wupg.productionLevel.ToString() + "\nCost: " + wupg.ProductionMultiplierCost().ToString();
+            else
+                wupg.productionMultiplierButton.Q<Label>().text = "Level: MAX";
         }
     }
 

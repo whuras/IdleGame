@@ -14,7 +14,7 @@ public class WorkerUpgrade : MonoBehaviour
     public Button productionMultiplierButton;
     public int productionLevel = 1;
     public float ProductionMultiplier() => Mathf.Min(10, productionLevel); // % of the bar to fill when manually clicking (multiplied in Worker by starting amount (10))
-    public int ProductionMultiplierCost() => (int)Mathf.Pow(2, productionLevel - 1);
+    public int ProductionMultiplierCost() => productionLevel < 10 ? (int)Mathf.Pow(2, productionLevel - 1) : 0;
 
     [Header("Automation Unlock")]
     public Button automationButton; // enabled automation
@@ -25,7 +25,7 @@ public class WorkerUpgrade : MonoBehaviour
     [Header("Automation Upgrades")]
     public Button autoTickSpeedMuiltiplierButton; // speed of tick 
     public int autoTickSpeedLevel = 1;
-    public float AutoTickSpeedMultiplier() => Mathf.Max(0.1f, 1 - autoTickSpeedLevel * 0.1f);
+    public float AutoTickSpeedMultiplier() =>1f / autoTickSpeedLevel;
     public int AutoTickSpeedMultiplierCost() => (int) Mathf.Pow(2, autoTickSpeedLevel - 1);
 
     [Header("Recycle Upgrades")]
@@ -103,7 +103,7 @@ public class WorkerUpgrade : MonoBehaviour
 
     public void ProductionMultiplierButton()
     {
-        if (gameManager.currencyManager.pixelPoints >= ProductionMultiplierCost())
+        if (productionLevel < 10 && gameManager.currencyManager.pixelPoints >= ProductionMultiplierCost())
         {
             gameManager.currencyManager.PurchaseWithPixelPoints(ProductionMultiplierCost());
             productionLevel += 1;
