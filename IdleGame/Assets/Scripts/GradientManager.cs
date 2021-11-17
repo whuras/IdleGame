@@ -111,46 +111,50 @@ public class GradientManager : MonoBehaviour
             instance = this;
     }
 
-    public void SortRQueue()
+    public List<GColor> GetQueue(Worker.Type type)
     {
-        for (int i = 0; i < RQueue.Count; i++)
+        if (type == Worker.Type.Red)
+            return RQueue;
+        else if (type == Worker.Type.Green)
+            return GQueue;
+        else if (type == Worker.Type.Blue)
+            return BQueue;
+
+        return null;
+    }
+
+    public void SortQueue(Worker.Type type)
+    {
+        List<GColor> queue = null;
+        if (type == Worker.Type.Red)
+            queue = RQueue;
+        else if (type == Worker.Type.Green)
+            queue = GQueue;
+        else if (type == Worker.Type.Blue)
+            queue = BQueue;
+
+        for (int i = 0; i < queue.Count; i++)
         {
-            GColor gc = RQueue[i];
-            if (gc.goalValues.Item1 - gc.rValue <= 0)
+            GColor gc = queue[i];
+
+            if (type == Worker.Type.Red && gc.goalValues.Item1 - gc.rValue <= 0)
             {
                 gc.isRGoalReached = true;
                 gc.CheckGoal();
-                RQueue.Remove(gc);
+                queue.Remove(gc);
             }
-        }
-    }
-
-    public void SortGQueue()
-    {
-        for (int i = 0; i < GQueue.Count; i++)
-        {
-            GColor gc = GQueue[i];
-            if (gc.goalValues.Item2 - gc.gValue <= 0)
+            else if (type == Worker.Type.Green && gc.goalValues.Item2 - gc.gValue <= 0)
             {
                 gc.isGGoalReached = true;
                 gc.CheckGoal();
-                GQueue.Remove(gc);
+                queue.Remove(gc);
             }
-        }
-    }
-
-    public void SortBQueue()
-    {
-        for (int i = 0; i < BQueue.Count; i++)
-        {
-            GColor gc = BQueue[i];
-            if (gc.goalValues.Item3 - gc.bValue <= 0)
+            else if (type == Worker.Type.Blue && gc.goalValues.Item3 - gc.bValue <= 0)
             {
                 gc.isBGoalReached = true;
                 gc.CheckGoal();
-                BQueue.Remove(gc);
+                queue.Remove(gc);
             }
-
         }
     }
 }

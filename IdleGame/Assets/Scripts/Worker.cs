@@ -7,6 +7,7 @@ public class Worker : MonoBehaviour
 {
     public GameManager gameManager;
     public WorkerUpgrade workerUpgrade;
+    public Type myType;
 
     public VisualElement progressBarVisualElement;
 
@@ -25,6 +26,12 @@ public class Worker : MonoBehaviour
     public float autoTickSpeed = 1; // how many seconds to fill the bar
     public bool ticking = false;
 
+    public enum Type
+    {
+        Red,
+        Green,
+        Blue
+    }
 
     private void Update()
     {
@@ -102,49 +109,34 @@ public class Worker : MonoBehaviour
 
     public void AddByte(int byteAmount)
     {
-        if (this == gameManager.workerManager.workers[0])
+        List<GColor> queue = gameManager.gradientManager.GetQueue(myType);
+        if (queue.Count > 0)
         {
-            List<GColor> queue = gameManager.gradientManager.RQueue;
-            if (queue.Count > 0)
-            {
-                queue[0].IncrementRValue(byteAmount);
-                gameManager.uiManager.UpdateVEColor(queue[0].i, queue[0].j);
-                gameManager.gradientManager.SortRQueue();
-            }
+            queue[0].IncrementValue(myType, byteAmount);
+            gameManager.uiManager.UpdateVEColor(queue[0].i, queue[0].j);
+            gameManager.gradientManager.SortQueue(myType);
+        }
 
-            if(queue.Count <= 0)
-                keepWorking = false;
-        }
-        else if (this == gameManager.workerManager.workers[1])
+        if (keepWorking && gameManager.recycleEnabled)
         {
-            List<GColor> queue = gameManager.gradientManager.GQueue;
-            if (queue.Count > 0)
+            System.Array values = System.Enum.GetValues(typeof(Type));
+            for(int i = 0; i < workerUpgrade.recycleLevel; i++)
             {
-                queue[0].IncrementGValue(byteAmount);
-                gameManager.uiManager.UpdateVEColor(queue[0].i, queue[0].j);
-                gameManager.gradientManager.SortGQueue();
-            }
+                System.Random rnd = new System.Random();
+                Type rndType = (Type) rnd.Next(values.Length);
+                List<GColor> recycleQueue = gameManager.gradientManager.GetQueue(rndType);
 
-            if (queue.Count <= 0)
-                keepWorking = false;
-        }
-        else if (this == gameManager.workerManager.workers[2])
-        {
-            List<GColor> queue = gameManager.gradientManager.BQueue;
-            if (queue.Count > 0)
-            {
-                queue[0].IncrementBValue(byteAmount);
-                gameManager.uiManager.UpdateVEColor(queue[0].i, queue[0].j);
-                gameManager.gradientManager.SortBQueue();
+                if (recycleQueue.Count > 0)
+                {
+                    recycleQueue[0].IncrementValue(rndType, byteAmount);
+                    gameManager.uiManager.UpdateVEColor(recycleQueue[0].i, recycleQueue[0].j);
+                    gameManager.gradientManager.SortQueue(rndType);
+                }
             }
+        }
 
-            if (queue.Count <= 0)
-                keepWorking = false;
-        }
-        else
-        {
-            Debug.LogError("Worker->AddByte: Invalid worker.");
-        }
+        if (queue.Count <= 0)
+            keepWorking = false;
 
         gameManager.uiManager.UpdateWorkerUpgradeButtons();
     }

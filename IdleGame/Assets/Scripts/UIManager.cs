@@ -425,18 +425,18 @@ public class UIManager : MonoBehaviour
             UpdateTooltipText(prestigeButtonTooltipTexts[0, 0], pm.prestigeAutomationButton, prestigeButtonTooltipTexts[0, 2]);
         }
 
-        // Recycle Button - NOT IMPLEMENTED
+        // Recycle Button
         if (gameManager.recycleEnabled)
         {
             pm.prestigeRecycleButton.SetEnabled(false);
             UpdateTooltipText(prestigeButtonTooltipTexts[1, 0], pm.prestigeRecycleButton, prestigeButtonTooltipTexts[1, 3]);
         }
-        else if (false)
+        else if (gameManager.currencyManager.prestigePoints >= pm.prestigeRecycleCost)
         {
             pm.prestigeRecycleButton.SetEnabled(true);
             UpdateTooltipText(prestigeButtonTooltipTexts[1, 0], pm.prestigeRecycleButton, prestigeButtonTooltipTexts[1, 1]);
         }
-        else if(false)
+        else
         {
             pm.prestigeRecycleButton.SetEnabled(false);
             UpdateTooltipText(prestigeButtonTooltipTexts[1, 0], pm.prestigeRecycleButton, prestigeButtonTooltipTexts[1, 2]);
@@ -478,9 +478,9 @@ public class UIManager : MonoBehaviour
         {
             WorkerUpgrade wupg = worker.workerUpgrade;
             wupg.automationButton.Q<Label>().text = ""; //wupg.buttonStatuses[wupg.automationButton] == WorkerUpgrade.UpgradeStatus.Purchased ? "" : "Cost: " + wupg.automationCost.ToString();
-            wupg.productionMultiplierButton.Q<Label>().text = "Level: " + wupg.productionLevel.ToString() + "\n" + "Cost: " + wupg.ProductionMultiplierCost().ToString();
-            wupg.autoTickSpeedMuiltiplierButton.Q<Label>().text = "Level: " + wupg.autoTickSpeedLevel.ToString() + "\n" + "Cost: " + wupg.AutoTickSpeedMultiplierCost().ToString();
-            wupg.recycleButton.Q<Label>().text = "Level: 0\nCost: " + wupg.recycleMultiplierCost.ToString();
+            wupg.productionMultiplierButton.Q<Label>().text = "Level: " + wupg.productionLevel.ToString() + "\nCost: " + wupg.ProductionMultiplierCost().ToString();
+            wupg.autoTickSpeedMuiltiplierButton.Q<Label>().text = "Level: " + wupg.autoTickSpeedLevel.ToString() + "\nCost: " + wupg.AutoTickSpeedMultiplierCost().ToString();
+            wupg.recycleButton.Q<Label>().text = "Level: " + wupg.recycleLevel.ToString() + "\nCost: " + wupg.RecycleMultiplierCost().ToString();
         }
     }
 
@@ -488,8 +488,8 @@ public class UIManager : MonoBehaviour
     {
         PrestigeManager pm = gameManager.prestigeManager;
 
-        pm.prestigeAutomationButton.Q<Label>().text = "Unlock Automation\nCost: " + pm.prestigeAutomationCost.ToString();
-        pm.prestigeRecycleButton.Q<Label>().text = "Unlock Recycle\nCost: " + pm.prestigeRecycleCost.ToString();
+        pm.prestigeAutomationButton.Q<Label>().text = "Unlock Automation\nCost: " + pm.prestigeAutomationCost.ToString() + "\nAutomation will fill the bar without clicking.";
+        pm.prestigeRecycleButton.Q<Label>().text = "Unlock Recycle\nCost: " + pm.prestigeRecycleCost.ToString() + "\nRecycle adds an extra random red, green, or blue pixel to the grid every time the bar fills up.";
         pm.prestigeCustomStartAndEndButton.Q<Label>().text = "Unlock Custom Start\nand End Colors\nCost: " + pm.prestigeCustomStartAndEndCost.ToString();
         pm.prestigeIncreasePixelPointsButton.Q<Label>().text = "Increase Starting Pixel\nPoints +1\n(Current: " + gameManager.startingPixelPoints + ")\nCost: " + pm.prestigeIncreasePixelPointsCost.ToString();
     }
@@ -514,7 +514,7 @@ public class UIManager : MonoBehaviour
         costs.Add(workerUpgradeButtonTooltipTexts[0, 0], wupg.ProductionMultiplierCost());
         costs.Add(workerUpgradeButtonTooltipTexts[1, 0], wupg.automationCost);
         costs.Add(workerUpgradeButtonTooltipTexts[2, 0], wupg.AutoTickSpeedMultiplierCost());
-        costs.Add(workerUpgradeButtonTooltipTexts[3, 0], wupg.recycleMultiplierCost);
+        costs.Add(workerUpgradeButtonTooltipTexts[3, 0], wupg.RecycleMultiplierCost());
 
         for (int i = 0; i < buttons.Length; i++)
         {
