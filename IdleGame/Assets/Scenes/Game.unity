@@ -1107,6 +1107,10 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: automationCost
       value: 0
       objectReference: {fileID: 0}
@@ -1124,7 +1128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: autoTickSpeedLevel
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3090018165371875059, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: automationUnlocked
@@ -1155,6 +1159,10 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: automationCost
       value: 0
       objectReference: {fileID: 0}
@@ -1172,7 +1180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: autoTickSpeedLevel
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4798849379389787695, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: automationUnlocked
@@ -1303,6 +1311,10 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
+      propertyPath: recycleLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: automationCost
       value: 0
       objectReference: {fileID: 0}
@@ -1320,7 +1332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: autoTickSpeedLevel
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7433255628836749158, guid: ed5fbe7432e3f77468ddda5d6193e51b, type: 3}
       propertyPath: automationUnlocked
@@ -1424,6 +1436,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4543459130536245706, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
+      propertyPath: recycleEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543459130536245706, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
       propertyPath: currencyManager
       value: 
       objectReference: {fileID: 1965647943}
@@ -1442,6 +1458,10 @@ PrefabInstance:
     - target: {fileID: 4543459130536245706, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
       propertyPath: startColor.rgba
       value: 65300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543459130536245706, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
+      propertyPath: automationEnabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4543459130536245706, guid: e8b6f9bfd8f44ff4ca705e3f69910c1a, type: 3}
       propertyPath: startingPixelPoints
@@ -1469,6 +1489,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1456697863}
+    - target: {fileID: 5692372720282536337, guid: f5243808095a192418453c1d701f5e09, type: 3}
+      propertyPath: givePixelPoints
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 5692372720282536342, guid: f5243808095a192418453c1d701f5e09, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1578,6 +1602,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1456697863}
+    - target: {fileID: 7536831083377320772, guid: 061239a690d11e94da9e723f4da704df, type: 3}
+      propertyPath: prestigeRecycleCost
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7536831083377320772, guid: 061239a690d11e94da9e723f4da704df, type: 3}
       propertyPath: prestigeAutomationCost
       value: 2

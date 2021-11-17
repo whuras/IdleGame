@@ -2,8 +2,8 @@
     <Style src="project://database/Assets/UI%20Toolkit/GameScreen.uss?fileID=7433441132597879392&amp;guid=d6484c06daa2b4140904e84dd8c95c97&amp;type=3#GameScreen" />
     <ui:VisualElement name="ContainerVisualElement" style="justify-content: space-between; height: 100%; align-items: stretch; position: relative; background-color: rgb(241, 250, 238);">
         <ui:VisualElement name="FoldoutContainerVisualElement" style="left: 12.5%; right: 12.5%; width: 75%; height: 100%; top: auto; bottom: auto; background-color: rgb(244, 157, 55); justify-content: flex-start; align-items: stretch;">
-            <ui:Foldout text="IDLE GRADIENT [ Z Pixels ]" name="FoldoutGame" value="true" style="background-color: rgb(106, 127, 219); -unity-text-align: middle-center; -unity-font-style: normal; white-space: normal; bottom: auto; justify-content: flex-start; align-items: stretch; height: auto;">
-                <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" show-vertical-scroller="true" style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; margin-left: -15px;">
+            <ui:Foldout text="IDLE GRADIENT [ Z Pixels ]" name="FoldoutGame" value="true" style="background-color: rgb(106, 127, 219); -unity-text-align: middle-center; -unity-font-style: normal; white-space: normal; bottom: auto; justify-content: flex-start; align-items: stretch; height: auto; flex-grow: 1; flex-shrink: 0;">
+                <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" show-vertical-scroller="true" style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; margin-left: -15px;">
                     <ui:Label text="xx / yy" display-tooltip-when-elided="true" name="LevelProgressLabel" />
                     <ui:VisualElement name="GradientVisualElement" class="pixel-color" style="background-color: rgb(55, 43, 53); width: 258px; height: 258px; margin-left: auto; align-items: stretch; margin-right: auto; margin-top: auto; margin-bottom: auto; flex-direction: row; flex-wrap: wrap; opacity: 1; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
                     <ui:VisualElement name="RGBWorkerVisualElement" style="flex-grow: 1; justify-content: flex-end;">
@@ -198,8 +198,21 @@
                 </ui:ScrollView>
             </ui:Foldout>
             <ui:Foldout text="SETTINGS" name="FoldoutSettings" value="false" style="align-items: stretch; background-color: rgb(255, 121, 104);">
-                <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgb(255, 221, 88); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
-                    <ui:Label text="Overall Progression" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
+                    <ui:Label text="Music and Sound" display-tooltip-when-elided="true" name="SettingsLabel1" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                    <ui:VisualElement />
+                    <ui:Label text="Save File" display-tooltip-when-elided="true" name="SettingsLabel2" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                    <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
+                        <ui:Button display-tooltip-when-elided="true" name="saveButton" class="worker-upgrade-button prestige-store-button">
+                            <ui:Label text="Save Game&#10;(Game automatically saves when a level is completed)" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
+                        </ui:Button>
+                        <ui:Button display-tooltip-when-elided="true" name="loadButton" class="worker-upgrade-button prestige-store-button">
+                            <ui:Label text="Load Game&#10;Load game from last save point" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
+                        </ui:Button>
+                        <ui:Button display-tooltip-when-elided="true" name="resetButton" class="worker-upgrade-button prestige-store-button" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:Label text="Reset Game" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
+                        </ui:Button>
+                    </ui:VisualElement>
                 </ui:ScrollView>
             </ui:Foldout>
         </ui:VisualElement>
