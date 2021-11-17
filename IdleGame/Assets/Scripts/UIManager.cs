@@ -126,6 +126,10 @@ public class UIManager : MonoBehaviour
     public Color32 startColor = Color.black;
     public Color32 endColor = Color.black;
 
+    // Save, Load, and Reset
+    private Button saveButton;
+    private Button loadButton;
+    private Button resetButton;
 
     private void Awake()
     {
@@ -158,6 +162,7 @@ public class UIManager : MonoBehaviour
     {
         AssignProgressUIComponents();
 
+        BindAndSetSettingsButtons();
         BindWorkerUpgradeButtons();
         BindPrestigeButtons();
         BindCustomStartEndColorElements();
@@ -171,6 +176,8 @@ public class UIManager : MonoBehaviour
 
         UpdateLevelCompletionText();
         InstantiateFoldouts();
+
+        gameManager.LoadSave();
     }
 
     private void AssignProgressUIComponents()
@@ -198,7 +205,19 @@ public class UIManager : MonoBehaviour
         {
             EnableRestartVisualElement(true);
             UpdateRestartButtonText();
+            gameManager.SaveGame();
         }
+    }
+
+    private void BindAndSetSettingsButtons()
+    {
+        saveButton = rootVisualElement.Q<Button>("saveButton");
+        loadButton = rootVisualElement.Q<Button>("loadButton");
+        resetButton = rootVisualElement.Q<Button>("resetButton");
+
+        saveButton.clickable.clicked += gameManager.SaveGame;
+        loadButton.clickable.clicked += gameManager.LoadSave;
+        resetButton.clickable.clicked += gameManager.ResetSaveFile;
     }
 
     public void BindRestartButton()
@@ -692,18 +711,18 @@ public class UIManager : MonoBehaviour
         gameFoldout = rootVisualElement.Q<Foldout>("FoldoutGame");
         prestigeStoreFoldout = rootVisualElement.Q<Foldout>("FoldoutStore");
         progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
-        //settingsFoldout = rootVisualElement.Q<Foldout>("FoldoutSettings");
+        settingsFoldout = rootVisualElement.Q<Foldout>("FoldoutSettings");
 
         foldouts.Add(gameFoldout);
         foldouts.Add(prestigeStoreFoldout);
         foldouts.Add(progressFoldout);
-        //foldouts.Add(settingsFoldout);
+        foldouts.Add(settingsFoldout);
 
 
         gameFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(gameFoldout));
         prestigeStoreFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(prestigeStoreFoldout));
         progressFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(progressFoldout));
-        //settingsFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(settingsFoldout));
+        settingsFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(settingsFoldout));
     }
 
     public void CloseOtherFoldouts(Foldout exceptThisOne)

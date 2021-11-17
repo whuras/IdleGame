@@ -198,8 +198,21 @@
                 </ui:ScrollView>
             </ui:Foldout>
             <ui:Foldout text="SETTINGS" name="FoldoutSettings" value="false" style="align-items: stretch; background-color: rgb(255, 121, 104);">
-                <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgb(255, 221, 88); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
-                    <ui:Label text="Overall Progression" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
+                    <ui:Label text="Music and Sound" display-tooltip-when-elided="true" name="SettingsLabel1" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                    <ui:VisualElement />
+                    <ui:Label text="Save File" display-tooltip-when-elided="true" name="SettingsLabel2" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                    <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
+                        <ui:Button display-tooltip-when-elided="true" name="saveButton" class="worker-upgrade-button prestige-store-button">
+                            <ui:Label text="Save Game&#10;(Game automatically saves when a level is completed)" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
+                        </ui:Button>
+                        <ui:Button display-tooltip-when-elided="true" name="loadButton" class="worker-upgrade-button prestige-store-button">
+                            <ui:Label text="Load Game&#10;Load game from last save point" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
+                        </ui:Button>
+                        <ui:Button display-tooltip-when-elided="true" name="resetButton" class="worker-upgrade-button prestige-store-button" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:Label text="Reset Game" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
+                        </ui:Button>
+                    </ui:VisualElement>
                 </ui:ScrollView>
             </ui:Foldout>
         </ui:VisualElement>

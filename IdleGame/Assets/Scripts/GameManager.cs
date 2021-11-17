@@ -3,9 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private int saveExists;
+    public int SaveExists
+    {
+        get => saveExists;
+        private set
+        {
+            saveExists = value;
+        }
+    }
+
     public static GameManager Instance { get => instance; }
     private static GameManager instance;
     public UIManager uiManager;
@@ -34,6 +45,62 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         GameSetup();
+    }
+
+    public void SaveGame()
+    {
+        saveExists = 1;
+
+        PlayerPrefs.SetInt("saveExists", 1);
+        PlayerPrefs.SetInt("automationEnabled", automationEnabled ? 1 : 0);
+        PlayerPrefs.SetInt("recycleEnabled", recycleEnabled ? 1 : 0);
+        PlayerPrefs.SetInt("customColorEnabled", customColorEnabled ? 1 : 0);
+        PlayerPrefs.SetInt("prestigePoints", currencyManager.prestigePoints);
+        PlayerPrefs.SetInt("gradientSize", Mathf.Max(1, size / 2));
+
+        PlayerPrefs.Save();
+        Debug.LogWarning("Game Saved!");
+    }
+
+    public void LoadSave()
+    {
+        if (PlayerPrefs.HasKey("saveExists"))
+        {
+            automationEnabled = PlayerPrefs.GetInt("automationEnabled") == 1 ? true : false;
+            recycleEnabled = PlayerPrefs.GetInt("recycleEnabled") == 1 ? true : false;
+            customColorEnabled = PlayerPrefs.GetInt("customColorEnabled") == 1 ? true : false;
+            currencyManager.prestigePoints = PlayerPrefs.GetInt("prestigePoints");
+            size = PlayerPrefs.GetInt("gradientSize");
+
+            UpdateFromLoad();
+            Debug.LogError("Game loaded from save file.");
+        }
+        else
+        {
+            Debug.LogError("Save does not exist!");
+        }
+    }
+
+    private void UpdateFromLoad()
+    {
+        foreach (Worker worker in workerManager.workers)
+        {
+            if (automationEnabled)
+                worker.workerUpgrade.UnlockAutomation();
+
+            if (recycleEnabled)
+                worker.workerUpgrade.UnlockRecycle();
+        }
+
+        uiManager.EnableRestartVisualElement(true);
+        uiManager.UpdateRestartButtonText();
+    }
+
+    public void ResetSaveFile()
+    {
+        PlayerPrefs.DeleteAll();
+        Debug.LogWarning("Save file has been deleted!");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void RandomColours()
