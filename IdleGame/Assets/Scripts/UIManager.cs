@@ -177,6 +177,7 @@ public class UIManager : MonoBehaviour
         UpdateLevelCompletionText();
         InstantiateFoldouts();
 
+
         gameManager.LoadSave();
     }
 
@@ -184,17 +185,10 @@ public class UIManager : MonoBehaviour
     {
         ProgressManager pm = gameManager.progressManager;
         pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
-        pm.rProgressLabel = rootVisualElement.Q<Label>("RProgressLabel");
-        pm.rProgressBarVisualElement = rootVisualElement.Q<VisualElement>("RWorkerOverallProgressBarVisualElement");
 
-        pm.gProgressLabel = rootVisualElement.Q<Label>("GProgressLabel");
-        pm.gProgressBarVisualElement = rootVisualElement.Q<VisualElement>("GWorkerOverallProgressBarVisualElement");
+        
 
-        pm.bProgressLabel = rootVisualElement.Q<Label>("BProgressLabel");
-        pm.bProgressBarVisualElement = rootVisualElement.Q<VisualElement>("BWorkerOverallProgressBarVisualElement");
-
-        pm.UpdateText();
-        pm.UpdateProgressBars();
+        pm.UpdateProgress();
     }
 
     public void UpdateLevelCompletionText()
@@ -242,9 +236,6 @@ public class UIManager : MonoBehaviour
 
     public void SetupToolTips()
     {
-        // Correct Foldout overflow which cannot be changed in ui builder which blocks tooltip visuals
-        rootVisualElement.Query("unity-content-viewport").ForEach( e => e.style.overflow = Overflow.Visible);
-
         // Worker Tooltips
         CreateTooltip("workerTooltip", wur.workerButton, "Click to add RED components to the gradient");
         CreateTooltip("workerTooltip", wug.workerButton, "Click to add GREEN components to the gradient");
@@ -718,11 +709,13 @@ public class UIManager : MonoBehaviour
         foldouts.Add(progressFoldout);
         foldouts.Add(settingsFoldout);
 
-
         gameFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(gameFoldout));
         prestigeStoreFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(prestigeStoreFoldout));
         progressFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(progressFoldout));
         settingsFoldout.RegisterValueChangedCallback(e => CloseOtherFoldouts(settingsFoldout));
+
+        // uss alterations
+        progressFoldout.Q<VisualElement>("unity-content").style.overflow = Overflow.Hidden;
     }
 
     public void CloseOtherFoldouts(Foldout exceptThisOne)
@@ -730,16 +723,9 @@ public class UIManager : MonoBehaviour
         foreach (Foldout foldout in foldouts)
         {
             if (foldout == exceptThisOne)
-            {
-                foldout.style.flexShrink = 0;
-                foldout.style.flexGrow = 1;
-            }
-            else
-            {
-                foldout.style.flexShrink = 1;
-                foldout.style.flexGrow = 0;
-                foldout.SetValueWithoutNotify(false);
-            }
+                continue;
+
+            foldout.SetValueWithoutNotify(false);
         }
     }
 
