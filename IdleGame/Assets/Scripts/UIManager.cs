@@ -131,6 +131,15 @@ public class UIManager : MonoBehaviour
     private Button loadButton;
     private Button resetButton;
 
+    // Progress
+    private VisualElement progressVE2x2;
+    private VisualElement progressVE4x4;
+    private VisualElement progressVE8x8;
+    private VisualElement progressVE16x16;
+    private VisualElement progressVE32x32;
+    private VisualElement progressVE64x64;
+
+
     private void Awake()
     {
         MaintainSingleInstance();
@@ -186,16 +195,61 @@ public class UIManager : MonoBehaviour
         ProgressManager pm = gameManager.progressManager;
         pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
 
-        
+        progressVE2x2 = rootVisualElement.Q<VisualElement>("ProgressVisualElement2x2").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE2x2.Q<Label>().text = "Level 1 - Tutorial";
 
-        pm.UpdateProgress();
+        progressVE4x4 = rootVisualElement.Q<VisualElement>("ProgressVisualElement4x4").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE4x4.Q<Label>().text = "Level 2 - Mix 'em Up";
+
+        progressVE8x8 = rootVisualElement.Q<VisualElement>("ProgressVisualElement8x8").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE8x8.Q<Label>().text = "Level 3";
+
+        progressVE16x16 = rootVisualElement.Q<VisualElement>("ProgressVisualElement16x16").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE16x16.Q<Label>().text = "Level 4";
+
+        progressVE32x32 = rootVisualElement.Q<VisualElement>("ProgressVisualElement32x32").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE32x32.Q<Label>().text = "Level 5";
+
+        progressVE64x64 = rootVisualElement.Q<VisualElement>("ProgressVisualElement64x64").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE64x64.Q<Label>().text = "Level 6";
+
+        for (int i = 0; i < pm.levelGoals.Count; i++)
+        {
+            Goal goal = pm.levelGoals[i];
+
+            VisualElement progressBlock = goal.blockVisualElement;
+            progressBlock.AddToClassList("color-block");
+            progressBlock.style.backgroundColor = Color.white;
+
+            Label lbl = new Label();
+            lbl.text = "(" + goal.color.r + ", " + goal.color.g + ", " + goal.color.b + ")";
+            progressBlock.Add(lbl);
+
+            switch (goal.level)
+            {
+                case 1:
+                    progressVE2x2.Add(progressBlock);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+            }
+
+        }
     }
 
     public void UpdateLevelCompletionText()
     {
         levelProgressionLabel.text = gameManager.gradientManager.numberCompleted + " / " + (gameManager.size * gameManager.size);
-        
-        if(gameManager.gradientManager.numberCompleted >= gameManager.size * gameManager.size)
+
+        if (gameManager.gradientManager.numberCompleted >= gameManager.size * gameManager.size)
         {
             EnableRestartVisualElement(true);
             UpdateRestartButtonText();
@@ -264,7 +318,7 @@ public class UIManager : MonoBehaviour
     public void UpdateTooltipText(string name, VisualElement parentVE, string tooltipText)
     {
         parentVE.Q<VisualElement>(name).Q<Label>().text = tooltipText;
-    } 
+    }
 
     public VisualElement CreateTooltip(string name, VisualElement parentVE, string tooltipText)
     {
@@ -295,7 +349,7 @@ public class UIManager : MonoBehaviour
         parentVE.RegisterCallback<MouseEnterEvent>(e => toolTip.style.visibility = Visibility.Visible);
         parentVE.RegisterCallback<MouseLeaveEvent>(e => toolTip.style.visibility = Visibility.Hidden);
 
-        UpdateTooltipText(name, parentVE, tooltipText);;
+        UpdateTooltipText(name, parentVE, tooltipText); ;
 
         return toolTip;
     }
@@ -347,7 +401,7 @@ public class UIManager : MonoBehaviour
 
     public void SetupWorkerUpgradeButtons()
     {
-        foreach(Worker worker in gameManager.workerManager.workers)
+        foreach (Worker worker in gameManager.workerManager.workers)
         {
             WorkerUpgrade wupg = worker.workerUpgrade;
 
@@ -411,7 +465,7 @@ public class UIManager : MonoBehaviour
         foreach (Worker worker in gameManager.workerManager.workers)
         {
             UpdateWorkerUpgradeButtonTooltipText(worker);
-        }   
+        }
     }
 
     public void UpdatePrestigeButtonDisplay()
@@ -424,7 +478,7 @@ public class UIManager : MonoBehaviour
             pm.prestigeAutomationButton.SetEnabled(false);
             UpdateTooltipText(prestigeButtonTooltipTexts[0, 0], pm.prestigeAutomationButton, prestigeButtonTooltipTexts[0, 3]);
         }
-        else if(gameManager.currencyManager.prestigePoints >= pm.prestigeAutomationCost)
+        else if (gameManager.currencyManager.prestigePoints >= pm.prestigeAutomationCost)
         {
             pm.prestigeAutomationButton.SetEnabled(true);
             UpdateTooltipText(prestigeButtonTooltipTexts[0, 0], pm.prestigeAutomationButton, prestigeButtonTooltipTexts[0, 1]);
@@ -575,7 +629,7 @@ public class UIManager : MonoBehaviour
                 workerButton.SetEnabled(true);
                 gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 6]);
             }
-            else if ( buttonStatus == WorkerUpgrade.UpgradeStatus.Disabled)
+            else if (buttonStatus == WorkerUpgrade.UpgradeStatus.Disabled)
             {
                 workerButton.SetEnabled(true);
                 gameManager.uiManager.UpdateTooltipText(tooltipName, workerButton, workerUpgradeButtonTooltipTexts[i, 7]);

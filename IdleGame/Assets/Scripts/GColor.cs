@@ -106,6 +106,11 @@ public class GColor
             );
     }
 
+    public Color ToColor()
+    {
+        return new Color(rValue, gValue, bValue);
+    }
+
     public override string ToString()
     {
         return "(" + rValue + ", " + gValue + ", " + bValue + "), goal: " + goalValues.ToString();

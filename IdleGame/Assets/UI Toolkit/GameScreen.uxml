@@ -198,12 +198,12 @@
                             <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement128x128" style="flex-grow: 0;">
+                    <ui:VisualElement name="ProgressVisualElement128x128" style="flex-grow: 0; display: none;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
                             <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement256x256" style="flex-grow: 0;">
+                    <ui:VisualElement name="ProgressVisualElement256x256" style="flex-grow: 0; display: none;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
                             <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
                         </ui:VisualElement>
