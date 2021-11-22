@@ -17,7 +17,7 @@ public class ProgressManager : MonoBehaviour
 
     public Foldout progressFoldout;
 
-    public int currentLevel = 0;
+    public int currentLevel = 1;
     private int maxLevel;
     public List<Goal> levelGoals;
 
@@ -33,16 +33,24 @@ public class ProgressManager : MonoBehaviour
         { new Goal{level = 1, color = new Color(0, 255, 0), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 1, color = new Color(0, 0, 128), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 1, color = new Color(0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color = new Color(255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
 
         // Level 2 - 4x4
+        { new Goal{level = 2, color = new Color(64, 64, 0), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color = new Color(128, 128, 0), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color = new Color(192, 192, 0), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color = new Color(255, 255, 0), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color = new Color(64, 0, 64), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color = new Color(128, 0, 128), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color = new Color(192, 0, 192), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color = new Color(255, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color = new Color(0, 64, 64), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color = new Color(0, 128, 128), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color = new Color(0, 192, 192), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color = new Color(0, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color = new Color(64, 64, 64), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color = new Color(128, 128, 128), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} }
+        { new Goal{level = 2, color = new Color(192, 192, 192), discovered = false, blockVisualElement = new VisualElement()} }        
         };
 
         maxLevel = levelGoals[levelGoals.Count - 1].level;
@@ -57,21 +65,19 @@ public class ProgressManager : MonoBehaviour
 
         if (!goals[r, g, b])
         {
-
             goals[r, g, b] = true;
-            totalGColors += 1;
+            totalGColors += 1;   
+        }
 
-            for (int i = 0; i < levelGoals.Count; i++)
+        for (int i = 0; i < levelGoals.Count; i++)
+        {
+            Goal goal = levelGoals[i];
+            if (goal.color == color)
             {
-                Goal goal = levelGoals[i];
-                if (goal.discovered)
-                    continue;
-
-                if (goal.color == color)
-                {
-                    goal.discovered = true;
-                    goal.blockVisualElement.style.backgroundColor = goal.color;
-                }
+                goal.discovered = true;
+                goal.blockVisualElement.style.backgroundColor = goal.color;
+                CheckCurrentLevel();
+                gameManager.uiManager.UpdateProgressUI();
             }
         }
     }
@@ -79,17 +85,22 @@ public class ProgressManager : MonoBehaviour
     public void CheckCurrentLevel()
     {
         int level = 0;
-        while (level <= maxLevel)
+        bool release = false;
+
+        while (level <= maxLevel && !release)
         {
             level += 1;
             IEnumerable<Goal> query = levelGoals.Where(goal => goal.level == level);
             foreach (Goal goal in query)
             {
                 if (goal.discovered == false)
+                {
+                    release = true;
                     break;
+                }
             }
         }
-
+        
         currentLevel = level;
     }
 
@@ -106,7 +117,7 @@ public class ProgressManager : MonoBehaviour
 
     public void UpdateText()
     {
-        progressFoldout.text = "PROGRESS [ " + (numberComplete / totalGColors).ToString("F2") + "% ]";
+        progressFoldout.text = "PROGRESS GOALS [ " + (numberComplete / totalGColors).ToString("F2") + "% ]";
     }
 
 }

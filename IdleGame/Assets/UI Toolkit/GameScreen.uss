@@ -322,10 +322,10 @@
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-left-color: rgba(0, 0, 0, 255);
-    border-right-color: rgba(0, 0, 0, 255);
-    border-top-color: rgba(0, 0, 0, 255);
-    border-bottom-color: rgba(0, 0, 0, 255);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
     width: 150px;
     align-items: center;
     justify-content: center;
@@ -352,11 +352,11 @@
 }
 
 .unity-base-slider__dragger {
-    background-color: rgba(168, 218, 220, 255);
-    border-left-color: rgba(241, 250, 238, 255);
-    border-right-color: rgba(241, 250, 238, 255);
-    border-top-color: rgba(241, 250, 238, 255);
-    border-bottom-color: rgba(241, 250, 238, 255);
+    background-color: rgb(168, 218, 220);
+    border-left-color: rgb(241, 250, 238);
+    border-right-color: rgb(241, 250, 238);
+    border-top-color: rgb(241, 250, 238);
+    border-bottom-color: rgb(241, 250, 238);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
@@ -374,7 +374,7 @@
 
 .unity-scroller--vertical > .unity-scroller__low-button {
     background-color: rgba(0, 0, 0, 0);
-    -unity-background-image-tint-color: rgba(241, 250, 238, 255);
+    -unity-background-image-tint-color: rgb(241, 250, 238);
     border-left-color: rgba(0, 0, 0, 0);
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
@@ -387,10 +387,14 @@
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
     background-color: rgba(0, 0, 0, 0);
-    -unity-background-image-tint-color: rgba(241, 250, 238, 255);
+    -unity-background-image-tint-color: rgb(241, 250, 238);
 }
 
 .unity-base-slider__drag-container {
     align-items: auto;
     margin-left: 4px;
+}
+
+.welcome-screen-text {
+    font-size: 12px;
 }

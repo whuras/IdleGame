@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
@@ -117,6 +118,7 @@ public class UIManager : MonoBehaviour
     private VisualElement endColorImage;
     private Button randomStartColorButton;
     private Button randomEndColorButton;
+    private SliderInt[] sliderInts = new SliderInt[6];
     private SliderInt startSliderRed;
     private SliderInt startSliderGreen;
     private SliderInt startSliderBlue;
@@ -139,6 +141,12 @@ public class UIManager : MonoBehaviour
     private VisualElement progressVE32x32;
     private VisualElement progressVE64x64;
 
+    // Help/Welcome
+    private VisualElement welcomeScreen;
+    private Button welcomeScreenAutoHide;
+    private Button helpButton;
+    private bool helpToggle = true;
+    
 
     private void Awake()
     {
@@ -175,7 +183,7 @@ public class UIManager : MonoBehaviour
         BindWorkerUpgradeButtons();
         BindPrestigeButtons();
         BindCustomStartEndColorElements();
-        BindRestartButton();
+        BindExtraButtons();
 
         SetupToolTips(); // must be after bind but before setup
 
@@ -186,8 +194,12 @@ public class UIManager : MonoBehaviour
         UpdateLevelCompletionText();
         InstantiateFoldouts();
 
-
         gameManager.LoadSave();
+
+        gameManager.progressManager.CheckCurrentLevel();
+        gameManager.progressManager.UpdateAllBlocks();
+        UpdateProgressUI();
+        gameManager.progressManager.UpdateText();
     }
 
     private void AssignProgressUIComponents()
@@ -196,22 +208,27 @@ public class UIManager : MonoBehaviour
         pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
 
         progressVE2x2 = rootVisualElement.Q<VisualElement>("ProgressVisualElement2x2").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE2x2.Q<Label>().text = "Level 1 - Tutorial";
+        progressVE2x2.Q<Label>().text = "Level 1 - The Basics";
 
         progressVE4x4 = rootVisualElement.Q<VisualElement>("ProgressVisualElement4x4").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE4x4.Q<Label>().text = "Level 2 - Mix 'em Up";
+        progressVE4x4.Q<Label>().text = "Level 2 - Complete Level 1 Goals to Unlock";
+        progressVE4x4.style.display = DisplayStyle.None;
 
         progressVE8x8 = rootVisualElement.Q<VisualElement>("ProgressVisualElement8x8").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE8x8.Q<Label>().text = "Level 3";
+        progressVE8x8.Q<Label>().text = "Level 3 - Complete Level 2 Goals to Unlock";
+        progressVE8x8.style.display = DisplayStyle.None;
 
         progressVE16x16 = rootVisualElement.Q<VisualElement>("ProgressVisualElement16x16").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE16x16.Q<Label>().text = "Level 4";
+        progressVE16x16.Q<Label>().text = "Level 4 - Complete Level 3 Goals to Unlock";
+        progressVE16x16.style.display = DisplayStyle.None;
 
         progressVE32x32 = rootVisualElement.Q<VisualElement>("ProgressVisualElement32x32").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE32x32.Q<Label>().text = "Level 5";
+        progressVE32x32.Q<Label>().text = "Level 5 - Complete Level 4 Goals to Unlock";
+        progressVE32x32.style.display = DisplayStyle.None;
 
         progressVE64x64 = rootVisualElement.Q<VisualElement>("ProgressVisualElement64x64").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE64x64.Q<Label>().text = "Level 6";
+        progressVE64x64.Q<Label>().text = "Level 6 - Complete Level 5 Goals to Unlock";
+        progressVE64x64.style.display = DisplayStyle.None;
 
         for (int i = 0; i < pm.levelGoals.Count; i++)
         {
@@ -231,17 +248,58 @@ public class UIManager : MonoBehaviour
                     progressVE2x2.Add(progressBlock);
                     break;
                 case 2:
+                    progressVE4x4.Add(progressBlock);
                     break;
                 case 3:
+                    progressVE8x8.Add(progressBlock);
                     break;
                 case 4:
+                    progressVE16x16.Add(progressBlock);
                     break;
                 case 5:
+                    progressVE32x32.Add(progressBlock);
                     break;
                 case 6:
+                    progressVE64x64.Add(progressBlock);
                     break;
             }
 
+        }
+    }
+
+    public void UpdateProgressUI()
+    {
+        ProgressManager pm = gameManager.progressManager;
+        int currentLevel = pm.currentLevel;
+
+        if(currentLevel > 1)
+        {
+            progressVE4x4.style.display = DisplayStyle.Flex;
+            progressVE4x4.Q<Label>().text = "Level 2 - Mix 'em Up";
+        }
+        
+        if(currentLevel > 2)
+        {
+            progressVE8x8.style.display = DisplayStyle.Flex;
+            progressVE8x8.Q<Label>().text = "Level 3 - ???";
+        }
+
+        if (currentLevel > 3)
+        {
+            progressVE16x16.style.display = DisplayStyle.Flex;
+            progressVE16x16.Q<Label>().text = "Level 4 - ???";
+        }
+
+        if (currentLevel > 4)
+        {
+            progressVE32x32.style.display = DisplayStyle.Flex;
+            progressVE32x32.Q<Label>().text = "Level 5 - ???";
+        }
+
+        if (currentLevel > 5)
+        {
+            progressVE64x64.style.display = DisplayStyle.Flex;
+            progressVE64x64.Q<Label>().text = "Level 6 - ???";
         }
     }
 
@@ -268,10 +326,34 @@ public class UIManager : MonoBehaviour
         resetButton.clickable.clicked += gameManager.ResetSaveFile;
     }
 
-    public void BindRestartButton()
+    public void BindExtraButtons()
     {
+        // Help
+        welcomeScreen = rootVisualElement.Q<VisualElement>("Welcome");
+        welcomeScreenAutoHide = rootVisualElement.Q<Button>("WelcomeScreenToggle");
+        welcomeScreenAutoHide.clickable.clicked += HideWelcomeMessage;
+        helpButton = rootVisualElement.Q<Button>("HelpButton");
+        helpButton.clickable.clicked += ToggleHelpMenu;
+
+        // Restart
         restartButton.clickable.clicked += gameManager.RestartGame;
         EnableRestartVisualElement(false);
+    }
+
+    private void HideWelcomeMessage()
+    {
+        helpToggle = false;
+        ToggleHelpMenu();
+    }
+
+    private void ToggleHelpMenu()
+    {
+        if (helpToggle)
+            welcomeScreen.style.display = DisplayStyle.Flex;
+        else
+            welcomeScreen.style.display = DisplayStyle.None;
+
+        helpToggle = !helpToggle;
     }
 
     public void EnableRestartVisualElement(bool vis)
@@ -284,8 +366,9 @@ public class UIManager : MonoBehaviour
     public void UpdateRestartButtonText()
     {
         restartButton.text = "RESTART\n" +
-            "Restart the game, double the gradient size (max size: " + gameManager.maxSize + "x" + gameManager.maxSize + "), " +
-            "and received +" + gameManager.prestigePointIncrement + " Prestige Points.";
+            "Restart the game and received +" + gameManager.prestigePointIncrement + " Prestige Points." +
+            "\nVisit Prestige Store tab to unlock features like choosing Start and End colors!" + 
+            "\nVisit the Progress tab to complete goals and advance to more complex gradients!";
     }
 
     public void SetupToolTips()
@@ -658,6 +741,16 @@ public class UIManager : MonoBehaviour
         endSliderRed = rootVisualElement.Q<SliderInt>("EndRedSlider");
         endSliderGreen = rootVisualElement.Q<SliderInt>("EndGreenSlider");
         endSliderBlue = rootVisualElement.Q<SliderInt>("EndBlueSlider");
+
+        sliderInts[0] = startSliderRed;
+        sliderInts[1] = startSliderGreen;
+        sliderInts[2] = startSliderBlue;
+        sliderInts[3] = endSliderRed;
+        sliderInts[4] = endSliderGreen;
+        sliderInts[5] = endSliderBlue;
+
+        foreach(SliderInt slider in sliderInts)
+            slider.RegisterValueChangedCallback(e => LimitSliderValuesBasedOnLevel());
     }
 
     private void SetupRandomColorButtons()
@@ -678,6 +771,42 @@ public class UIManager : MonoBehaviour
         endSliderRed.value = UnityEngine.Random.Range(0, 255);
         endSliderGreen.value = UnityEngine.Random.Range(0, 255);
         endSliderBlue.value = UnityEngine.Random.Range(0, 255);
+    }
+
+    private void LimitSliderValuesBasedOnLevel()
+    {
+        int level = gameManager.progressManager.currentLevel;
+        
+        if(level == 1)
+        {
+            int[] validValues = new int[] { 0, 128, 255 };
+            foreach (SliderInt slider in sliderInts)
+                slider.value = RoundToValidValue(validValues, slider.value);
+
+        }
+        else if(level == 2)
+        {
+            int[] validValues = new int[] { 0, 64, 128, 192, 255 };
+            foreach (SliderInt slider in sliderInts)
+                slider.value = RoundToValidValue(validValues, slider.value);
+        }
+        
+    }
+
+    private int RoundToValidValue(int[] validValues, int value)
+    {
+        // https://stackoverflow.com/questions/7865833/rounding-a-value-to-only-a-list-of-certain-values-in-c-sharp
+
+        var diffList = from number in validValues
+                       select new { 
+                           number, 
+                           difference = Mathf.Abs(number - value)
+                       };
+        var result = (from diffItem in diffList
+                      orderby diffItem.difference
+                      select diffItem).First().number;
+        
+        return result;
     }
 
     public void NewGradient(int size)
