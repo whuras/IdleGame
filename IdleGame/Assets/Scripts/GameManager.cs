@@ -30,15 +30,16 @@ public class GameManager : MonoBehaviour
     public bool recycleEnabled = false;
     public bool customColorEnabled = false;
 
-    [Header("Testing Purposes")]
     public int startingPixelPoints = 0;
     public int startingPrestigePoints = 0;
-    public bool randomGradient = false;
     public int size = 2;
     public int maxSize = 64;
     public int prestigePointIncrement = 1;
+
     public Color32 startColor = Color.black;
     public Color32 endColor = Color.white;
+
+    private int customLockedCounter = 0; // if custom colors are not unlocked, this counter works to give variety
 
     private void Awake() => MaintainSingleInstance();
 
@@ -52,11 +53,11 @@ public class GameManager : MonoBehaviour
         saveExists = 1;
 
         PlayerPrefs.SetInt("saveExists", 1);
+        PlayerPrefs.SetInt("currentLevel", progressManager.currentLevel);
         PlayerPrefs.SetInt("automationEnabled", automationEnabled ? 1 : 0);
         PlayerPrefs.SetInt("recycleEnabled", recycleEnabled ? 1 : 0);
         PlayerPrefs.SetInt("customColorEnabled", customColorEnabled ? 1 : 0);
         PlayerPrefs.SetInt("prestigePoints", currencyManager.prestigePoints - 1);
-        PlayerPrefs.SetInt("gradientSize", Mathf.Max(1, size));
 
         PlayerPrefs.Save();
         Debug.LogWarning("Game Saved!");
@@ -66,11 +67,11 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("saveExists"))
         {
+            progressManager.currentLevel = PlayerPrefs.GetInt("currentLevel");
             automationEnabled = PlayerPrefs.GetInt("automationEnabled") == 1 ? true : false;
             recycleEnabled = PlayerPrefs.GetInt("recycleEnabled") == 1 ? true : false;
             customColorEnabled = PlayerPrefs.GetInt("customColorEnabled") == 1 ? true : false;
             currencyManager.prestigePoints = PlayerPrefs.GetInt("prestigePoints");
-            size = PlayerPrefs.GetInt("gradientSize");
 
             UpdateFromLoad();
             Debug.LogError("Game loaded from save file.");
@@ -103,21 +104,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void RandomColours()
-    {
-        startColor = new Color32((byte)UnityEngine.Random.Range(0, 255), (byte)UnityEngine.Random.Range(0, 255), (byte)UnityEngine.Random.Range(0, 255), 1);
-        endColor = new Color32((byte)UnityEngine.Random.Range(0, 255), (byte)UnityEngine.Random.Range(0, 255), (byte)UnityEngine.Random.Range(0, 255), 1);
-    }
-
     private void GameSetup()
     {
-        if (randomGradient)
-            RandomColours();
-
-        if (size == 0)
-            size = 2;
-        else if (size > maxSize)
-            size = maxSize;
+        size = (int) Mathf.Pow(2, progressManager.currentLevel);
 
         if (customColorEnabled)
         {
@@ -133,6 +122,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            customLockedCounter += 1;
+            ColorBasedOnCustomLocked();
+
             gradientManager.InitializeGradientGColors(size,
             new Tuple<int, int, int>(
                 startColor.r,
@@ -146,6 +138,30 @@ public class GameManager : MonoBehaviour
 
         uiManager.NewGradient(size);
         uiManager.SetWorkerProgressBars();
+    }
+
+    private void ColorBasedOnCustomLocked()
+    {
+        switch (customLockedCounter)
+        {
+            case 1:
+                startColor = Color.white;
+                endColor = Color.black;
+                break;
+            case 2:
+                startColor = Color.white;
+                endColor = Color.red;
+                break;
+            case 3:
+                startColor = Color.white;
+                endColor = Color.green;
+                break;
+            case 4:
+                startColor = Color.white;
+                endColor = Color.blue;
+                customLockedCounter = 0;
+                break;
+        }
     }
 
     public void RestartGame()

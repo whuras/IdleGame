@@ -72,18 +72,20 @@ public class GradientManager : MonoBehaviour
         Tuple<int, int, int>[] goalValues = new Tuple<int, int, int>[size * 2 - 1];
         goalValues[0] = startColor;
         goalValues[goalValues.Length - 1] = endColor;
-        Tuple<int, int, int> step = new Tuple<int, int, int>(
-            Mathf.FloorToInt((endColor.Item1 - startColor.Item1) / (goalValues.Length - 1)),
-            Mathf.FloorToInt((endColor.Item2 - startColor.Item2) / (goalValues.Length - 1)),
-            Mathf.FloorToInt((endColor.Item3 - startColor.Item3) / (goalValues.Length - 1))
+        Tuple<float, float, float> step = new Tuple<float, float, float>(
+            (endColor.Item1 - startColor.Item1) / (float)(goalValues.Length - 1),
+            (endColor.Item2 - startColor.Item2) / (float)(goalValues.Length - 1),
+            (endColor.Item3 - startColor.Item3) / (float)(goalValues.Length - 1)
             );
 
         for (int i = 1; i < goalValues.Length - 1; i++)
+        {
             goalValues[i] = new Tuple<int, int, int>(
-                startColor.Item1 + step.Item1 * i,
-                startColor.Item2 + step.Item2 * i,
-                startColor.Item3 + step.Item3 * i
+                (int) Mathf.Round(startColor.Item1 + step.Item1 * i),
+                (int) Mathf.Round(startColor.Item2 + step.Item2 * i),
+                (int) Mathf.Round(startColor.Item3 + step.Item3 * i)
                 );
+        }
 
         int offset;
         for (int i = 0; i < goalValues.Length; i++)
