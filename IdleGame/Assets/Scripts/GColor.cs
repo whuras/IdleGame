@@ -86,7 +86,7 @@ public class GColor
         this.goalValues = goalValues;
     }
 
-    public Color32 CurrentColor()
+    public Color32 ToColor32()
     {
         return new Color32(
             (byte)rValue,
