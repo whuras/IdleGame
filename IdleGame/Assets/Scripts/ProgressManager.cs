@@ -26,31 +26,31 @@ public class ProgressManager : MonoBehaviour
         levelGoals = new List<Goal>() // MUST be called in start or awake.. unity brakes otherwise..
         {
         // Level 1 - Tutorial 1 - 2x2
-        { new Goal{level = 1, color = new Color(0, 0, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 1, color = new Color(128, 0, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 1, color = new Color(255, 0, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 1, color = new Color(0, 128, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 1, color = new Color(0, 255, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 1, color = new Color(0, 0, 128), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 1, color = new Color(0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 1, color = new Color(255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(0, 0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(128, 0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(255, 0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(0, 128, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(0, 255, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(0, 0, 128, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(0, 0, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 1, color32 = new Color32(255, 255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
 
         // Level 2 - 4x4
-        { new Goal{level = 2, color = new Color(64, 64, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(128, 128, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(192, 192, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(255, 255, 0), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(64, 0, 64), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(128, 0, 128), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(192, 0, 192), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(255, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(0, 64, 64), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(0, 128, 128), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(0, 192, 192), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(0, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(64, 64, 64), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(128, 128, 128), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color = new Color(192, 192, 192), discovered = false, blockVisualElement = new VisualElement()} }        
+        { new Goal{level = 2, color32 = new Color32(64, 64, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(128, 128, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(192, 192, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(255, 255, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(64, 0, 64, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(128, 0, 128, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(192, 0, 192, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(255, 0, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(0, 64, 64, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(0, 128, 128, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(0, 192, 192, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(0, 255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(64, 64, 64, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(128, 128, 128, 255), discovered = false, blockVisualElement = new VisualElement()} },
+        { new Goal{level = 2, color32 = new Color32(192, 192, 192, 255), discovered = false, blockVisualElement = new VisualElement()} }        
         };
 
         maxLevel = levelGoals[levelGoals.Count - 1].level;
@@ -58,7 +58,9 @@ public class ProgressManager : MonoBehaviour
 
     public void CompleteGColor(GColor gColor)
     {
-        Color color = gColor.ToColor();
+        gameManager.effectManager.GradientBurstAtVE(gameManager.uiManager.activeGradientVisualElements[gColor.i, gColor.j], gColor);
+
+        Color color32 = gColor.ToColor32();
         int r = gColor.rValue;
         int g = gColor.gValue;
         int b = gColor.bValue;
@@ -72,10 +74,10 @@ public class ProgressManager : MonoBehaviour
         for (int i = 0; i < levelGoals.Count; i++)
         {
             Goal goal = levelGoals[i];
-            if (goal.color == color)
+            if (goal.color32 == color32)
             {
                 goal.discovered = true;
-                goal.blockVisualElement.style.backgroundColor = goal.color;
+                goal.blockVisualElement.style.backgroundColor = (Color) goal.color32;
                 CheckCurrentLevel();
                 gameManager.uiManager.UpdateProgressUI();
             }
@@ -111,7 +113,7 @@ public class ProgressManager : MonoBehaviour
         {
             Goal goal = levelGoals[i];
             if (goal.discovered)
-                goal.blockVisualElement.style.backgroundColor = goal.color;
+                goal.blockVisualElement.style.backgroundColor = (Color) goal.color32;
         }
     }
 

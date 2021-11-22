@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public WorkerManager workerManager;
     public PrestigeManager prestigeManager;
     public ProgressManager progressManager;
+    public EffectManager effectManager;
 
     public bool automationEnabled = false;
     public bool recycleEnabled = false;
@@ -36,8 +37,8 @@ public class GameManager : MonoBehaviour
     public int maxSize = 64;
     public int prestigePointIncrement = 1;
 
-    public Color32 startColor = Color.black;
-    public Color32 endColor = Color.white;
+    public Color32 startColor = Color.white;
+    public Color32 endColor = Color.black;
 
     private int customLockedCounter = 0; // if custom colors are not unlocked, this counter works to give variety
 
@@ -46,6 +47,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         GameSetup();
+        uiManager.InitialUISetup();
+        gradientManager.SortQueue(Worker.Type.Red);
+        gradientManager.SortQueue(Worker.Type.Green);
+        gradientManager.SortQueue(Worker.Type.Blue);
     }
 
     public void SaveGame()
@@ -145,20 +150,20 @@ public class GameManager : MonoBehaviour
         switch (customLockedCounter)
         {
             case 1:
-                startColor = Color.white;
-                endColor = Color.black;
+                startColor = new Color32(255, 255, 255, 255);
+                endColor = new Color32(255, 0, 0, 255);
                 break;
             case 2:
-                startColor = Color.white;
-                endColor = Color.red;
+                startColor = new Color32(255, 255, 255, 255);
+                endColor = new Color32(0, 255, 0, 255);
                 break;
             case 3:
-                startColor = Color.white;
-                endColor = Color.green;
+                startColor = new Color32(255, 255, 255, 255);
+                endColor = new Color32(0, 0, 255, 255);
                 break;
             case 4:
-                startColor = Color.white;
-                endColor = Color.blue;
+                startColor = new Color32(255, 255, 255, 255);
+                endColor = new Color32(0, 0, 255, 255);
                 customLockedCounter = 0;
                 break;
         }
@@ -177,6 +182,9 @@ public class GameManager : MonoBehaviour
         }
 
         GameSetup();
+        gradientManager.SortQueue(Worker.Type.Red);
+        gradientManager.SortQueue(Worker.Type.Green);
+        gradientManager.SortQueue(Worker.Type.Blue);
 
         // Currency Setup
         currencyManager.pixelPoints = startingPixelPoints;
