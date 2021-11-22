@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     public GameManager gameManager;
 
     [SerializeField] public UnityEngine.UIElements.UIDocument uiDocment { get; private set; }
-    private VisualElement rootVisualElement;
+    public VisualElement rootVisualElement;
     public VisualElement gradientArea { get; private set; }
     public VisualElement[,] activeGradientVisualElements { get; private set; }
     private int prevSize = 0;
@@ -239,7 +239,7 @@ public class UIManager : MonoBehaviour
             progressBlock.style.backgroundColor = Color.white;
 
             Label lbl = new Label();
-            lbl.text = "(" + goal.color.r + ", " + goal.color.g + ", " + goal.color.b + ")";
+            lbl.text = "(" + goal.color32.r + ", " + goal.color32.g + ", " + goal.color32.b + ")";
             progressBlock.Add(lbl);
 
             switch (goal.level)
@@ -366,9 +366,7 @@ public class UIManager : MonoBehaviour
     public void UpdateRestartButtonText()
     {
         restartButton.text = "RESTART\n" +
-            "Restart the game and received +" + gameManager.prestigePointIncrement + " Prestige Points." +
-            "\nVisit Prestige Store tab to unlock features like choosing Start and End colors!" + 
-            "\nVisit the Progress tab to complete goals and advance to more complex gradients!";
+            "Restart the game and received +" + gameManager.prestigePointIncrement + " Prestige Points.";
     }
 
     public void SetupToolTips()
@@ -832,8 +830,6 @@ public class UIManager : MonoBehaviour
             for (int j = 0; j < size; j++)
             {
                 Color color = Color.black;
-                //if (gameManager.testGradient)
-                //    color = gameManager.gradientManager.gradientGColors[i, j].GoalColor();
 
                 VisualElement gradientImage = new VisualElement();
                 gradientImage.style.width = new Length(256 / size, LengthUnit.Pixel);
@@ -860,7 +856,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateVEColor(int i, int j)
     {
-        activeGradientVisualElements[i, j].style.backgroundColor = (Color)gameManager.gradientManager.gradientGColors[i, j].CurrentColor();
+        activeGradientVisualElements[i, j].style.backgroundColor = (Color)gameManager.gradientManager.gradientGColors[i, j].ToColor32();
     }
 
     public void SetWorkerProgressBars()
