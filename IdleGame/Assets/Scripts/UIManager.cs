@@ -192,9 +192,10 @@ public class UIManager : MonoBehaviour
         SetupRandomColorButtons();
 
         UpdateLevelCompletionText();
+        gameManager.gradientManager.CheckGradientStatus();
         InstantiateFoldouts();
 
-        gameManager.LoadSave();
+        SaveSystem.Load();
 
         gameManager.progressManager.CheckCurrentLevel();
         gameManager.progressManager.UpdateAllBlocks();
@@ -238,13 +239,20 @@ public class UIManager : MonoBehaviour
         progressVE6.Q<Label>().text = "Level 6 - Complete Level 5 Goals to Unlock";
         progressVE6.style.display = DisplayStyle.None;
 
+        CreateLevelGoalBlockElements();
+    }
+
+    public void CreateLevelGoalBlockElements()
+    {
+        ProgressManager pm = gameManager.progressManager;
+
         for (int i = 0; i < pm.levelGoals.Count; i++)
         {
             Goal goal = pm.levelGoals[i];
 
             VisualElement progressBlock = goal.blockVisualElement;
             progressBlock.AddToClassList("color-block");
-            progressBlock.style.backgroundColor = (Color) new Color32(255, 255, 255, 255);
+            progressBlock.style.backgroundColor = (Color)new Color32(255, 255, 255, 255);
             //progressBlock.style.backgroundColor = (Color)new Color32(goal.color32.r, goal.color32.g, goal.color32.b, 255);
 
             Label lbl = new Label();
@@ -315,24 +323,17 @@ public class UIManager : MonoBehaviour
     public void UpdateLevelCompletionText()
     {
         levelProgressionLabel.text = gameManager.gradientManager.numberCompleted + " / " + (gameManager.size * gameManager.size);
-
-        if (gameManager.gradientManager.numberCompleted >= gameManager.size * gameManager.size)
-        {
-            EnableRestartVisualElement(true);
-            UpdateRestartButtonText();
-            gameManager.SaveGame();
-        }
     }
 
     private void BindAndSetSettingsButtons()
     {
         saveButton = rootVisualElement.Q<Button>("saveButton");
         loadButton = rootVisualElement.Q<Button>("loadButton");
-        resetButton = rootVisualElement.Q<Button>("resetButton");
+        resetButton = rootVisualElement.Q<Button>("deleteButton");
 
-        saveButton.clickable.clicked += gameManager.SaveGame;
-        loadButton.clickable.clicked += gameManager.LoadSave;
-        resetButton.clickable.clicked += gameManager.ResetSaveFile;
+        saveButton.clickable.clicked += SaveSystem.Save;
+        loadButton.clickable.clicked += SaveSystem.Load;
+        resetButton.clickable.clicked += SaveSystem.DeleteSaveFile;
     }
 
     public void BindExtraButtons()
@@ -374,8 +375,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateRestartButtonText()
     {
-        restartButton.text = "RESTART\n" +
-            "Restart the game and received +" + gameManager.prestigePointIncrement + " Prestige Points.";
+        restartButton.text = "Restart the Gradient!\n" +
+            "Receive +" + gameManager.prestigePointIncrement + " Prestige Points when you complete a full gradient.";
     }
 
     public void SetupToolTips()

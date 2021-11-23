@@ -65,7 +65,9 @@ public class Worker : MonoBehaviour
         }
 
         gameManager.uiManager.UpdateLevelCompletionText();
-        if(elapsedTime > (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier()))
+        gameManager.gradientManager.CheckGradientStatus();
+
+        if (elapsedTime > (autoTickSpeed * workerUpgrade.AutoTickSpeedMultiplier()))
         {
             AddByte(productionAmount);
             elapsedTime = 0;
@@ -105,6 +107,7 @@ public class Worker : MonoBehaviour
         }
 
         gameManager.uiManager.UpdateLevelCompletionText();
+        gameManager.gradientManager.CheckGradientStatus();
     }
 
     public void AddByte(int byteAmount)

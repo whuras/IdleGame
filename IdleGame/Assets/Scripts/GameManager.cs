@@ -3,20 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private int saveExists;
-    public int SaveExists
-    {
-        get => saveExists;
-        private set
-        {
-            saveExists = value;
-        }
-    }
-
     public static GameManager Instance { get => instance; }
     private static GameManager instance;
     public UIManager uiManager;
@@ -40,12 +29,14 @@ public class GameManager : MonoBehaviour
     public Color32 startColor = Color.white;
     public Color32 endColor = Color.black;
 
-    private int customLockedCounter = 0; // if custom colors are not unlocked, this counter works to give variety
+    public int customLockedCounter = 1; // if custom colors are not unlocked, this counter works to give variety
 
     private void Awake() => MaintainSingleInstance();
 
     private void Start()
     {
+        SaveSystem.Init();
+        progressManager.CreateLevelGoals();
         GameSetup();
         uiManager.InitialUISetup();
         gradientManager.SortQueue(Worker.Type.Red);
@@ -53,41 +44,7 @@ public class GameManager : MonoBehaviour
         gradientManager.SortQueue(Worker.Type.Blue);
     }
 
-    public void SaveGame()
-    {
-        saveExists = 1;
-
-        PlayerPrefs.SetInt("saveExists", 1);
-        PlayerPrefs.SetInt("currentLevel", progressManager.currentLevel);
-        PlayerPrefs.SetInt("automationEnabled", automationEnabled ? 1 : 0);
-        PlayerPrefs.SetInt("recycleEnabled", recycleEnabled ? 1 : 0);
-        PlayerPrefs.SetInt("customColorEnabled", customColorEnabled ? 1 : 0);
-        PlayerPrefs.SetInt("prestigePoints", currencyManager.prestigePoints - 1);
-
-        PlayerPrefs.Save();
-        Debug.LogWarning("Game Saved!");
-    }
-
-    public void LoadSave()
-    {
-        if (PlayerPrefs.HasKey("saveExists"))
-        {
-            progressManager.currentLevel = PlayerPrefs.GetInt("currentLevel");
-            automationEnabled = PlayerPrefs.GetInt("automationEnabled") == 1 ? true : false;
-            recycleEnabled = PlayerPrefs.GetInt("recycleEnabled") == 1 ? true : false;
-            customColorEnabled = PlayerPrefs.GetInt("customColorEnabled") == 1 ? true : false;
-            currencyManager.prestigePoints = PlayerPrefs.GetInt("prestigePoints");
-
-            UpdateFromLoad();
-            Debug.LogError("Game loaded from save file.");
-        }
-        else
-        {
-            Debug.LogError("Save does not exist!");
-        }
-    }
-
-    private void UpdateFromLoad()
+    public void UpdateFromLoad()
     {
         foreach (Worker worker in workerManager.workers)
         {
@@ -100,13 +57,10 @@ public class GameManager : MonoBehaviour
 
         uiManager.EnableRestartVisualElement(true);
         uiManager.UpdateRestartButtonText();
-    }
-
-    public void ResetSaveFile()
-    {
-        PlayerPrefs.DeleteAll();
-        Debug.LogWarning("Save file has been deleted!");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+        progressManager.CheckCurrentLevel();
+        uiManager.UpdateProgressUI();
+        progressManager.UpdateAllBlocks();
     }
 
     private void GameSetup()
@@ -127,7 +81,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            customLockedCounter += 1;
             ColorBasedOnCustomLocked();
 
             gradientManager.InitializeGradientGColors(size,
@@ -191,8 +144,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         currencyManager.ResetPixelPoints(); // if not allow pixel points carry over
-        currencyManager.IncrementPrestigePoints(prestigePointIncrement);
-        size *= 2;
         
         foreach (Worker w in workerManager.workers)
         {
@@ -211,6 +162,7 @@ public class GameManager : MonoBehaviour
 
         uiManager.EnableRestartVisualElement(false);
         uiManager.UpdateLevelCompletionText();
+        gradientManager.CheckGradientStatus();
         uiManager.UpdateWorkerUpgradeButtons();
     }
 

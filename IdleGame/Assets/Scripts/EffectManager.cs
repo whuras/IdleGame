@@ -16,8 +16,6 @@ public class EffectManager : MonoBehaviour
         if (float.IsNaN(location.x) || float.IsNaN(location.y))
             return;
 
-        // change start size (2x2 = 128)
-        // change limit velocity over liftime.speed (2x2 = 128) ( maybe)
         float psSize = 256 / gameManager.SizeBasedOnLevel();
 
         ParticleSystem ps = Instantiate(gradientBurstEffect);

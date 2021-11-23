@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,3 +44,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87770b088f6b06545a7697be1f511d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
+  gradientManager: {fileID: 0}
+  currencyManager: {fileID: 0}
+  workerManager: {fileID: 0}
+  prestigeManager: {fileID: 0}
+  progressManager: {fileID: 0}
+  effectManager: {fileID: 0}
+  automationEnabled: 0
+  recycleEnabled: 0
+  customColorEnabled: 0
+  startingPixelPoints: 0
+  startingPrestigePoints: 0
+  size: 2
+  maxSize: 64
+  prestigePointIncrement: 1
+  startColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  endColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  customLockedCounter: 1
