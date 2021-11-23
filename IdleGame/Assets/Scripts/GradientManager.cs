@@ -105,6 +105,18 @@ public class GradientManager : MonoBehaviour
         CreateQueues(size);
     }
 
+    public void CheckGradientStatus()
+    {
+        if (numberCompleted >= gameManager.size * gameManager.size)
+        {
+            gameManager.uiManager.EnableRestartVisualElement(true);
+            gameManager.uiManager.UpdateRestartButtonText();
+            gameManager.customLockedCounter += 1;
+            gameManager.currencyManager.IncrementPrestigePoints(gameManager.prestigePointIncrement);
+            SaveSystem.Save();
+        }
+    }
+
     private void MaintainSingleInstance()
     {
         if (instance != null && instance != this)

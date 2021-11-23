@@ -234,11 +234,11 @@
                         <ui:Button display-tooltip-when-elided="true" name="saveButton" class="worker-upgrade-button prestige-store-button">
                             <ui:Label text="Save Game&#10;Game automatically saves when a level is completed" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
                         </ui:Button>
-                        <ui:Button display-tooltip-when-elided="true" name="loadButton" class="worker-upgrade-button prestige-store-button">
+                        <ui:Button display-tooltip-when-elided="true" name="loadButton" class="worker-upgrade-button prestige-store-button" style="display: none;">
                             <ui:Label text="Load Game&#10;Load game from last save point" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
                         </ui:Button>
-                        <ui:Button display-tooltip-when-elided="true" name="resetButton" class="worker-upgrade-button prestige-store-button" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
-                            <ui:Label text="Reset Game" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
+                        <ui:Button display-tooltip-when-elided="true" name="deleteButton" class="worker-upgrade-button prestige-store-button" style="white-space: normal; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:Label text="Delete Saved Data" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
                         </ui:Button>
                     </ui:VisualElement>
                 </ui:ScrollView>

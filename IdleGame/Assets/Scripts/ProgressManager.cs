@@ -13,7 +13,8 @@ public class ProgressManager : MonoBehaviour
 
     public float numberComplete = 0;
     public float totalGColors = 256 * 256 * 256;
-    public bool[,,] goals = new bool[256, 256, 256];
+    //public bool[,,] goals = new bool[256, 256, 256];
+    public List<Vector3> goals = new List<Vector3>();
 
     public Foldout progressFoldout;
 
@@ -21,7 +22,7 @@ public class ProgressManager : MonoBehaviour
     private int maxLevel;
     public List<Goal> levelGoals;
 
-    private void Awake()
+    public void CreateLevelGoals()
     {
         levelGoals = new List<Goal>() // MUST be called in start or awake.. unity brakes otherwise..
         {
@@ -123,9 +124,10 @@ public class ProgressManager : MonoBehaviour
         int g = gColor.gValue;
         int b = gColor.bValue;
 
-        if (!goals[r, g, b])
+        Vector3 checkGoal = new Vector3(r, g, b);
+        if (!goals.Contains(checkGoal))
         {
-            goals[r, g, b] = true;
+            goals.Add(checkGoal);
             totalGColors += 1;
         }
 
@@ -171,8 +173,9 @@ public class ProgressManager : MonoBehaviour
         for (int i = 0; i < levelGoals.Count; i++)
         {
             Goal goal = levelGoals[i];
-            if (goal.discovered)
+            if(goal.discovered || goals.Contains(new Vector3(goal.color32.r, goal.color32.g, goal.color32.b)))
             {
+                goal.discovered = true;
                 goal.blockVisualElement.style.backgroundColor = (Color)goal.color32;
                 goal.blockVisualElement.Q<Label>().style.color = (Color)new Color32(0, 0, 0, 0);
             }

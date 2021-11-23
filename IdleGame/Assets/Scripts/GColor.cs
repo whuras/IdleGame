@@ -26,6 +26,7 @@ public class GColor
             gameManager.progressManager.CompleteGColor(this);
             gameManager.currencyManager.IncrementPixelPoints();
             gameManager.uiManager.UpdateLevelCompletionText();
+            gameManager.gradientManager.CheckGradientStatus();
         }
     }
 

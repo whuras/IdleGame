@@ -16,10 +16,10 @@ public class PrestigeManager : MonoBehaviour
     public Button prestigeIncreasePixelPointsButton;
 
     // Costs
-    public int prestigeAutomationCost = 0;
-    public int prestigeRecycleCost = 0;
-    public int prestigeCustomStartAndEndCost = 0;
-    public int prestigeIncreasePixelPointsCost = 0;
+    public int prestigeAutomationCost = 2;
+    public int prestigeRecycleCost = 5;
+    public int prestigeCustomStartAndEndCost = 1;
+    public int prestigeIncreasePixelPointsCost = 1;
 
     private void Awake() => MaintainSingleInstance();
 
