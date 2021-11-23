@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 
     private void GameSetup()
     {
-        size = (int) Mathf.Pow(2, progressManager.currentLevel);
+        size = SizeBasedOnLevel();
 
         if (customColorEnabled)
         {
@@ -150,23 +150,42 @@ public class GameManager : MonoBehaviour
         switch (customLockedCounter)
         {
             case 1:
-                startColor = new Color32(255, 255, 255, 255);
-                endColor = new Color32(255, 0, 0, 255);
+                startColor = new Color32(0, 0, 0, 255);
+                endColor = new Color32(255, 255, 255, 255);
                 break;
             case 2:
                 startColor = new Color32(255, 255, 255, 255);
-                endColor = new Color32(0, 255, 0, 255);
+                endColor = new Color32(255, 0, 0, 255);
                 break;
             case 3:
                 startColor = new Color32(255, 255, 255, 255);
-                endColor = new Color32(0, 0, 255, 255);
+                endColor = new Color32(0, 255, 0, 255);
                 break;
             case 4:
+                startColor = new Color32(255, 255, 255, 255);
+                endColor = new Color32(0, 0, 255, 255);
+                break;
+            case 5:
                 startColor = new Color32(255, 255, 255, 255);
                 endColor = new Color32(0, 0, 255, 255);
                 customLockedCounter = 0;
                 break;
         }
+    }
+
+    private int SizeBasedOnLevel()
+    {
+        if (progressManager.currentLevel <= 2)
+            return 2;
+        else if (progressManager.currentLevel <= 3)
+            return 4;
+        else if (progressManager.currentLevel <= 4)
+            return 8;
+        else if (progressManager.currentLevel <= 5)
+            return 16;
+        else if (progressManager.currentLevel <= 6)
+            return 32;
+        return 64;
     }
 
     public void RestartGame()

@@ -208,27 +208,27 @@ public class UIManager : MonoBehaviour
         pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
 
         progressVE2x2 = rootVisualElement.Q<VisualElement>("ProgressVisualElement2x2").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE2x2.Q<Label>().text = "Level 1 - The Basics";
+        progressVE2x2.Q<Label>().text = "Level 1 - Monochrome (limited to using 0, 128, 255 values)";
 
         progressVE4x4 = rootVisualElement.Q<VisualElement>("ProgressVisualElement4x4").Q<VisualElement>("HorizontalGridVisualElement");
         progressVE4x4.Q<Label>().text = "Level 2 - Complete Level 1 Goals to Unlock";
-        progressVE4x4.style.display = DisplayStyle.None;
+        progressVE4x4.style.display = DisplayStyle.Flex;
 
         progressVE8x8 = rootVisualElement.Q<VisualElement>("ProgressVisualElement8x8").Q<VisualElement>("HorizontalGridVisualElement");
         progressVE8x8.Q<Label>().text = "Level 3 - Complete Level 2 Goals to Unlock";
-        progressVE8x8.style.display = DisplayStyle.None;
+        progressVE8x8.style.display = DisplayStyle.Flex;
 
         progressVE16x16 = rootVisualElement.Q<VisualElement>("ProgressVisualElement16x16").Q<VisualElement>("HorizontalGridVisualElement");
         progressVE16x16.Q<Label>().text = "Level 4 - Complete Level 3 Goals to Unlock";
-        progressVE16x16.style.display = DisplayStyle.None;
+        progressVE16x16.style.display = DisplayStyle.Flex;
 
         progressVE32x32 = rootVisualElement.Q<VisualElement>("ProgressVisualElement32x32").Q<VisualElement>("HorizontalGridVisualElement");
         progressVE32x32.Q<Label>().text = "Level 5 - Complete Level 4 Goals to Unlock";
-        progressVE32x32.style.display = DisplayStyle.None;
+        progressVE32x32.style.display = DisplayStyle.Flex;
 
         progressVE64x64 = rootVisualElement.Q<VisualElement>("ProgressVisualElement64x64").Q<VisualElement>("HorizontalGridVisualElement");
         progressVE64x64.Q<Label>().text = "Level 6 - Complete Level 5 Goals to Unlock";
-        progressVE64x64.style.display = DisplayStyle.None;
+        progressVE64x64.style.display = DisplayStyle.Flex;
 
         for (int i = 0; i < pm.levelGoals.Count; i++)
         {
@@ -272,31 +272,31 @@ public class UIManager : MonoBehaviour
         ProgressManager pm = gameManager.progressManager;
         int currentLevel = pm.currentLevel;
 
-        if(currentLevel > 1)
+        if(currentLevel >= 1)
         {
             progressVE4x4.style.display = DisplayStyle.Flex;
-            progressVE4x4.Q<Label>().text = "Level 2 - Mix 'em Up";
+            progressVE4x4.Q<Label>().text = "Level 2 - The Basics (limited to using 0, 128, 255 values)";
         }
         
-        if(currentLevel > 2)
+        if(currentLevel >= 2)
         {
             progressVE8x8.style.display = DisplayStyle.Flex;
-            progressVE8x8.Q<Label>().text = "Level 3 - ???";
+            progressVE8x8.Q<Label>().text = "Level 3 - Secondary Colors (limited to using 0, 128, 255 values)";
         }
 
-        if (currentLevel > 3)
+        if (currentLevel >= 3)
         {
             progressVE16x16.style.display = DisplayStyle.Flex;
-            progressVE16x16.Q<Label>().text = "Level 4 - ???";
+            progressVE16x16.Q<Label>().text = "Level 4 - Tertiary Colors (limited to using 0, 128, 255 values)";
         }
 
-        if (currentLevel > 4)
+        if (currentLevel >= 4)
         {
             progressVE32x32.style.display = DisplayStyle.Flex;
-            progressVE32x32.Q<Label>().text = "Level 5 - ???";
+            progressVE32x32.Q<Label>().text = "Level 5 - The Rainbow (limited to using 0, 64, 128, 192, 255 values)";
         }
 
-        if (currentLevel > 5)
+        if (currentLevel >= 5)
         {
             progressVE64x64.style.display = DisplayStyle.Flex;
             progressVE64x64.Q<Label>().text = "Level 6 - ???";
@@ -775,20 +775,19 @@ public class UIManager : MonoBehaviour
     {
         int level = gameManager.progressManager.currentLevel;
         
-        if(level == 1)
+        if(level <= 4)
         {
             int[] validValues = new int[] { 0, 128, 255 };
             foreach (SliderInt slider in sliderInts)
                 slider.value = RoundToValidValue(validValues, slider.value);
 
         }
-        else if(level == 2)
+        else if(level <= 6)
         {
             int[] validValues = new int[] { 0, 64, 128, 192, 255 };
             foreach (SliderInt slider in sliderInts)
                 slider.value = RoundToValidValue(validValues, slider.value);
-        }
-        
+        }        
     }
 
     private int RoundToValidValue(int[] validValues, int value)
