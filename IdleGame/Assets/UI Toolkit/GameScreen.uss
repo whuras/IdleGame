@@ -398,3 +398,18 @@
 .welcome-screen-text {
     font-size: 11px;
 }
+
+.progress-label {
+    width: 458px;
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    height: 25px;
+    margin-top: 10px;
+}

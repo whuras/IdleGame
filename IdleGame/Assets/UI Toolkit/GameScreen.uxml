@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI%20Toolkit/GameScreen.uss?fileID=7433441132597879392&amp;guid=d6484c06daa2b4140904e84dd8c95c97&amp;type=3#GameScreen" />
     <ui:VisualElement name="ContainerVisualElement" style="justify-content: space-between; height: 100%; align-items: stretch; position: relative; background-color: rgb(241, 250, 238);">
         <ui:VisualElement name="FoldoutContainerVisualElement" focusable="false" style="left: 12.5%; right: 12.5%; width: 75%; height: 100%; top: auto; bottom: auto; background-color: rgb(244, 157, 55); justify-content: flex-start; align-items: stretch;">
-            <ui:Foldout text="IDLE GRADIENT [ Z Pixels ]" name="FoldoutGame" value="true" style="background-color: rgb(106, 127, 219); -unity-text-align: middle-center; -unity-font-style: normal; white-space: normal; bottom: auto; justify-content: flex-start; align-items: stretch; height: auto; flex-grow: 0; flex-shrink: 1;">
+            <ui:Foldout text="IDLE GRADIENT [ Z Pixels ]" name="FoldoutGame" value="true" style="background-color: rgb(106, 127, 219); -unity-text-align: middle-center; -unity-font-style: normal; white-space: normal; bottom: auto; justify-content: flex-start; align-items: stretch; height: auto; flex-grow: 0; flex-shrink: 1; min-height: 30px;">
                 <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" show-vertical-scroller="true" style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; margin-left: -15px;">
                     <ui:Label text="xx / yy" display-tooltip-when-elided="true" name="LevelProgressLabel" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
                     <ui:VisualElement name="GradientVisualElement" class="pixel-color" style="background-color: rgb(55, 43, 53); width: 258px; height: 258px; margin-left: auto; align-items: stretch; margin-right: auto; margin-top: 3px; margin-bottom: 3px; flex-direction: row; flex-wrap: wrap; opacity: 1; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;" />
@@ -147,7 +147,7 @@
                             </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="Welcome" style="position: absolute; width: 100%; height: 100%; background-color: rgb(106, 127, 219); opacity: 1; flex-shrink: 0; justify-content: space-around; align-items: stretch; overflow: visible; display: flex;">
+                    <ui:VisualElement name="Welcome" style="position: absolute; width: 100%; height: 102%; background-color: rgb(106, 127, 219); opacity: 1; flex-shrink: 0; justify-content: space-around; align-items: stretch; overflow: visible; display: flex;">
                         <ui:Label text="Welcome to Idle Gradient!" display-tooltip-when-elided="true" enable-rich-text="true" style="font-size: 24px; -unity-font-style: bold;" />
                         <ui:Label text="To &lt;b&gt;toggle&lt;/b&gt; to this screen, press the help button in the top right corner (?)" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; font-size: 12px;" />
                         <ui:Label text="&lt;b&gt;Did you know?&lt;/b&gt;&#10;&#10;The RGB Color Model combines RED, GREEN, and BLUE components to make over&#10;16 million colors and is the way that a lot computers show us the world!&#10;&#10;Each color is represented as a triplet of numbers telling&#10;us how much of each color is used (from 0 to 255)&#10;(#Red, #Green, #Blue)&#10;&#10;Here are some examples:&#10;Black doesn&apos;t have any red, green, or blue: (0, 0, 0)&#10;White has full red, green, and blue: (255, 255, 255)&#10;Red only has red: (255, 0, 0)&#10;Yellow has both red and green: (255, 255, 0)&#10;&#10;What color combinations can you make with all these numbers?" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; font-size: 12px;" />
@@ -158,9 +158,9 @@
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:Foldout>
-            <ui:Foldout text="PRESTIGE STORE [ Y Prestige ]" name="FoldoutStore" value="false" style="align-items: stretch; height: auto; background-color: rgb(195, 113, 202); flex-grow: 0;">
+            <ui:Foldout text="PRESTIGE STORE [ Y Prestige ]" name="FoldoutStore" value="false" style="align-items: stretch; height: auto; background-color: rgb(195, 113, 202); flex-grow: 0; min-height: 30px;">
                 <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
-                    <ui:Label display-tooltip-when-elided="true" name="PrestigeStoreLabel" style="-unity-text-align: middle-center;" />
+                    <ui:Label display-tooltip-when-elided="true" name="PrestigeStoreLabel" text="Prestige Points are earned after completing an entire gradient. " style="-unity-text-align: middle-center;" />
                     <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
                         <ui:Button display-tooltip-when-elided="true" name="pButton_UnlockAutomation" class="worker-upgrade-button prestige-store-button">
                             <ui:Label text="Unlock Automation" display-tooltip-when-elided="true" class="worker-upgrade-label" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; white-space: normal; flex-shrink: 1;" />
@@ -177,52 +177,57 @@
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:Foldout>
-            <ui:Foldout text="PROGRESS [ Z% ]" name="FoldoutProgress" value="false" style="align-items: stretch; background-color: rgb(249, 104, 158); flex-grow: 0; flex-shrink: 1; overflow: hidden;">
+            <ui:Foldout text="PROGRESS [ Z% ]" name="FoldoutProgress" value="false" style="align-items: stretch; background-color: rgb(249, 104, 158); flex-grow: 0; flex-shrink: 1; overflow: hidden; min-height: 30px;">
                 <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="AlwaysVisible" style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
-                    <ui:Label text="Each goal shows the (Red, Green, Blue) components needed to create each color. Finish all the goals in the section to unlock the next level!" display-tooltip-when-elided="true" style="white-space: normal; -unity-text-align: upper-center;" />
-                    <ui:VisualElement name="ProgressVisualElement2x2" style="flex-grow: 0;">
+                    <ui:Label text="Each goal shows the (Red, Green, Blue) components needed to create each color. A finished goal is filled in and finishing all the goals will unlock the next level!&#10;&#10;Your progress towards unlocking every one of the 16,777,216 combinations is shown in the header of this tab." display-tooltip-when-elided="true" style="white-space: normal; -unity-text-align: upper-center; font-size: 12px;" />
+                    <ui:VisualElement name="ProgressVisualElement1" style="flex-grow: 0;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement4x4" style="flex-grow: 0;">
+                    <ui:VisualElement name="ProgressVisualElement2" style="flex-grow: 0;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                            <ui:Label text="Reward: 4x4 Grid" display-tooltip-when-elided="true" name="Tip" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: auto; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement8x8" style="flex-grow: 0;">
+                    <ui:VisualElement name="ProgressVisualElement3" style="flex-grow: 0;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                            <ui:Label text="Reward: 8x8 Grid" display-tooltip-when-elided="true" name="Tip" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: auto; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement16x16" style="flex-grow: 0;">
+                    <ui:VisualElement name="ProgressVisualElement4" style="flex-grow: 0;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                            <ui:Label text="Reward: 16x16 Grid" display-tooltip-when-elided="true" name="Tip" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: auto; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement32x32" style="flex-grow: 0;">
+                    <ui:VisualElement name="ProgressVisualElement5" style="flex-grow: 0;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                            <ui:Label text="Reward: 32x32 Grid" display-tooltip-when-elided="true" name="Tip" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: auto; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement64x64" style="flex-grow: 0;">
+                    <ui:VisualElement name="ProgressVisualElement6" style="flex-grow: 0;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
+                            <ui:Label text="Reward: 64x64 Grid" display-tooltip-when-elided="true" name="Tip" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: auto; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement128x128" style="flex-grow: 0; display: none;">
+                    <ui:VisualElement name="ProgressVisualElement7" style="flex-grow: 0; display: none;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="ProgressVisualElement256x256" style="flex-grow: 0; display: none;">
+                    <ui:VisualElement name="ProgressVisualElement8" style="flex-grow: 0; display: none;">
                         <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">
-                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" style="-unity-text-align: middle-center; -unity-font-style: normal; width: 90%; height: 25px;" />
+                            <ui:Label text="2x2 Progression: XX% [ 3 / 27 ]" display-tooltip-when-elided="true" name="ProgressLabel" class="progress-label" style="-unity-text-align: middle-center; -unity-font-style: normal;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:Foldout>
-            <ui:Foldout text="SETTINGS" name="FoldoutSettings" value="false" style="align-items: stretch; height: auto; background-color: rgb(255, 121, 104); flex-grow: 0;">
+            <ui:Foldout text="SETTINGS" name="FoldoutSettings" value="false" style="align-items: stretch; height: auto; background-color: rgb(255, 121, 104); flex-grow: 0; min-height: 30px;">
                 <ui:ScrollView style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
                     <ui:Label display-tooltip-when-elided="true" name="SaveLabel" text="Save Options" style="-unity-text-align: middle-center;" />
                     <ui:VisualElement name="HorizontalGridVisualElement" style="flex-direction: row; width: auto; height: auto; flex-wrap: wrap; justify-content: center;">

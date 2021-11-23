@@ -134,12 +134,12 @@ public class UIManager : MonoBehaviour
     private Button resetButton;
 
     // Progress
-    private VisualElement progressVE2x2;
-    private VisualElement progressVE4x4;
-    private VisualElement progressVE8x8;
-    private VisualElement progressVE16x16;
-    private VisualElement progressVE32x32;
-    private VisualElement progressVE64x64;
+    private VisualElement progressVE1;
+    private VisualElement progressVE2;
+    private VisualElement progressVE3;
+    private VisualElement progressVE4;
+    private VisualElement progressVE5;
+    private VisualElement progressVE6;
 
     // Help/Welcome
     private VisualElement welcomeScreen;
@@ -207,28 +207,36 @@ public class UIManager : MonoBehaviour
         ProgressManager pm = gameManager.progressManager;
         pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
 
-        progressVE2x2 = rootVisualElement.Q<VisualElement>("ProgressVisualElement2x2").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE2x2.Q<Label>().text = "Level 1 - The Basics";
+        Color lblColor = new Color32(255, 255, 255, 128);
 
-        progressVE4x4 = rootVisualElement.Q<VisualElement>("ProgressVisualElement4x4").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE4x4.Q<Label>().text = "Level 2 - Complete Level 1 Goals to Unlock";
-        progressVE4x4.style.display = DisplayStyle.None;
+        progressVE1 = rootVisualElement.Q<VisualElement>("ProgressVisualElement1").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE1.Q<Label>().style.backgroundColor = lblColor;
+        progressVE1.Q<Label>().text = "Level 1 - Monochrome (limited to using 0, 128, 255 values)";
 
-        progressVE8x8 = rootVisualElement.Q<VisualElement>("ProgressVisualElement8x8").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE8x8.Q<Label>().text = "Level 3 - Complete Level 2 Goals to Unlock";
-        progressVE8x8.style.display = DisplayStyle.None;
+        progressVE2 = rootVisualElement.Q<VisualElement>("ProgressVisualElement2").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE2.Q<Label>().style.backgroundColor = lblColor;
+        progressVE2.Q<Label>().text = "Level 2 - Complete Level 1 Goals to Unlock";
+        progressVE2.style.display = DisplayStyle.None;
 
-        progressVE16x16 = rootVisualElement.Q<VisualElement>("ProgressVisualElement16x16").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE16x16.Q<Label>().text = "Level 4 - Complete Level 3 Goals to Unlock";
-        progressVE16x16.style.display = DisplayStyle.None;
+        progressVE3 = rootVisualElement.Q<VisualElement>("ProgressVisualElement3").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE3.Q<Label>().style.backgroundColor = lblColor;
+        progressVE3.Q<Label>().text = "Level 3 - Complete Level 2 Goals to Unlock";
+        progressVE3.style.display = DisplayStyle.None;
 
-        progressVE32x32 = rootVisualElement.Q<VisualElement>("ProgressVisualElement32x32").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE32x32.Q<Label>().text = "Level 5 - Complete Level 4 Goals to Unlock";
-        progressVE32x32.style.display = DisplayStyle.None;
+        progressVE4 = rootVisualElement.Q<VisualElement>("ProgressVisualElement4").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE4.Q<Label>().style.backgroundColor = lblColor;
+        progressVE4.Q<Label>().text = "Level 4 - Complete Level 3 Goals to Unlock";
+        progressVE4.style.display = DisplayStyle.None;
 
-        progressVE64x64 = rootVisualElement.Q<VisualElement>("ProgressVisualElement64x64").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE64x64.Q<Label>().text = "Level 6 - Complete Level 5 Goals to Unlock";
-        progressVE64x64.style.display = DisplayStyle.None;
+        progressVE5 = rootVisualElement.Q<VisualElement>("ProgressVisualElement5").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE5.Q<Label>().style.backgroundColor = lblColor;
+        progressVE5.Q<Label>().text = "Level 5 - Complete Level 4 Goals to Unlock";
+        progressVE5.style.display = DisplayStyle.None;
+
+        progressVE6 = rootVisualElement.Q<VisualElement>("ProgressVisualElement6").Q<VisualElement>("HorizontalGridVisualElement");
+        progressVE6.Q<Label>().style.backgroundColor = lblColor;
+        progressVE6.Q<Label>().text = "Level 6 - Complete Level 5 Goals to Unlock";
+        progressVE6.style.display = DisplayStyle.None;
 
         for (int i = 0; i < pm.levelGoals.Count; i++)
         {
@@ -236,7 +244,8 @@ public class UIManager : MonoBehaviour
 
             VisualElement progressBlock = goal.blockVisualElement;
             progressBlock.AddToClassList("color-block");
-            progressBlock.style.backgroundColor = Color.white;
+            progressBlock.style.backgroundColor = (Color) new Color32(255, 255, 255, 255);
+            //progressBlock.style.backgroundColor = (Color)new Color32(goal.color32.r, goal.color32.g, goal.color32.b, 255);
 
             Label lbl = new Label();
             lbl.text = "(" + goal.color32.r + ", " + goal.color32.g + ", " + goal.color32.b + ")";
@@ -245,22 +254,22 @@ public class UIManager : MonoBehaviour
             switch (goal.level)
             {
                 case 1:
-                    progressVE2x2.Add(progressBlock);
+                    progressVE1.Add(progressBlock);
                     break;
                 case 2:
-                    progressVE4x4.Add(progressBlock);
+                    progressVE2.Add(progressBlock);
                     break;
                 case 3:
-                    progressVE8x8.Add(progressBlock);
+                    progressVE3.Add(progressBlock);
                     break;
                 case 4:
-                    progressVE16x16.Add(progressBlock);
+                    progressVE4.Add(progressBlock);
                     break;
                 case 5:
-                    progressVE32x32.Add(progressBlock);
+                    progressVE5.Add(progressBlock);
                     break;
                 case 6:
-                    progressVE64x64.Add(progressBlock);
+                    progressVE6.Add(progressBlock);
                     break;
             }
 
@@ -272,34 +281,34 @@ public class UIManager : MonoBehaviour
         ProgressManager pm = gameManager.progressManager;
         int currentLevel = pm.currentLevel;
 
-        if(currentLevel > 1)
+        if(currentLevel >= 2)
         {
-            progressVE4x4.style.display = DisplayStyle.Flex;
-            progressVE4x4.Q<Label>().text = "Level 2 - Mix 'em Up";
+            progressVE2.style.display = DisplayStyle.Flex;
+            progressVE2.Q<Label>().text = "Level 2 - The Basics (limited to using 0, 128, 255 values)";
         }
         
-        if(currentLevel > 2)
+        if(currentLevel >= 3)
         {
-            progressVE8x8.style.display = DisplayStyle.Flex;
-            progressVE8x8.Q<Label>().text = "Level 3 - ???";
+            progressVE3.style.display = DisplayStyle.Flex;
+            progressVE3.Q<Label>().text = "Level 3 - Secondary Colors (limited to using 0, 128, 255 values)";
         }
 
-        if (currentLevel > 3)
+        if (currentLevel >= 4)
         {
-            progressVE16x16.style.display = DisplayStyle.Flex;
-            progressVE16x16.Q<Label>().text = "Level 4 - ???";
+            progressVE4.style.display = DisplayStyle.Flex;
+            progressVE4.Q<Label>().text = "Level 4 - Tertiary Colors (limited to using 0, 128, 255 values)";
         }
 
-        if (currentLevel > 4)
+        if (currentLevel >= 5)
         {
-            progressVE32x32.style.display = DisplayStyle.Flex;
-            progressVE32x32.Q<Label>().text = "Level 5 - ???";
+            progressVE5.style.display = DisplayStyle.Flex;
+            progressVE5.Q<Label>().text = "Level 5 - The Light Side of the Rainbow (limited to using 0, 64, 128, 192, 255 values)";
         }
 
-        if (currentLevel > 5)
+        if (currentLevel >= 6)
         {
-            progressVE64x64.style.display = DisplayStyle.Flex;
-            progressVE64x64.Q<Label>().text = "Level 6 - ???";
+            progressVE6.style.display = DisplayStyle.Flex;
+            progressVE6.Q<Label>().text = "Level 6 - The Dark Side of the Rainbow (limited to using 0, 64, 128, 192, 255 values)";
         }
     }
 
@@ -775,20 +784,19 @@ public class UIManager : MonoBehaviour
     {
         int level = gameManager.progressManager.currentLevel;
         
-        if(level == 1)
+        if(level <= 4)
         {
             int[] validValues = new int[] { 0, 128, 255 };
             foreach (SliderInt slider in sliderInts)
                 slider.value = RoundToValidValue(validValues, slider.value);
 
         }
-        else if(level == 2)
+        else if(level <= 6)
         {
             int[] validValues = new int[] { 0, 64, 128, 192, 255 };
             foreach (SliderInt slider in sliderInts)
                 slider.value = RoundToValidValue(validValues, slider.value);
-        }
-        
+        }        
     }
 
     private int RoundToValidValue(int[] validValues, int value)
