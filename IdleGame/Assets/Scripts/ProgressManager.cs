@@ -31,14 +31,12 @@ public class ProgressManager : MonoBehaviour
         { new Goal{level = 1, color32 = new Color32(255, 255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
 
         // Level 2 - Tutorial 2 Basic RGB - 2x2
-        { new Goal{level = 2, color32 = new Color32(0, 0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color32 = new Color32(128, 0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color32 = new Color32(255, 0, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color32 = new Color32(0, 128, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color32 = new Color32(0, 255, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color32 = new Color32(0, 0, 128, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 2, color32 = new Color32(0, 0, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 2, color32 = new Color32(255, 255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
 
         // Level 3 - Secondaries 4x4
         { new Goal{level = 3, color32 = new Color32(128, 128, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
@@ -47,7 +45,6 @@ public class ProgressManager : MonoBehaviour
         { new Goal{level = 3, color32 = new Color32(255, 0, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 3, color32 = new Color32(0, 128, 128, 255), discovered = false, blockVisualElement = new VisualElement()} },
         { new Goal{level = 3, color32 = new Color32(0, 255, 255, 255), discovered = false, blockVisualElement = new VisualElement()} },
-        { new Goal{level = 3, color32 = new Color32(128, 128, 128, 255), discovered = false, blockVisualElement = new VisualElement()} },
 
         // Level 4 - Tertiaries 8x8
         { new Goal{level = 4, color32 = new Color32(128, 255, 0, 255), discovered = false, blockVisualElement = new VisualElement()} },
@@ -139,6 +136,7 @@ public class ProgressManager : MonoBehaviour
             {
                 goal.discovered = true;
                 goal.blockVisualElement.style.backgroundColor = (Color)goal.color32;
+                goal.blockVisualElement.Q<Label>().style.color = (Color)new Color32(0, 0, 0, 0);
                 CheckCurrentLevel();
                 gameManager.uiManager.UpdateProgressUI();
             }
@@ -174,13 +172,16 @@ public class ProgressManager : MonoBehaviour
         {
             Goal goal = levelGoals[i];
             if (goal.discovered)
+            {
                 goal.blockVisualElement.style.backgroundColor = (Color)goal.color32;
+                goal.blockVisualElement.Q<Label>().style.color = (Color)new Color32(0, 0, 0, 0);
+            }
         }
     }
 
     public void UpdateText()
     {
-        progressFoldout.text = "PROGRESS GOALS [ " + (numberComplete / totalGColors).ToString("F2") + "% ]";
+        progressFoldout.text = "PROGRESS GOALS [ " + (numberComplete / totalGColors).ToString("F10") + "% ]";
     }
 
 }

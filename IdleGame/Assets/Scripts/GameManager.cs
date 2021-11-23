@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private int SizeBasedOnLevel()
+    public int SizeBasedOnLevel()
     {
         if (progressManager.currentLevel <= 2)
             return 2;
