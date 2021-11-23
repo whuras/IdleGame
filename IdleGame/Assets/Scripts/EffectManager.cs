@@ -12,9 +12,12 @@ public class EffectManager : MonoBehaviour
 
     public void GradientBurstAtVE(VisualElement ve, GColor gColor)
     {
-        ParticleSystem ps = Instantiate(gradientBurstEffect);
+        Vector2 location = new Vector2(ve.worldBound.center.x, canvas.GetComponent<RectTransform>().rect.height - ve.worldBound.center.y);
+        if (float.IsNaN(location.x) || float.IsNaN(location.y))
+            return;
+            
 
-        Vector2 location = new Vector2(ve.worldBound.center.x, canvas.GetComponent<RectTransform>().rect.height - ve.worldBound.center.y);// + ve.worldBound.yMin / 2);
+        ParticleSystem ps = Instantiate(gradientBurstEffect);
 
         ps.transform.position = location;
         ps.transform.SetParent(canvas.transform);

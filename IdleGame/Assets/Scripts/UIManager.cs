@@ -175,7 +175,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void InitialUISetup()
     {
         AssignProgressUIComponents();
 

@@ -47,6 +47,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         GameSetup();
+        uiManager.InitialUISetup();
+        gradientManager.SortQueue(Worker.Type.Red);
+        gradientManager.SortQueue(Worker.Type.Green);
+        gradientManager.SortQueue(Worker.Type.Blue);
     }
 
     public void SaveGame()
@@ -147,15 +151,15 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 startColor = new Color32(255, 255, 255, 255);
-                endColor = new Color32(0, 0, 0, 255);
+                endColor = new Color32(255, 0, 0, 255);
                 break;
             case 2:
                 startColor = new Color32(255, 255, 255, 255);
-                endColor = new Color32(255, 0, 0, 255);
+                endColor = new Color32(0, 255, 0, 255);
                 break;
             case 3:
                 startColor = new Color32(255, 255, 255, 255);
-                endColor = new Color32(0, 255, 0, 255);
+                endColor = new Color32(0, 0, 255, 255);
                 break;
             case 4:
                 startColor = new Color32(255, 255, 255, 255);
@@ -178,6 +182,9 @@ public class GameManager : MonoBehaviour
         }
 
         GameSetup();
+        gradientManager.SortQueue(Worker.Type.Red);
+        gradientManager.SortQueue(Worker.Type.Green);
+        gradientManager.SortQueue(Worker.Type.Blue);
 
         // Currency Setup
         currencyManager.pixelPoints = startingPixelPoints;
