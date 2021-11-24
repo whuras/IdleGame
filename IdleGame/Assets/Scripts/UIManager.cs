@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
+using UnityEngine.UIElements.Experimental;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -134,6 +136,7 @@ public class UIManager : MonoBehaviour
     private Button resetButton;
 
     // Progress
+    private VisualElement progressPopup;
     private VisualElement progressVE1;
     private VisualElement progressVE2;
     private VisualElement progressVE3;
@@ -146,7 +149,7 @@ public class UIManager : MonoBehaviour
     private Button welcomeScreenAutoHide;
     private Button helpButton;
     private bool helpToggle = true;
-    
+
 
     private void Awake()
     {
@@ -173,6 +176,23 @@ public class UIManager : MonoBehaviour
             startColorImage.style.backgroundColor = (Color)startColor;
             endColorImage.style.backgroundColor = (Color)endColor;
         }
+    }
+
+    public IEnumerator PopUp(int msIn, int msWait, int msOut)
+    {
+        progressPopup.experimental.animation.Start(-25f, 20f, msIn, (ve, val) =>
+        {
+            ve.style.bottom = val;
+        }).Ease(Easing.OutBounce);
+
+        yield return new WaitForSeconds(msWait * 0.001f);
+
+        progressPopup.experimental.animation.Start(20f, -25f, msOut * 2, (ve, val) =>
+        {
+            ve.style.bottom = val;
+        });
+
+        yield return null;
     }
 
     public void InitialUISetup()
@@ -207,6 +227,8 @@ public class UIManager : MonoBehaviour
     {
         ProgressManager pm = gameManager.progressManager;
         pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
+
+        progressPopup = rootVisualElement.Q<VisualElement>("ProgressMadeVE");
 
         progressVE1 = rootVisualElement.Q<VisualElement>("ProgressVisualElement1").Q<VisualElement>("HorizontalGridVisualElement");
         progressVE1.Q<Label>().text = "Level 1 - Monochrome (limited to using 0, 128, 255 values)";

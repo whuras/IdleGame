@@ -134,8 +134,10 @@ public class ProgressManager : MonoBehaviour
         for (int i = 0; i < levelGoals.Count; i++)
         {
             Goal goal = levelGoals[i];
-            if (goal.color32 == color32)
+            if (!goal.discovered && goal.color32 == color32)
             {
+                StartCoroutine(gameManager.uiManager.PopUp(600, 1500, 1200));
+
                 goal.discovered = true;
                 goal.blockVisualElement.style.backgroundColor = (Color)goal.color32;
                 goal.blockVisualElement.Q<Label>().style.color = (Color)new Color32(0, 0, 0, 0);
