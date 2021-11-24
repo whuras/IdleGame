@@ -243,4 +243,7 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:Button text="?&#10;" display-tooltip-when-elided="true" name="HelpButton" class="worker-upgrade-button" style="position: absolute; border-left-color: rgb(241, 250, 238); border-right-color: rgb(241, 250, 238); border-top-color: rgb(241, 250, 238); border-bottom-color: rgb(241, 250, 238); min-width: auto; min-height: auto; width: 20px; height: 20px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; -unity-text-align: middle-center; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-top: 16px; font-size: 14px; -unity-font-style: bold; left: 675px; top: 5px;" />
+    <ui:VisualElement name="ProgressMadeVE" class="worker-upgrade-button" style="position: absolute; margin-left: 50%; margin-right: 50%; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 20px; min-height: 20px; min-width: 100px; width: 110px; left: -55px; bottom: -25px;">
+        <ui:Label text="New Progress Made" display-tooltip-when-elided="true" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+    </ui:VisualElement>
 </ui:UXML>
