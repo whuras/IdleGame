@@ -208,34 +208,26 @@ public class UIManager : MonoBehaviour
         ProgressManager pm = gameManager.progressManager;
         pm.progressFoldout = rootVisualElement.Q<Foldout>("FoldoutProgress");
 
-        Color lblColor = new Color32(255, 255, 255, 128);
-
         progressVE1 = rootVisualElement.Q<VisualElement>("ProgressVisualElement1").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE1.Q<Label>().style.backgroundColor = lblColor;
         progressVE1.Q<Label>().text = "Level 1 - Monochrome (limited to using 0, 128, 255 values)";
 
         progressVE2 = rootVisualElement.Q<VisualElement>("ProgressVisualElement2").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE2.Q<Label>().style.backgroundColor = lblColor;
         progressVE2.Q<Label>().text = "Level 2 - Complete Level 1 Goals to Unlock";
         progressVE2.style.display = DisplayStyle.None;
 
         progressVE3 = rootVisualElement.Q<VisualElement>("ProgressVisualElement3").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE3.Q<Label>().style.backgroundColor = lblColor;
         progressVE3.Q<Label>().text = "Level 3 - Complete Level 2 Goals to Unlock";
         progressVE3.style.display = DisplayStyle.None;
 
         progressVE4 = rootVisualElement.Q<VisualElement>("ProgressVisualElement4").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE4.Q<Label>().style.backgroundColor = lblColor;
         progressVE4.Q<Label>().text = "Level 4 - Complete Level 3 Goals to Unlock";
         progressVE4.style.display = DisplayStyle.None;
 
         progressVE5 = rootVisualElement.Q<VisualElement>("ProgressVisualElement5").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE5.Q<Label>().style.backgroundColor = lblColor;
         progressVE5.Q<Label>().text = "Level 5 - Complete Level 4 Goals to Unlock";
         progressVE5.style.display = DisplayStyle.None;
 
         progressVE6 = rootVisualElement.Q<VisualElement>("ProgressVisualElement6").Q<VisualElement>("HorizontalGridVisualElement");
-        progressVE6.Q<Label>().style.backgroundColor = lblColor;
         progressVE6.Q<Label>().text = "Level 6 - Complete Level 5 Goals to Unlock";
         progressVE6.style.display = DisplayStyle.None;
 

@@ -122,19 +122,29 @@ public class Worker : MonoBehaviour
 
         if (keepWorking && gameManager.recycleEnabled)
         {
-            System.Array values = System.Enum.GetValues(typeof(Type));
+            List<Type> typeList = new List<Type>() { Type.Red, Type.Green, Type.Blue };
             for(int i = 0; i < workerUpgrade.recycleLevel; i++)
             {
-                System.Random rnd = new System.Random();
-                Type rndType = (Type) rnd.Next(values.Length);
+                Type rndType = typeList[Random.Range(0, typeList.Count)];
                 List<GColor> recycleQueue = gameManager.gradientManager.GetQueue(rndType);
 
-                if (recycleQueue.Count > 0)
+                while(recycleQueue.Count <= 0)
                 {
-                    recycleQueue[0].IncrementValue(rndType, byteAmount);
-                    gameManager.uiManager.UpdateVEColor(recycleQueue[0].i, recycleQueue[0].j);
-                    gameManager.gradientManager.SortQueue(rndType);
+                    typeList.Remove(rndType);
+                    
+                    if (typeList.Count == 0)
+                    {
+                        keepWorking = false;
+                        return;
+                    }   
+
+                    rndType = typeList[Random.Range(0, typeList.Count)];
+                    recycleQueue = gameManager.gradientManager.GetQueue(rndType);
                 }
+
+                recycleQueue[0].IncrementValue(rndType, byteAmount);
+                gameManager.uiManager.UpdateVEColor(recycleQueue[0].i, recycleQueue[0].j);
+                gameManager.gradientManager.SortQueue(rndType);
             }
         }
 
