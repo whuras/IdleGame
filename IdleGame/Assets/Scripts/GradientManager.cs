@@ -146,28 +146,28 @@ public class GradientManager : MonoBehaviour
             queue = GQueue;
         else if (type == Worker.Type.Blue)
             queue = BQueue;
-
-        for (int i = 0; i < queue.Count; i++)
+        
+        for (int i = queue.Count - 1; i >= 0; i--)
         {
             GColor gc = queue[i];
-
-            if (type == Worker.Type.Red && gc.goalValues.Item1 - gc.rValue <= 0)
+            
+            if (type == Worker.Type.Red && gc.rValue >= gc.goalValues.Item1)
             {
                 gc.isRGoalReached = true;
                 gc.CheckGoal();
-                queue.Remove(gc);
+                queue.RemoveAt(i);
             }
-            else if (type == Worker.Type.Green && gc.goalValues.Item2 - gc.gValue <= 0)
+            else if (type == Worker.Type.Green && gc.gValue >= gc.goalValues.Item2)
             {
                 gc.isGGoalReached = true;
                 gc.CheckGoal();
-                queue.Remove(gc);
+                queue.RemoveAt(i);
             }
-            else if (type == Worker.Type.Blue && gc.goalValues.Item3 - gc.bValue <= 0)
+            else if (type == Worker.Type.Blue && gc.bValue >= gc.goalValues.Item3)
             {
                 gc.isBGoalReached = true;
                 gc.CheckGoal();
-                queue.Remove(gc);
+                queue.RemoveAt(i);
             }
         }
     }
