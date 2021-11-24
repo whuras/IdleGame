@@ -4,9 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+
 public static class SaveSystem
 {
-    private static readonly string SAVE_FOLDER = Application.dataPath + "/IdleGradientSaves";
+    [System.Runtime.InteropServices.DllImport("__Internal")]
+    private static extern void JS_FileSystem_Sync();
+
+
+    private static readonly string SAVE_FOLDER = Application.persistentDataPath;
 
     private static string saveFileName = "/IdleGradientSaveData.txt";
 
@@ -14,12 +20,12 @@ public static class SaveSystem
     {
         if (!Directory.Exists(SAVE_FOLDER))
         {
-            Debug.Log("Save directory has been created.");
+            Debug.Log("Save directory has been created >> " + SAVE_FOLDER);
             Directory.CreateDirectory(SAVE_FOLDER);
         }
         else
         {
-            Debug.Log("Save directory exists.");
+            Debug.Log("Save directory exists >> " + SAVE_FOLDER);
         }
             
     }
@@ -39,8 +45,12 @@ public static class SaveSystem
         };
 
         string jsonData = JsonUtility.ToJson(saveDate);
+        
         File.WriteAllText(SAVE_FOLDER + saveFileName, jsonData);
-        Debug.LogError("Data has been saved.");
+        JS_FileSystem_Sync();
+
+
+        Debug.LogError("Data has been saved >> " + SAVE_FOLDER + saveFileName);
     }
 
     public static void Load()
@@ -59,20 +69,28 @@ public static class SaveSystem
             GameManager.Instance.startingPixelPoints = loadedSaveData.startingPixelPoints;
             GameManager.Instance.progressManager.goals = loadedSaveData.goals;
 
-            Debug.LogError("Data has been loaded.");
+            Debug.LogError("Data has been loaded >> " + SAVE_FOLDER + saveFileName);
             GameManager.Instance.UpdateFromLoad();
         }
         else
         {
-            Debug.LogError("Save does not exist and cannot be loaded.");
+            Debug.LogError("Save does not exist and cannot be loaded >> " + SAVE_FOLDER);
         }
     }
 
     public static void DeleteSaveFile()
     {
-        File.Delete(SAVE_FOLDER + saveFileName);
+        if(File.Exists(SAVE_FOLDER + saveFileName))
+        {
+            File.Delete(SAVE_FOLDER + saveFileName);
 
-        Debug.LogError("Saved data has been deleted.");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Debug.LogError("Saved data has been deleted >> " + SAVE_FOLDER);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            Debug.LogError("File does not exist and cannot deleted >> " + SAVE_FOLDER);
+        }
+        
     }
 }

@@ -1,0 +1,1 @@
+{"currentLevel":1,"automationEnabled":false,"recycleEnabled":false,"customColorEnabled":false,"customLockedCounter":1,"prestigePoints":0,"startingPixelPoints":0,"goals":[{"x":0.0,"y":0.0,"z":0.0}]}
