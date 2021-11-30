@@ -150,6 +150,11 @@ public class UIManager : MonoBehaviour
     private Button helpButton;
     private bool helpToggle = true;
 
+    // Popup
+    private VisualElement popupVE;
+    private Button popupCloseButton;
+    private Label popupTitle;
+    private Label popupLabel;
 
     private void Awake()
     {
@@ -198,6 +203,7 @@ public class UIManager : MonoBehaviour
     public void InitialUISetup()
     {
         AssignProgressUIComponents();
+        AssignPopupComponents();
 
         BindAndSetSettingsButtons();
         BindWorkerUpgradeButtons();
@@ -221,6 +227,31 @@ public class UIManager : MonoBehaviour
         gameManager.progressManager.UpdateAllBlocks();
         UpdateProgressUI();
         gameManager.progressManager.UpdateText();
+    }
+
+    private void AssignPopupComponents()
+    {
+        popupVE = rootVisualElement.Q<VisualElement>("Popup");
+        popupCloseButton = popupVE.Q<Button>("ClosePopup");
+        popupTitle = popupVE.Q<Label>("Title");
+        popupLabel = popupVE.Q<Label>("Body");
+
+        popupCloseButton.clickable.clicked += ClosePopup;
+    }
+
+    public void ShowPopup(string bodyText, string titleText = "")
+    {
+        if (titleText != "")
+            popupTitle.text = titleText;
+
+        popupLabel.text = bodyText;
+
+        popupVE.style.display = DisplayStyle.Flex;
+    }
+
+    private void ClosePopup()
+    {
+        popupVE.style.display = DisplayStyle.None;
     }
 
     private void AssignProgressUIComponents()
@@ -306,31 +337,31 @@ public class UIManager : MonoBehaviour
         if(currentLevel >= 2)
         {
             progressVE2.style.display = DisplayStyle.Flex;
-            progressVE2.Q<Label>().text = "Level 2 - The Basics (limited to using 0, 128, 255 values)";
+            progressVE2.Q<Label>().text = "Level 2 - The Basics<br>(limited to using 0, 128, 255 values)";
         }
         
         if(currentLevel >= 3)
         {
             progressVE3.style.display = DisplayStyle.Flex;
-            progressVE3.Q<Label>().text = "Level 3 - Secondary Colors (limited to using 0, 128, 255 values)";
+            progressVE3.Q<Label>().text = "Level 3 - Secondary Colors<br>(limited to using 0, 128, 255 values)";
         }
 
         if (currentLevel >= 4)
         {
             progressVE4.style.display = DisplayStyle.Flex;
-            progressVE4.Q<Label>().text = "Level 4 - Tertiary Colors (limited to using 0, 128, 255 values)";
+            progressVE4.Q<Label>().text = "Level 4 - Tertiary Colors<br>(limited to using 0, 128, 255 values)";
         }
 
         if (currentLevel >= 5)
         {
             progressVE5.style.display = DisplayStyle.Flex;
-            progressVE5.Q<Label>().text = "Level 5 - The Light Side of the Rainbow (limited to using 0, 64, 128, 192, 255 values)";
+            progressVE5.Q<Label>().text = "Level 5 - The Light Side of the Rainbow<br>(limited to using 0, 32, 64, 128, 192, 255 values)";
         }
 
         if (currentLevel >= 6)
         {
             progressVE6.style.display = DisplayStyle.Flex;
-            progressVE6.Q<Label>().text = "Level 6 - The Dark Side of the Rainbow (limited to using 0, 64, 128, 192, 255 values)";
+            progressVE6.Q<Label>().text = "Level 6 - The Dark Side of the Rainbow<br>(limited to using 0, 32, 64, 128, 192, 255 values)";
         }
     }
 
@@ -360,8 +391,25 @@ public class UIManager : MonoBehaviour
         helpButton.clickable.clicked += ToggleHelpMenu;
 
         // Restart
-        restartButton.clickable.clicked += gameManager.RestartGame;
+        restartButton.clickable.clicked += RestartCheck;
         EnableRestartVisualElement(false);
+    }
+
+    private void RestartCheck()
+    {
+        if (startSliderRed.value == endSliderRed.value &&
+            startSliderGreen.value == endSliderGreen.value &&
+            startSliderBlue.value == endSliderBlue.value)
+        {
+            ShowPopup(
+                "The start and end colors must be different for a gradient! Make sure they do not have the same red, green, and blue values.",
+                "<b>Invalid Start/End Colors</b>"
+                );
+        }
+        else
+        {
+            gameManager.RestartGame();
+        }
     }
 
     private void HideWelcomeMessage()
@@ -772,7 +820,7 @@ public class UIManager : MonoBehaviour
         sliderInts[5] = endSliderBlue;
 
         foreach(SliderInt slider in sliderInts)
-            slider.RegisterValueChangedCallback(e => LimitSliderValuesBasedOnLevel());
+            slider.RegisterValueChangedCallback(e => LimitSliderValues());
     }
 
     private void SetupRandomColorButtons()
@@ -795,7 +843,7 @@ public class UIManager : MonoBehaviour
         endSliderBlue.value = UnityEngine.Random.Range(0, 255);
     }
 
-    private void LimitSliderValuesBasedOnLevel()
+    private void LimitSliderValues()
     {
         int level = gameManager.progressManager.currentLevel;
         
@@ -808,7 +856,7 @@ public class UIManager : MonoBehaviour
         }
         else if(level <= 6)
         {
-            int[] validValues = new int[] { 0, 64, 128, 192, 255 };
+            int[] validValues = new int[] { 0, 32, 64, 128, 192, 255 };
             foreach (SliderInt slider in sliderInts)
                 slider.value = RoundToValidValue(validValues, slider.value);
         }        

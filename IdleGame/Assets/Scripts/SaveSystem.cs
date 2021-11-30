@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 
 public static class SaveSystem
 {
-    [System.Runtime.InteropServices.DllImport("__Internal")]
-    private static extern void JS_FileSystem_Sync();
+    //[System.Runtime.InteropServices.DllImport("__Internal")]
+    //private static extern void JS_FileSystem_Sync();
 
 
     private static readonly string SAVE_FOLDER = Application.persistentDataPath;
@@ -18,6 +18,7 @@ public static class SaveSystem
 
     public static void Init()
     {
+        Debug.LogError("REMOVE COMMENTED OUT SAVE JS IN Save() AND HEADER");
         if (!Directory.Exists(SAVE_FOLDER))
         {
             Debug.Log("Save directory has been created >> " + SAVE_FOLDER);
@@ -47,7 +48,7 @@ public static class SaveSystem
         string jsonData = JsonUtility.ToJson(saveDate);
         
         File.WriteAllText(SAVE_FOLDER + saveFileName, jsonData);
-        JS_FileSystem_Sync();
+        //JS_FileSystem_Sync();
 
 
         Debug.LogError("Data has been saved >> " + SAVE_FOLDER + saveFileName);

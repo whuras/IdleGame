@@ -174,7 +174,7 @@
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:Foldout>
-            <ui:Foldout text="PROGRESS [ Z% ]" name="FoldoutProgress" value="false" style="align-items: stretch; background-color: rgb(249, 104, 158); flex-grow: 0; flex-shrink: 1; overflow: hidden; min-height: 30px;">
+            <ui:Foldout text="PROGRESS [ Z% ]" name="FoldoutProgress" value="true" style="align-items: stretch; background-color: rgb(249, 104, 158); flex-grow: 0; flex-shrink: 1; overflow: hidden; min-height: 30px;">
                 <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="AlwaysVisible" style="justify-content: flex-start; margin-right: 0; background-color: rgba(255, 221, 88, 0); height: auto; margin-bottom: 0; margin-top: 0; align-items: stretch; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 10px; flex-grow: 1; flex-basis: auto; width: 100%; flex-direction: column; margin-left: -15px;">
                     <ui:Label text="Each goal shows the (Red, Green, Blue) components needed to create each color.&#10;A finished goal is filled in and finishing all the goals will unlock the next level!&#10;&#10;Your progress towards unlocking every one of the 16,777,216 color combinations is&#10;shown in the header of this tab and progress will be expanded in a future update." display-tooltip-when-elided="true" style="white-space: normal; -unity-text-align: upper-center; font-size: 12px;" />
                     <ui:VisualElement name="ProgressVisualElement1" class="progress-visualelement" style="flex-grow: 0;">
@@ -245,5 +245,14 @@
     <ui:Button text="?&#10;" display-tooltip-when-elided="true" name="HelpButton" class="worker-upgrade-button" style="position: absolute; border-left-color: rgb(241, 250, 238); border-right-color: rgb(241, 250, 238); border-top-color: rgb(241, 250, 238); border-bottom-color: rgb(241, 250, 238); min-width: auto; min-height: auto; width: 20px; height: 20px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; -unity-text-align: middle-center; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-top: 16px; font-size: 14px; -unity-font-style: bold; left: 675px; top: 5px;" />
     <ui:VisualElement name="ProgressMadeVE" class="worker-upgrade-button" style="position: absolute; margin-left: 50%; margin-right: 50%; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; height: 20px; min-height: 20px; min-width: 100px; width: 110px; left: -55px; bottom: -25px;">
         <ui:Label text="New Progress Made" display-tooltip-when-elided="true" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Popup" style="position: absolute; background-color: rgba(0, 0, 0, 0.5); width: 100%; height: 100%; align-items: center; justify-content: center; display: none;">
+        <ui:VisualElement class="worker-upgrade-button" style="flex-direction: column;">
+            <ui:VisualElement name="Spacer" style="flex-direction: row-reverse; justify-content: flex-start; align-items: auto;">
+                <ui:Button text="X" display-tooltip-when-elided="true" name="ClosePopup" style="flex-shrink: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; width: 15px; height: 15px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; background-color: rgb(237, 110, 120); border-left-color: rgb(116, 24, 31); border-right-color: rgb(116, 24, 31); border-top-color: rgb(116, 24, 31); border-bottom-color: rgb(116, 24, 31); left: auto; right: 0;" />
+                <ui:Label text="&lt;b&gt;Oops!&lt;/b&gt;" display-tooltip-when-elided="true" name="Title" style="flex-shrink: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; width: 100%;" />
+            </ui:VisualElement>
+            <ui:Label text="Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text " display-tooltip-when-elided="true" name="Body" style="white-space: normal; width: 256px;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
