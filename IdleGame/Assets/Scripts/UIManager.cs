@@ -156,6 +156,11 @@ public class UIManager : MonoBehaviour
     private Label popupTitle;
     private Label popupLabel;
 
+    // Scrollbar Fix
+    private float scrollVelocity;
+    private float scrollDamping = 0.1f;
+    private List<Scroller> verticalScrollers = new List<Scroller>();
+
     private void Awake()
     {
         MaintainSingleInstance();
@@ -180,6 +185,15 @@ public class UIManager : MonoBehaviour
             endColor = new Color32((byte)endSliderRed.value, (byte)endSliderGreen.value, (byte)endSliderBlue.value, 255);
             startColorImage.style.backgroundColor = (Color)startColor;
             endColorImage.style.backgroundColor = (Color)endColor;
+        }
+
+        if (verticalScrollers.Count > 0)
+        {
+            foreach(Scroller scroller in verticalScrollers)
+            {
+                scroller.value += scrollVelocity;
+                scrollVelocity -= scrollVelocity * scrollDamping;
+            }
         }
     }
 
@@ -220,6 +234,7 @@ public class UIManager : MonoBehaviour
         UpdateLevelCompletionText();
         gameManager.gradientManager.CheckGradientStatus();
         InstantiateFoldouts();
+        ScrollBarSpeedFix();
 
         SaveSystem.Load();
 
@@ -227,6 +242,30 @@ public class UIManager : MonoBehaviour
         gameManager.progressManager.UpdateAllBlocks();
         UpdateProgressUI();
         gameManager.progressManager.UpdateText();
+    }
+
+    private void ScrollBarSpeedFix()
+    {
+        // Only affect Progress view
+        var progressView = progressFoldout.Q<ScrollView>();
+        var progressScroller = progressView.Q<Scroller>();
+
+        progressView.RegisterCallback<WheelEvent>(e =>
+        {
+            scrollVelocity += e.delta.y * 100;
+            // Stop the event here so the builtin scroll functionality of the list doesn't activate
+            e.StopPropagation();
+        });
+
+        verticalScrollers.Add(progressScroller);
+
+        // Stop scroller for main scene
+        var gameView = gameFoldout.Q<ScrollView>();
+        Scroller hScroller = rootVisualElement.Query<Scroller>().AtIndex(1);
+        gameView.RegisterCallback<WheelEvent>(e =>
+        {
+            hScroller.value = 0;
+        });
     }
 
     private void AssignPopupComponents()

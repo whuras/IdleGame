@@ -19,6 +19,7 @@ public static class SaveSystem
     public static void Init()
     {
         Debug.LogError("REMOVE COMMENTED OUT SAVE JS IN Save() AND HEADER");
+
         if (!Directory.Exists(SAVE_FOLDER))
         {
             Debug.Log("Save directory has been created >> " + SAVE_FOLDER);
